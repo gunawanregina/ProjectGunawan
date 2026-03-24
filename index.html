@@ -126,6 +126,33 @@
             animation: welcomePop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
+        .welcome-step.hidden {
+            display: none;
+        }
+
+        /* Store View visibility */
+        .view-store .main-content,
+        .view-store .kpi-container-four,
+        .view-store .chart-body,
+        .view-store .chart-container > .table-header:first-child,
+        .view-store .extra-left {
+            display: none !important;
+        }
+
+        .view-store .chart-section {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .view-store .chart-container {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        .view-store .extra-section {
+            grid-template-columns: 1fr;
+        }
+
         @keyframes welcomePop {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
@@ -778,10 +805,23 @@
                 </svg>
             </div>
             <h2 class="welcome-title">Selamat Datang di Dashboard Planning Azko 2026</h2>
-            <p class="welcome-question">Apakah anda ingin melihat Plan Update terbaru?</p>
-            <div class="welcome-buttons">
-                <button class="welcome-btn btn-iya" onclick="handleWelcomeChoice('iya')">Iya</button>
-                <button class="welcome-btn btn-tidak" onclick="handleWelcomeChoice('tidak')">Tidak</button>
+            
+            <!-- Step 1: Category Selection -->
+            <div id="welcome-step-1" class="welcome-step">
+                <p class="welcome-question">Mohon pilih kategori unit operasional Anda:</p>
+                <div class="welcome-buttons">
+                    <button class="welcome-btn btn-iya" onclick="handleCategoryChoice('dc')">Distribution Center</button>
+                    <button class="welcome-btn btn-tidak" onclick="handleCategoryChoice('store')">Store</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Plan Update Selection -->
+            <div id="welcome-step-2" class="welcome-step hidden">
+                <p class="welcome-question">Apakah anda ingin melihat Plan Update terbaru?</p>
+                <div class="welcome-buttons">
+                    <button class="welcome-btn btn-iya" onclick="handleWelcomeChoice('iya')">Iya</button>
+                    <button class="welcome-btn btn-tidak" onclick="handleWelcomeChoice('tidak')">Tidak</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1073,6 +1113,7 @@
             D: 3,         // CARRIER
             I: 8,         // SHIPPINGLINE
             M: 12,        // JALUR
+            R: 58,        // NOPOL (Column BG)
             Z: 25,        // CBM PLAN
             AN: 39,       // CASE ID PLAN (OLD)
             AO: 40,       // STUFFING DATE
@@ -1229,15 +1270,34 @@
         };
 
         let welcomeChoice = null;
+        let selectedCategory = 'dc'; // Default to dc
+
+        function handleCategoryChoice(category) {
+            selectedCategory = category;
+            document.getElementById('welcome-step-1').classList.add('hidden');
+            document.getElementById('welcome-step-2').classList.remove('hidden');
+        }
 
         function handleWelcomeChoice(choice) {
             welcomeChoice = choice;
             const overlay = document.getElementById('welcome-overlay');
             overlay.classList.add('hidden');
             
+            // Apply layout changes based on category
+            applyCategoryLayout();
+
             // Jika data sudah ada, langsung eksekusi
             if (allData.length > 0) {
                 applyWelcomeChoice();
+            }
+        }
+
+        function applyCategoryLayout() {
+            const body = document.body;
+            if (selectedCategory === 'store') {
+                body.classList.add('view-store');
+            } else {
+                body.classList.remove('view-store');
             }
         }
 
@@ -1424,14 +1484,13 @@
             }
         }
 
-        // Parse CSV
-        function parseCSV(csv) {
+        // Helper for robust CSV parsing
+        function robustCSVParser(csv) {
             const allRows = [];
             let currentRow = [];
             let currentField = '';
             let inQuotes = false;
 
-            // Robust CSV parsing handling quotes and newlines within cells
             for (let i = 0; i < csv.length; i++) {
                 const char = csv[i];
                 const nextChar = csv[i + 1];
@@ -1451,7 +1510,7 @@
                     allRows.push(currentRow);
                     currentRow = [];
                     currentField = '';
-                    if (char === '\r') i++; // Skip \n
+                    if (char === '\r') i++;
                 } else {
                     currentField += char;
                 }
@@ -1460,6 +1519,12 @@
                 currentRow.push(currentField.trim());
                 allRows.push(currentRow);
             }
+            return allRows;
+        }
+
+        // Parse CSV
+        function parseCSV(csv) {
+            const allRows = robustCSVParser(csv);
 
             allData = [];
             // Start from i=1 to skip header
@@ -1514,6 +1579,7 @@
                         D: values[COLUMNS.D] || '',
                         I: values[COLUMNS.I] || '',
                         M: values[COLUMNS.M] || '',
+                        R: values[COLUMNS.R] || '',
                         Z: values[COLUMNS.Z] || '0',
                         AO: values[COLUMNS.AO] || '',
                         AP: values[COLUMNS.AP] || '',
@@ -2572,50 +2638,89 @@
             const end = start + itemsPerPage;
             const pageData = filteredData.slice(start, end);
 
-            let html = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>LC</th>
-                            <th>SHIPPINGLINE</th>
-                            <th>TYPE</th>
-                            <th>CARRIER</th>
-                            <th>STUFFING</th>
-                            <th>JAM</th>
-                            <th>JALUR</th>
-                            <th>PLAN</th>
-                            <th>SHIPPED</th>
-                            <th>FIX CASE ID</th>
-                            <th>ESTIMASI CASE ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
-            pageData.forEach((row, index) => {
-                const rowNum = start + index + 1;
-                const jamColorClass = getJamColorClass(row.AP);
-                // Parse dengan fungsi helper untuk menghapus koma
-                const estimasiCaseId = parseNumberWithComma(row.BA);
-
-                html += `
-                    <tr class="${jamColorClass}">
-                        <td>${rowNum}</td>
-                        <td>${row.A || '-'}</td>
-                        <td>${row.I || '-'}</td>
-                        <td>${row.G || '-'}</td>
-                        <td>${row.D || '-'}</td>
-                        <td>${row.AO || '-'}</td>
-                        <td>${row.AP || '-'}</td>
-                        <td>${row.M || '-'}</td>
-                        <td>${parseNumberWithComma(row.Z).toFixed(2) || '-'}</td>
-                        <td>${parseNumberWithComma(row.AY).toFixed(2) || '-'}</td>
-                        <td>${parseNumberWithComma(row.AQ).toFixed(0) || '-'}</td>
-                        <td>${estimasiCaseId.toFixed(0) || '-'}</td>
-                    </tr>
+            let html = '';
+            if (selectedCategory === 'store') {
+                html = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>LC.</th>
+                                <th>SHIPPINGLINE</th>
+                                <th>TYPE</th>
+                                <th>Nama Vendor</th>
+                                <th>STUFFING</th>
+                                <th>JAM</th>
+                                <th>JALUR</th>
+                                <th>Nopol</th>
+                                <th>SHIPPED</th>
+                                <th>Jumlah Koli</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                 `;
-            });
+                pageData.forEach((row, index) => {
+                    const rowNum = start + index + 1;
+                    const jamColorClass = getJamColorClass(row.AP);
+                    html += `
+                        <tr class="${jamColorClass}">
+                            <td>${rowNum}</td>
+                            <td>${row.A || '-'}</td>
+                            <td>${row.I || '-'}</td>
+                            <td>${row.G || '-'}</td>
+                            <td>${row.D || '-'}</td>
+                            <td>${row.AO || '-'}</td>
+                            <td>${row.AP || '-'}</td>
+                            <td>${row.M || '-'}</td>
+                            <td>${row.R || '-'}</td>
+                            <td>${parseNumberWithComma(row.AY).toFixed(2) || '-'}</td>
+                            <td>${parseNumberWithComma(row.BF).toFixed(0) || '-'}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                html = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>LC</th>
+                                <th>SHIPPINGLINE</th>
+                                <th>TYPE</th>
+                                <th>CARRIER</th>
+                                <th>STUFFING</th>
+                                <th>JAM</th>
+                                <th>JALUR</th>
+                                <th>PLAN</th>
+                                <th>SHIPPED</th>
+                                <th>FIX CASE ID</th>
+                                <th>ESTIMASI CASE ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                pageData.forEach((row, index) => {
+                    const rowNum = start + index + 1;
+                    const jamColorClass = getJamColorClass(row.AP);
+                    const estimasiCaseId = parseNumberWithComma(row.BA);
+                    html += `
+                        <tr class="${jamColorClass}">
+                            <td>${rowNum}</td>
+                            <td>${row.A || '-'}</td>
+                            <td>${row.I || '-'}</td>
+                            <td>${row.G || '-'}</td>
+                            <td>${row.D || '-'}</td>
+                            <td>${row.AO || '-'}</td>
+                            <td>${row.AP || '-'}</td>
+                            <td>${row.M || '-'}</td>
+                            <td>${parseNumberWithComma(row.Z).toFixed(2) || '-'}</td>
+                            <td>${parseNumberWithComma(row.AY).toFixed(2) || '-'}</td>
+                            <td>${parseNumberWithComma(row.AQ).toFixed(0) || '-'}</td>
+                            <td>${estimasiCaseId.toFixed(0) || '-'}</td>
+                        </tr>
+                    `;
+                });
+            }
 
             html += `</tbody></table>`;
             container.innerHTML = html;

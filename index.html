@@ -93,6 +93,113 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Welcome Overlay Styles */
+        #welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #welcome-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .welcome-content {
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            padding: 40px;
+            background: #1a1a1a;
+            border-radius: 20px;
+            border: 2px solid #d32f2f;
+            box-shadow: 0 0 50px rgba(211, 47, 47, 0.3);
+            animation: welcomePop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes welcomePop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .welcome-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            animation: logoPulse 2s infinite ease-in-out;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(211, 47, 47, 0.5)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(211, 47, 47, 0.8)); }
+        }
+
+        .welcome-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #fff;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .welcome-question {
+            font-size: 1.2em;
+            margin-bottom: 35px;
+            color: #ccc;
+            font-style: italic;
+        }
+
+        .welcome-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .welcome-btn {
+            padding: 14px 45px;
+            border-radius: 30px;
+            border: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-iya {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn-iya:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(211, 47, 47, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .btn-tidak {
+            background: #333;
+            color: #eee;
+            border: 1px solid #444;
+        }
+
+        .btn-tidak:hover {
+            background: #444;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
         .filter-section {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -661,6 +768,24 @@
     </style>
 </head>
 <body>
+    <!-- Welcome Overlay -->
+    <div id="welcome-overlay">
+        <div class="welcome-content">
+            <div class="welcome-logo">
+                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+                    <circle cx='50' cy='50' r='50' fill='#e31e24'/>
+                    <text x='50' y='62' font-family='Arial, sans-serif' font-size='22' font-weight='900' fill='white' text-anchor='middle'>az•ko</text>
+                </svg>
+            </div>
+            <h2 class="welcome-title">Selamat Datang Dashboard Planning Azko 2026</h2>
+            <p class="welcome-question">Apakah anda ingin melihat Plan Update terbaru?</p>
+            <div class="welcome-buttons">
+                <button class="welcome-btn btn-iya" onclick="handleWelcomeChoice('iya')">Iya</button>
+                <button class="welcome-btn btn-tidak" onclick="handleWelcomeChoice('tidak')">Tidak</button>
+            </div>
+        </div>
+    </div>
+
     <div class="header">
         <h1>LOGISTICS DASHBOARD | ORDER PLANNING – AZKO</h1>
     </div>
@@ -1103,6 +1228,98 @@
             agingLc: []
         };
 
+        let welcomeChoice = null;
+
+        function handleWelcomeChoice(choice) {
+            welcomeChoice = choice;
+            const overlay = document.getElementById('welcome-overlay');
+            overlay.classList.add('hidden');
+            
+            // Jika data sudah ada, langsung eksekusi
+            if (allData.length > 0) {
+                applyWelcomeChoice();
+            }
+        }
+
+        function applyWelcomeChoice() {
+            if (!welcomeChoice) return;
+
+            if (welcomeChoice === 'iya') {
+                // Cari Stuffing Date terbaru
+                const dates = Array.from(new Set(allData.map(row => row.AO))).filter(d => d && d !== '-' && d.trim() !== '');
+                if (dates.length > 0) {
+                    // Sort tanggal secara robust
+                    const sortedDates = dates.sort((a, b) => {
+                        const parseDate = (s) => {
+                            if (!s) return new Date(0);
+                            // Coba format YYYY-MM-DD
+                            if (s.includes('-')) {
+                                const d = new Date(s);
+                                if (!isNaN(d)) return d;
+                            }
+                            // Coba format DD/MM/YYYY
+                            if (s.includes('/')) {
+                                const parts = s.split('/');
+                                if (parts.length === 3) return new Date(parts[2], parts[1]-1, parts[0]);
+                            }
+                            // Fallback ke Date constructor
+                            const d = new Date(s);
+                            return isNaN(d) ? new Date(0) : d;
+                        };
+                        return parseDate(b) - parseDate(a);
+                    });
+                    
+                    const latestDate = sortedDates[0];
+                    
+                    // Reset semua filter
+                    Object.keys(selectedFilters).forEach(k => selectedFilters[k] = []);
+                    
+                    // Pilih tanggal terbaru
+                    selectedFilters.stuffingDate = [latestDate];
+                    
+                    // Update UI
+                    updateStuffingDateOptions();
+                    
+                    // Trigger apply
+                    applyFilters();
+                }
+            } else if (welcomeChoice === 'tidak') {
+                // Cari Bulan terbaru
+                const months = Array.from(new Set(allData.map(row => row.AX))).filter(m => m && m !== '-' && m.trim() !== '');
+                if (months.length > 0) {
+                    // Sort bulan secara kronologis
+                    const monthOrder = {
+                        'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5, 'june': 6,
+                        'july': 7, 'august': 8, 'september': 9, 'october': 10, 'november': 11, 'december': 12,
+                        'januari': 1, 'februari': 2, 'maret': 3, 'mei': 5, 'juni': 6, 'juli': 7, 'agustus': 8,
+                        'september': 9, 'oktober': 10, 'nopember': 11, 'desember': 12
+                    };
+                    
+                    const sortedMonths = months.sort((a, b) => {
+                        const orderA = monthOrder[a.toLowerCase()] || 0;
+                        const orderB = monthOrder[b.toLowerCase()] || 0;
+                        return orderB - orderA; // Descending
+                    });
+                    
+                    const latestMonth = sortedMonths[0];
+                    
+                    // Reset semua filter
+                    Object.keys(selectedFilters).forEach(k => selectedFilters[k] = []);
+                    
+                    // Pilih bulan terbaru
+                    selectedFilters.bulan = [latestMonth];
+                    
+                    // Update UI
+                    populateFilters();
+                    
+                    // Trigger apply
+                    applyFilters();
+                }
+            }
+            
+            welcomeChoice = null;
+        }
+
         // Helper Function: Robust number parsing for both US and Indo formats
         function parseNumberWithComma(value) {
             if (!value) return 0;
@@ -1181,7 +1398,14 @@
 
                 parseCSV(csv);
                 populateFilters();
-                applyFilters();
+                
+                // Jika user sudah memilih di welcome screen sebelum data beres
+                if (welcomeChoice) {
+                    applyWelcomeChoice();
+                } else {
+                    applyFilters();
+                }
+                
                 updateLastUpdateTime(lastUpdateDate);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -1362,7 +1586,21 @@
                 }
             });
 
-            const options = Array.from(stuffingDateSet).sort().reverse();
+            const parseDate = (s) => {
+                if (!s) return new Date(0);
+                if (s.includes('-')) {
+                    const d = new Date(s);
+                    if (!isNaN(d)) return d;
+                }
+                if (s.includes('/')) {
+                    const parts = s.split('/');
+                    if (parts.length === 3) return new Date(parts[2], parts[1]-1, parts[0]);
+                }
+                const d = new Date(s);
+                return isNaN(d) ? new Date(0) : d;
+            };
+
+            const options = Array.from(stuffingDateSet).sort((a, b) => parseDate(b) - parseDate(a));
             
             // Sync selected filters with new options
             selectedFilters.stuffingDate = selectedFilters.stuffingDate.filter(date => options.includes(date));

@@ -2653,8 +2653,10 @@
                                 <th>JAM</th>
                                 <th>JALUR</th>
                                 <th>NOPOL</th>
+                                <th>PLAN</th>
+                                <th>ESTIMASI KOLI</th>
                                 <th>SHIPPED</th>
-                                <th>JUMLAH KOLI</th>
+                                <th>KOLI SIAP KIRIM</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -2662,6 +2664,7 @@
                 pageData.forEach((row, index) => {
                     const rowNum = start + index + 1;
                     const jamColorClass = getJamColorClass(row.AP);
+                    const estimasiKoli = parseNumberWithComma(row.BA);
                     html += `
                         <tr class="${jamColorClass}">
                             <td>${rowNum}</td>
@@ -2673,6 +2676,8 @@
                             <td>${row.AP || '-'}</td>
                             <td>${row.M || '-'}</td>
                             <td>${row.R || '-'}</td>
+                            <td>${parseNumberWithComma(row.Z).toFixed(2) || '-'}</td>
+                            <td>${estimasiKoli.toFixed(0) || '-'}</td>
                             <td>${parseNumberWithComma(row.AY).toFixed(2) || '-'}</td>
                             <td>${parseNumberWithComma(row.BF).toFixed(0) || '-'}</td>
                         </tr>

@@ -1301,12 +1301,12 @@
             <div class="table-header" style="background: linear-gradient(90deg, #1a1a1a 0%, #333 100%); border-left: 4px solid #ffd700; color: #ffd700; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
                 <span><i class="fas fa-th"></i> MONITORING ORDER AGING DC AHI SIDOARJO</span>
                 <div class="pivot-filter" style="display: flex; align-items: center; gap: 15px;">
-                    <a href="https://wa.me/6285704756606?text=Halo%20Tim%20Inventory%20Planner%2C%0A%0AKami%20ingin%20menginformasikan%20bahwa%20saat%20ini%20STOREBOOKING%20kami%20mengalami%20kekurangan%20kuota.%20Sehubungan%20dengan%20hal%20tersebut%2C%20kami%20mohon%20bantuannya%20untuk%20penambahan%20kuota%20agar%20proses%20operasional%20dapat%20berjalan%20dengan%20lancar.%0A%0AMohon%20dapat%20ditindaklanjuti%20secepatnya.%20Terima%20kasih%20atas%20perhatian%20dan%20kerjasamanya.%0A%0ABest%20regards%2C%0A%5BTim%20Planner%20DC%20Sidoarjo%5D" 
+                    <a id="whatsapp-btn" href="https://wa.me/6285704756606?text=Halo%20Tim%20Inventory%20Planner%2C%0A%0AKami%20ingin%20menginformasikan%20bahwa%20saat%20ini%20STOREBOOKING%20kami%20mengalami%20kekurangan%20kuota.%20Sehubungan%20dengan%20hal%20tersebut%2C%20kami%20mohon%20bantuannya%20untuk%20penambahan%20kuota%20agar%20proses%20operasional%20dapat%20berjalan%20dengan%20lancar.%0A%0AMohon%20dapat%20ditindaklanjuti%20secepatnya.%20Terima%20kasih%20atas%20perhatian%20dan%20kerjasamanya.%0A%0ABest%20regards%2C%0A%5BTim%20Planner%20DC%20Sidoarjo%5D" 
                        target="_blank" 
                        style="background: #25D366; color: #fff; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 0.8em; display: flex; align-items: center; gap: 8px; font-weight: bold; transition: opacity 0.2s;"
                        onmouseover="this.style.opacity='0.8'" 
                        onmouseout="this.style.opacity='1'">
-                        <i class="fab fa-whatsapp" style="font-size: 1.2em;"></i> KIRIM DATA WA
+                        <i class="fab fa-whatsapp" style="font-size: 1.2em;"></i> KIRIM DATA KURANG KUOTA
                     </a>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <label style="font-size: 0.8em; color: #ccc;">PILIH AREA:</label>
@@ -1845,6 +1845,54 @@
             filter.onchange = () => renderPivotTable();
         }
 
+        function updateWhatsAppLink() {
+            const btn = document.getElementById('whatsapp-btn');
+            if (!btn || !rawPivotData || rawPivotData.length === 0) return;
+
+            const introMessage = "Halo Tim Inventory Planner,\n\nKami ingin menginformasikan bahwa saat ini STOREBOOKING kami mengalami kekurangan kuota. Sehubungan dengan hal tersebut, kami mohon bantuannya untuk penambahan kuota agar proses operasional dapat berjalan dengan lancar.\n\nMohon dapat ditindaklanjuti secepatnya. Terima kasih atas perhatian dan kerjasamanya.";
+            const closingMessage = "\n\nBest regards,\n[Tim Planner DC Sidoarjo]";
+            
+            // Aggregate ALL data for Maluku, Papua, Sulawesi
+            const targetAreas = ["MALUKU", "PAPUA", "SULAWESI"];
+            const stores = {};
+            
+            rawPivotData.forEach(row => {
+                const storeArea = (row.area || "").toUpperCase();
+                const isTarget = targetAreas.some(area => storeArea.includes(area));
+                
+                if (isTarget && row.status === 'Belum Plan') {
+                    const key = row.storeBooking;
+                    if (!stores[key]) {
+                        stores[key] = {
+                            code: row.storeBooking,
+                            name: row.storeBookingName,
+                            totalUnplanned: 0
+                        };
+                    }
+                    stores[key].totalUnplanned += row.cbm;
+                }
+            });
+
+            let additionalInfo = "";
+            const sortedStores = Object.values(stores).sort((a, b) => a.code.localeCompare(b.code));
+            
+            sortedStores.forEach(store => {
+                if (store.totalUnplanned < 20) {
+                    const diff = (20 - store.totalUnplanned).toFixed(2);
+                    additionalInfo += `\n${store.code} ${store.name} ${diff} CBM`;
+                }
+            });
+
+            let finalMessage = introMessage;
+            if (additionalInfo) {
+                finalMessage += "\n\nData Kekurangan Kuota Sebagai Berikut:" + additionalInfo;
+            }
+            finalMessage += closingMessage;
+
+            const encodedMessage = encodeURIComponent(finalMessage);
+            btn.href = `https://wa.me/6285704756606?text=${encodedMessage}`;
+        }
+
         function renderPivotTable() {
             const tbody = document.getElementById('pivot-table-body');
             const areaFilter = document.getElementById('pivot-area-filter').value;
@@ -1959,6 +2007,7 @@
             html += `</tr>`;
 
             tbody.innerHTML = html;
+            updateWhatsAppLink();
         }
 
         // Fetch Data dari Google Sheets

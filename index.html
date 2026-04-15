@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> LOGISTICS DASHBOARD | ORDER PLANNING – AZKO</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23e31e24'/%3E%3Ctext x='50' y='62' font-family='Arial, sans-serif' font-size='22' font-weight='900' fill='white' text-anchor='middle'%3Eaz•ko%3C/text%3E%3C/svg%3E">
+    <title> LOGISTICS DASHBOARD | ORDER PLANNING</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23d32f2f'/%3E%3Cpath d='M30 50 L70 50 M50 30 L50 70' stroke='white' stroke-width='8'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -112,6 +112,162 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
+        }
+
+        /* Initializing Dashboard Overlay */
+        #init-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            overflow: hidden;
+        }
+
+        #init-loader::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(rgba(211, 47, 47, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(211, 47, 47, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg) translateY(-100px);
+            animation: gridMove 10s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+
+        .tech-loader {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            z-index: 2;
+        }
+
+        .tech-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid transparent;
+            border-radius: 50%;
+        }
+
+        .tech-circle-1 {
+            width: 180px;
+            height: 180px;
+            border-top-color: #d32f2f;
+            border-bottom-color: #d32f2f;
+            animation: techRotate 4s linear infinite;
+        }
+
+        .tech-circle-2 {
+            width: 140px;
+            height: 140px;
+            border-left-color: #ffd700;
+            border-right-color: #ffd700;
+            animation: techRotate 2s linear infinite reverse;
+        }
+
+        .tech-circle-3 {
+            width: 100px;
+            height: 100px;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            animation: techRotate 8s linear infinite;
+        }
+
+        .tech-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: #d32f2f;
+            border-radius: 50%;
+            box-shadow: 0 0 30px #d32f2f;
+            animation: corePulse 1.5s ease-in-out infinite;
+        }
+
+        .scanning-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            box-shadow: 0 0 15px #ffd700;
+            z-index: 3;
+            animation: scanMove 3s ease-in-out infinite;
+        }
+
+        @keyframes scanMove {
+            0%, 100% { top: 20%; opacity: 0; }
+            50% { top: 80%; opacity: 1; }
+        }
+
+        .system-status {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8em;
+            text-align: center;
+            z-index: 2;
+        }
+
+        @keyframes techRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes corePulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+        }
+
+        #init-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-text {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 300;
+            letter-spacing: 8px;
+            margin-top: 40px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .loader-text span {
+            display: inline-block;
+            animation: letterBounce 1.5s infinite;
+        }
+
+        @keyframes letterBounce {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(-5px); opacity: 1; color: #ffd700; }
         }
 
         .welcome-content {
@@ -795,16 +951,27 @@
     </style>
 </head>
 <body>
+    <!-- Initializing Dashboard Loader -->
+    <div id="init-loader">
+        <div class="scanning-bar"></div>
+        <div class="tech-loader">
+            <div class="tech-circle tech-circle-1"></div>
+            <div class="tech-circle tech-circle-2"></div>
+            <div class="tech-circle tech-circle-3"></div>
+            <div class="tech-core"></div>
+        </div>
+        <div class="loader-text">
+            <span>I</span><span>N</span><span>I</span><span>T</span><span>I</span><span>A</span><span>L</span><span>I</span><span>Z</span><span>I</span><span>N</span><span>G</span>
+            &nbsp;
+            <span>D</span><span>A</span><span>S</span><span>H</span><span>B</span><span>O</span><span>A</span><span>R</span><span>D</span>
+        </div>
+        <div class="system-status" id="system-status">ESTABLISHING SECURE CONNECTION...</div>
+    </div>
+
     <!-- Welcome Overlay -->
     <div id="welcome-overlay">
         <div class="welcome-content">
-            <div class="welcome-logo">
-                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-                    <circle cx='50' cy='50' r='50' fill='#e31e24'/>
-                    <text x='50' y='62' font-family='Arial, sans-serif' font-size='22' font-weight='900' fill='white' text-anchor='middle'>az•ko</text>
-                </svg>
-            </div>
-            <h2 class="welcome-title">Selamat Datang di Dashboard Planning Azko 2026</h2>
+            <h2 class="welcome-title">Selamat Datang di Dashboard Planning 2026</h2>
             
             <!-- Step 1: Category Selection -->
             <div id="welcome-step-1" class="welcome-step">
@@ -827,7 +994,7 @@
     </div>
 
     <div class="header">
-        <h1>LOGISTICS DASHBOARD | ORDER PLANNING – AZKO</h1>
+        <h1>LOGISTICS DASHBOARD | ORDER PLANNING</h1>
     </div>
 
     <div class="container">
@@ -1096,7 +1263,7 @@
     <!-- Scrolling Marquee Footer -->
     <div class="footer-marquee">
         <div class="marquee-content" id="last-update-text">
-            DATA LOGISTICS DASHBOARD UPDATE TERAKHIR PADA [TANGGAL] PUKUL [JAM], JIKA INGIN MENDAPATKAN DATA TERKINI, SILAHKAN HUBUNGI TIM PLANNER AZKO SIDOARJO. TERIMA KASIH
+            DATA LOGISTICS DASHBOARD UPDATE TERAKHIR PADA [TANGGAL] PUKUL [JAM], JIKA INGIN MENDAPATKAN DATA TERKINI, SILAHKAN HUBUNGI TIM PLANNER SIDOARJO. TERIMA KASIH
         </div>
     </div>
 
@@ -1276,6 +1443,28 @@
             selectedCategory = category;
             document.getElementById('welcome-step-1').classList.add('hidden');
             document.getElementById('welcome-step-2').classList.remove('hidden');
+            
+            // Request full screen on first interaction
+            toggleFullScreen();
+        }
+
+        function toggleFullScreen() {
+            try {
+                if (!document.fullscreenElement) {
+                    const docElm = document.documentElement;
+                    if (docElm.requestFullscreen) {
+                        docElm.requestFullscreen();
+                    } else if (docElm.mozRequestFullScreen) {
+                        docElm.mozRequestFullScreen();
+                    } else if (docElm.webkitRequestFullScreen) {
+                        docElm.webkitRequestFullScreen();
+                    } else if (docElm.msRequestFullscreen) {
+                        docElm.msRequestFullscreen();
+                    }
+                }
+            } catch (e) {
+                console.warn("Fullscreen request failed:", e);
+            }
         }
 
         function handleWelcomeChoice(choice) {
@@ -1467,6 +1656,16 @@
                 }
                 
                 updateLastUpdateTime(lastUpdateDate);
+                
+                // Update system status
+                const statusEl = document.getElementById('system-status');
+                if (statusEl) statusEl.innerText = "DATA SYNCHRONIZATION COMPLETE. READY.";
+
+                // Hide Initial Loader
+                setTimeout(() => {
+                    const loader = document.getElementById('init-loader');
+                    if (loader) loader.classList.add('hidden');
+                }, 1500); // Give it a bit of time to show the animation
             } catch (error) {
                 console.error('Error fetching data:', error);
                 const errorMsg = error.message.includes('fetch') || error.name === 'TypeError' ? 
@@ -2900,7 +3099,7 @@
             const timeStr = `${hours}:${minutes}`;
             
             // Format teks sesuai permintaan user
-            const text = `DATA LOGISTICS DASHBOARD UPDATE TERAKHIR PADA ${dateStr} PUKUL ${timeStr}, JIKA INGIN MENDAPATKAN DATA TERKINI, SILAHKAN HUBUNGI TIM PLANNER AZKO SIDOARJO. TERIMA KASIH`;
+            const text = `DATA LOGISTICS DASHBOARD UPDATE TERAKHIR PADA ${dateStr} PUKUL ${timeStr}, JIKA INGIN MENDAPATKAN DATA TERKINI, SILAHKAN HUBUNGI TIM PLANNER SIDOARJO. TERIMA KASIH`;
             document.getElementById('last-update-text').textContent = text;
         }
 

@@ -1301,7 +1301,7 @@
             <div class="table-header" style="background: linear-gradient(90deg, #1a1a1a 0%, #333 100%); border-left: 4px solid #ffd700; color: #ffd700; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
                 <span><i class="fas fa-th"></i> MONITORING ORDER AGING DC AHI SIDOARJO</span>
                 <div class="pivot-filter" style="display: flex; align-items: center; gap: 15px;">
-                    <a id="whatsapp-btn" href="https://wa.me/6285704756606?text=Halo%20Tim%20Inventory%20Planner%2C%0A%0AKami%20ingin%20menginformasikan%20bahwa%20saat%20ini%20STOREBOOKING%20kami%20mengalami%20kekurangan%20kuota.%20Sehubungan%20dengan%20hal%20tersebut%2C%20kami%20mohon%20bantuannya%20untuk%20penambahan%20kuota%20agar%20proses%20operasional%20dapat%20berjalan%20dengan%20lancar.%0A%0AMohon%20dapat%20ditindaklanjuti%20secepatnya.%20Terima%20kasih%20atas%20perhatian%20dan%20kerjasamanya.%0A%0ABest%20regards%2C%0A%5BTim%20Planner%20DC%20Sidoarjo%5D" 
+                    <a id="whatsapp-btn" href="https://wa.me/6285973792145?text=Halo%20Tim%20Inventory%20Planner%2C%0A%0AKami%20ingin%20menginformasikan%20bahwa%20saat%20ini%20STOREBOOKING%20kami%20mengalami%20kekurangan%20kuota.%20Sehubungan%20dengan%20hal%20tersebut%2C%20kami%20mohon%20bantuannya%20untuk%20penambahan%20kuota%20agar%20proses%20operasional%20dapat%20berjalan%20dengan%20lancar.%0A%0AMohon%20dapat%20ditindaklanjuti%20secepatnya.%20Terima%20kasih%20atas%20perhatian%20dan%20kerjasamanya.%0A%0ABest%20regards%2C%0A%5BTim%20Planner%20DC%20Sidoarjo%5D" 
                        target="_blank" 
                        style="background: #25D366; color: #fff; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 0.8em; display: flex; align-items: center; gap: 8px; font-weight: bold; transition: opacity 0.2s;"
                        onmouseover="this.style.opacity='0.8'" 
@@ -1725,18 +1725,38 @@
         let rawPivotData = [];
         let pivotAreaOptions = new Set();
 
-        async function fetchPivotData() {
+        async function fetchPivotData(retries = 2) {
             try {
                 const finalUrl = `${PIVOT_CSV_URL}&t=${Date.now()}`;
-                const response = await fetch(finalUrl);
+                const response = await fetch(finalUrl, { cache: "no-store" });
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const csv = await response.text();
+                
+                if (csv.trim().startsWith('<!DOCTYPE')) {
+                    throw new Error("Diterima format HTML. Pastikan Google Sheet sudah di-share 'Anyone with the link can view'.");
+                }
+                
                 parsePivotCSV(csv);
             } catch (error) {
                 console.error("Error fetching pivot data:", error);
+                if (retries > 0) {
+                    console.log(`Retrying pivot data fetch... (${retries} left)`);
+                    setTimeout(() => fetchPivotData(retries - 1), 2000);
+                    return;
+                }
                 const tbody = document.getElementById('pivot-table-body');
                 if (tbody) {
-                    tbody.innerHTML = `<tr><td colspan="20" style="text-align: center; color: #d32f2f; padding: 20px;">Gagal mengambil data pivot. Silahkan refresh halaman.</td></tr>`;
+                    const isNetworkError = error.name === 'TypeError' || error.message.includes('fetch');
+                    tbody.innerHTML = `<tr><td colspan="20" style="text-align: center; color: #d32f2f; padding: 20px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2em; margin-bottom: 10px;"></i><br/>
+                        <strong>Gagal mengambil data pivot.</strong><br/>
+                        <span style="font-size: 0.9em; color: #bbb; display: block; margin-top: 10px;">
+                            ${isNetworkError ? 'Penyebab Umum: Koneksi internet terputus, AdBlocker terlalu ketat, atau Google Sheet belum di-share publik.' : error.message}
+                        </span>
+                        <button onclick="fetchPivotData()" style="margin-top:15px; padding:8px 20px; background:#ffd700; color:#000; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">
+                            <i class="fas fa-sync"></i> COBA LAGI
+                        </button>
+                    </td></tr>`;
                 }
             }
         }
@@ -1890,7 +1910,7 @@
             finalMessage += closingMessage;
 
             const encodedMessage = encodeURIComponent(finalMessage);
-            btn.href = `https://wa.me/6285704756606?text=${encodedMessage}`;
+            btn.href = `https://wa.me/6285973792145?text=${encodedMessage}`;
         }
 
         function renderPivotTable() {
@@ -1907,6 +1927,11 @@
             const stores = {};
             filtered.forEach(row => {
                 const key = row.storeBooking;
+                const name = row.storeBookingName;
+                
+                // Skip if StoreBooking or Ship To is empty
+                if (!key || !name || key.trim() === "" || name.trim() === "") return;
+
                 if (!stores[key]) {
                     stores[key] = {
                         code: row.storeBooking,
@@ -2011,11 +2036,11 @@
         }
 
         // Fetch Data dari Google Sheets
-        async function fetchData() {
+        async function fetchData(retries = 2) {
             try {
                 // Menambahkan timestamp untuk menghindari cache
                 const finalUrl = `${CSV_URL}&t=${Date.now()}`;
-                const response = await fetch(finalUrl);
+                const response = await fetch(finalUrl, { cache: "no-store" });
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -2062,16 +2087,26 @@
                 }, 1500); // Give it a bit of time to show the animation
             } catch (error) {
                 console.error('Error fetching data:', error);
-                const errorMsg = error.message.includes('fetch') || error.name === 'TypeError' ? 
-                    'Gagal mengambil data. Pastikan Google Sheets telah dibagikan (Share -> Anyone with the link can view) dan koneksi internet stabil.' : 
+                
+                const isNetworkError = error.name === 'TypeError' || error.message.includes('fetch');
+
+                if (retries > 0 && isNetworkError) {
+                    console.log(`Retrying main data fetch... (${retries} left)`);
+                    setTimeout(() => fetchData(retries - 1), 2000);
+                    return;
+                }
+
+                const errorMsg = isNetworkError ? 
+                    'Gagal mengambil data (Network Error). Pastikan Google Sheets telah dibagikan (Anyone with the link can view) dan tidak diblokir oleh ekstensi browser (AdBlock/VPN).' : 
                     `Terjadi kesalahan: ${error.message}`;
                 
                 document.getElementById('crm-table-container').innerHTML = 
-                    `<div class="loading" style="color: #ff6b6b;">
-                        <i class="fas fa-exclamation-triangle"></i><br/>
-                        Error: ${errorMsg}<br/>
-                        <button onclick="fetchData()" style="margin-top:15px; padding:8px 15px; background:#d32f2f; color:white; border:none; border-radius:4px; cursor:pointer;">
-                            <i class="fas fa-sync"></i> Coba Lagi
+                    `<div class="loading" style="color: #ff6b6b; padding: 40px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2.5em; margin-bottom: 15px;"></i><br/>
+                        <strong style="font-size: 1.2em;">Koneksi Gagal</strong><br/>
+                        <p style="margin: 15px 0; font-size: 0.9em; line-height: 1.5;">${errorMsg}</p>
+                        <button onclick="location.reload()" style="margin-top:10px; padding:10px 20px; background:#d32f2f; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">
+                            <i class="fas fa-sync"></i> REFRESH HALAMAN
                         </button>
                     </div>`;
             }

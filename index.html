@@ -944,7 +944,7 @@
             }
 
             .filter-section {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
@@ -988,6 +988,227 @@
             0% { transform: translate(0, 0); }
             100% { transform: translate(-100%, 0); }
         }
+        /* ===== ASTOR SLA SECTION ===== */
+.astor-sla-section { margin-top: 40px; border-top: 2px solid #444; padding-top: 25px; }
+.astor-sla-header {
+    background: linear-gradient(90deg, #b71c1c 0%, #1a1a1a 100%);
+    border-left: 4px solid #ffd700;
+    color: #ffd700;
+    padding: 15px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.95em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px 4px 0 0;
+}
+.astor-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+.astor-kpi-card {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 18px 15px;
+    text-align: center;
+    border-bottom: 3px solid #444;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.astor-kpi-card:hover { transform: translateY(-4px); }
+.astor-kpi-card.hit  { border-bottom-color: #2dd4bf; }
+.astor-kpi-card.miss { border-bottom-color: #f87171; }
+.astor-kpi-card.outstanding { border-bottom-color: #ffd700; }
+.astor-kpi-card.total { border-bottom-color: #60a5fa; }
+.astor-kpi-label {
+    font-size: 0.72em;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.astor-kpi-value { font-size: 1.9em; font-weight: bold; color: #fff; }
+.astor-kpi-card.hit  .astor-kpi-value { color: #2dd4bf; }
+.astor-kpi-card.miss .astor-kpi-value { color: #f87171; }
+.astor-kpi-card.outstanding .astor-kpi-value { color: #ffd700; }
+.astor-kpi-card.total .astor-kpi-value { color: #60a5fa; }
+.astor-chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-top: 5px;
+}
+.astor-chart-box {
+    background: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+.astor-chart-title {
+    background: #111;
+    padding: 12px 18px;
+    font-size: 0.82em;
+    font-weight: bold;
+    color: #ffd700;
+    text-transform: uppercase;
+    border-bottom: 1px solid #333;
+    letter-spacing: 0.5px;
+}
+.astor-chart-body { padding: 15px; height: 280px; position: relative; }
+.astor-outstanding-box {
+    background: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    margin-top: 20px;
+}
+.astor-outstanding-table-wrap { max-height: 350px; overflow-y: auto; }
+.astor-filter-row { display: flex; gap: 12px; align-items: center; }
+.astor-filter-row select {
+    background: #222;
+    color: #ffd700;
+    border: 1px solid #ffd700;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.82em;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Circular Neon Menu */
+.circular-menu {
+    position: fixed;
+    left: 25px;
+    bottom: 60px; /* Adjusted to be above the marquee */
+    z-index: 10000;
+    display: none;
+}
+
+.circular-menu.active .floating-btn {
+    box-shadow: 0 0 25px #ff0000, 0 0 45px #ff0000, inset 0 0 20px #ff0000;
+    transform: scale(1.05);
+}
+
+.circular-menu .floating-btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: #111;
+    border: 3px solid #ff0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 12px #ff0000, inset 0 0 12px #ff0000;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 101;
+}
+
+.circular-menu .floating-btn i {
+    display: none;
+}
+
+.circular-menu .menu-items {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.circular-menu.active .menu-items {
+    pointer-events: auto;
+}
+
+.circular-menu .menu-item {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    width: 50px;
+    height: 50px;
+    background: #111;
+    border: 2px solid #ff0000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    transform: scale(0);
+}
+
+.circular-menu.active .menu-item {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.circular-menu .menu-item:nth-child(1) { transition-delay: 0.05s; }
+.circular-menu .menu-item:nth-child(2) { transition-delay: 0.1s; }
+.circular-menu .menu-item:nth-child(3) { transition-delay: 0.15s; }
+.circular-menu .menu-item:nth-child(4) { transition-delay: 0.2s; }
+.circular-menu .menu-item:nth-child(5) { transition-delay: 0.25s; }
+
+.circular-menu.active .menu-item:nth-child(1) { transform: translate(10px, -280px) scale(1); }
+.circular-menu.active .menu-item:nth-child(2) { transform: translate(75px, -220px) scale(1); }
+.circular-menu.active .menu-item:nth-child(3) { transform: translate(110px, -140px) scale(1); }
+.circular-menu.active .menu-item:nth-child(4) { transform: translate(120px, -50px) scale(1); }
+.circular-menu.active .menu-item:nth-child(5) { transform: translate(100px, 40px) scale(1); }
+
+.circular-menu .menu-item .menu-label {
+    position: absolute;
+    left: 75px;
+    background: rgba(183, 28, 28, 0.98);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 800;
+    white-space: nowrap;
+    opacity: 0;
+    transition: 0.3s;
+    pointer-events: none;
+    border-left: 5px solid #ffd700;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.circular-menu.active .menu-item:hover .menu-label {
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+.circular-menu .menu-item:hover {
+    background: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+}
+
+.section-title-banner {
+    background: linear-gradient(90deg, #b71c1c 0%, #1a1a1a 100%);
+    padding: 18px 30px;
+    margin-bottom: 30px;
+    border-left: 8px solid #ffd700;
+    color: #fff;
+    font-size: 1.6em;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.4);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
     </style>
 </head>
 <body>
@@ -1038,7 +1259,11 @@
     </div>
 
     <div class="container">
-        <div class="filter-section">
+        <div id="main-dashboard-section" class="dash-section">
+            <div class="section-title-banner">
+                <i class="fas fa-desktop"></i> MAIN DASHBOARD
+            </div>
+            <div class="filter-section">
             <div class="filter-group">
                 <label>BULAN</label>
                 <div class="multi-select-container" id="bulan-container">
@@ -1173,7 +1398,12 @@
             </div>
             <div class="pagination" id="pagination"></div>
         </div>
+        </div> <!-- End main-dashboard-section -->
 
+        <div id="summary-report-section" class="dash-section" style="display: none;">
+            <div class="section-title-banner">
+                <i class="fas fa-chart-line"></i> SUMMARY REPORT SLA & CBM SHIPPED
+            </div>
         <div class="chart-section">
             <div class="chart-container">
                 <div class="table-header">
@@ -1204,7 +1434,12 @@
                 </div>
             </div>
         </div>
+        </div> <!-- End summary-report-section -->
 
+        <div id="supply-partner-section" class="dash-section" style="display: none;">
+            <div class="section-title-banner">
+                <i class="fas fa-handshake"></i> SUPPLY PARTNER EVALUATION
+            </div>
         <!-- Filter Section for Extra Tables -->
         <div class="filter-section" style="margin-top: 40px; border-top: 1px solid #444; padding-top: 25px;">
             <div class="filter-group">
@@ -1309,7 +1544,7 @@
         </div>
 
         <!-- Pivot Table Section (Unit Distribution Center Only) -->
-        <div id="pivot-section" class="pivot-section" style="margin-top: 40px; display: none;">
+        <!-- Pivot Table Section Removed in favor of Dashboard Sections -->
             
             <!-- Table: DELIVERY DELAY AGING PER CARRIER -->
             <div id="carrier-aging-container" style="margin-bottom: 30px; border-bottom: 2px solid #333;">
@@ -1380,7 +1615,12 @@
                     </table>
                 </div>
             </div>
+        </div> <!-- End supply-partner-section -->
 
+        <div id="outstanding-section" class="dash-section" style="display: none;">
+            <div class="section-title-banner">
+                <i class="fas fa-hourglass-half"></i> MONITORING OUTSTANDING
+            </div>
             <!-- Table: Planning Priority Summary -->
             <div id="planning-priority-container" style="margin-bottom: 30px; border-bottom: 2px solid #333; display: none;">
                 <div class="table-header" style="background: linear-gradient(90deg, #d32f2f 0%, #333 100%); border-left: 4px solid #ffd700; color: #fff; padding: 15px 20px; font-weight: bold; text-transform: uppercase; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center;">
@@ -1474,48 +1714,9 @@
                         <thead>
                             <tr class="nested-header">
                                 <th rowspan="2" onclick="sortStoringPivot('areaBB')" style="width: 250px; cursor: pointer;">AREA STORING <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th colspan="5" style="background: #2c3e50; color: #ecf0f1;">AGING SUDAH PLAN (CBM)</th>
-                                <th colspan="5" style="background: #27ae60; color: #fff;">AGING BELUM PLAN (CBM)</th>
-                            </tr>
-                            <tr class="sub-header">
-                                <th onclick="sortStoringPivot('aging0')" style="cursor: pointer;">0 <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th onclick="sortStoringPivot('aging1_3')" style="cursor: pointer;">1-3 <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th onclick="sortStoringPivot('aging4_7')" style="cursor: pointer;">4-7 <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th onclick="sortStoringPivot('aging7up')" style="cursor: pointer;">7 UP <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th onclick="sortStoringPivot('agingTotal')" style="background: #34495e; cursor: pointer;">TOTAL <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th onclick="sortStoringPivot('unplanned0')" style="cursor: pointer;">0 <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th onclick="sortStoringPivot('unplanned1_3')" style="cursor: pointer;">1-3 <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th onclick="sortStoringPivot('unplanned4_7')" style="cursor: pointer;">4-7 <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th onclick="sortStoringPivot('unplanned7up')" style="cursor: pointer;">7 UP <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th onclick="sortStoringPivot('unplannedTotal')" style="background: #219150; cursor: pointer;">TOTAL <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                            </tr>
-                        </thead>
-                        <tbody id="storing-aging-body">
-                            <tr>
-                                <td colspan="11" style="text-align: center; padding: 40px; color: #666;">
-                                    <div class="loading"><div class="spinner" style="margin: 0 auto 10px;"></div>Processing Pivot Data...</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tfoot id="storing-aging-foot"></tfoot>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Table: MONITORING AGING BY AREA STORING -->
-            <div id="storing-aging-container" style="margin-top: 30px; border-bottom: 2px solid #333;">
-                <div class="table-header" style="background: linear-gradient(90deg, #1a1a1a 0%, #333 100%); border-left: 4px solid #ffd700; color: #ffd700; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <span><i class="fas fa-warehouse"></i> MONITORING ORDER AGING BY AREA STORING DAN ASTOR</span>
-                    </div>
-                </div>
-                <div class="table-content-large" style="overflow-x: auto; background: #1a1a1a;">
-                    <table id="storing-aging-table" class="pivot-table" style="width: 100%; border-collapse: collapse; font-size: 0.85em;">
-                        <thead>
-                            <tr class="nested-header">
-                                <th rowspan="2" onclick="sortStoringPivot('areaBB')" style="width: 250px; cursor: pointer;">AREA STORING DAN ASTOR <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
-                                <th colspan="5" style="background: #2c3e50; color: #ecf0f1;">AGING SUDAH PLAN (CBM)</th>
-                                <th colspan="5" style="background: #27ae60; color: #fff;">AGING BELUM PLAN (CBM)</th>
+                                <th rowspan="2" style="background: #b8860b; color: #ffd700; width: 100px; vertical-align: middle; text-align: center;">TOTAL CBM</th>
+<th colspan="5" style="background: #2c3e50; color: #ecf0f1;">AGING SUDAH PLAN (CBM)</th>
+<th colspan="5" style="background: #27ae60; color: #fff;">AGING BELUM PLAN (CBM)</th>
                             </tr>
                             <tr class="sub-header">
                                 <th onclick="sortStoringPivot('aging0')" style="cursor: pointer;">0 <i class="fas fa-sort" style="font-size: 0.7em; opacity: 0.5;"></i></th>
@@ -1592,7 +1793,12 @@
                     </table>
                 </div>
             </div>
+        </div> <!-- End outstanding-section -->
 
+        <div id="hub-astor-section" class="dash-section" style="display: none;">
+            <div class="section-title-banner">
+                <i class="fas fa-warehouse"></i> MONITORING HUB GRW & ASTOR
+            </div>
             <!-- Table: MONITORING HUB GRW -->
             <div id="hub-summary-container" style="margin-top: 30px; margin-bottom: 30px; border-bottom: 2px solid #333; display: none;">
                 <div class="table-header" style="background: linear-gradient(90deg, #1a1a1a 0%, #333 100%); border-left: 4px solid #ffd700; color: #ffd700; padding: 15px 20px; font-weight: bold; text-transform: uppercase; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center;">
@@ -1630,11 +1836,27 @@
                                 <option value="ALL">ALL</option>
                             </select>
                         </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+   <label style="font-size: 0.8em; color: #ffd700; opacity: 0.8;">REGION:</label>
+    <select id="hub-region-filter" onchange="renderHubTable()" style="background: #222; color: #ffd700; border: 1px solid #ffd700; padding: 3px 8px; border-radius: 4px; font-size: 0.85em; outline: none;">
+        <option value="ALL">ALL</option>
+    </select>
+</div>
+<div style="display: flex; align-items: center; gap: 6px;">
+    <label style="font-size: 0.8em; color: #ffd700; opacity: 0.8;">AREA:</label>
+    <select id="hub-area-filter" onchange="renderHubTable()"
+            style="background: #222; color: #ffd700; border: 1px solid #ffd700;
+                   padding: 3px 8px; border-radius: 4px; font-size: 0.85em; outline: none;">
+        <option value="ALL">ALL</option>
+        <option value="DK">DK</option>
+        <option value="LK">LK</option>
+    </select>
+</div>                        
                     </div>
                 </div>
 
                 <!-- Hub Summaries -->
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; background: #1a1a1a; padding: 20px; border-bottom: 1px solid #333;">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; background: #1a1a1a; padding: 20px; border-bottom: 1px solid #333;">
                     <!-- Armada Status -->
                     <div style="background: #222; border: 1px solid #444; border-radius: 8px; padding: 15px;">
                         <div style="color: #ffd700; font-size: 0.8em; font-weight: bold; margin-bottom: 15px; text-transform: uppercase;">
@@ -1669,6 +1891,43 @@
                             <!-- Populated dynamically -->
                         </div>
                     </div>
+                    <!-- SLA Card -->
+<div id="hub-sla-card" style="background: #222; border: 2px solid #444; border-radius: 8px; padding: 15px;">
+    <div style="color: #ffd700; font-size: 0.8em; font-weight: bold; margin-bottom: 12px; text-transform: uppercase;">
+        <i class="fas fa-bullseye" style="margin-right: 8px;"></i> SLA Hub GRW
+    </div>
+    <div style="text-align: center; margin-bottom: 12px; background: #1a1a1a; border-radius: 8px; padding: 12px;">
+        <svg width="80" height="80" viewBox="0 0 80 80" style="display:block; margin: 0 auto 6px;">
+            <circle cx="40" cy="40" r="30" fill="none" stroke="#333" stroke-width="8"/>
+            <circle id="hub-sla-arc" cx="40" cy="40" r="30" fill="none" stroke="#ff4444" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="188.5" stroke-dashoffset="14.1"
+                transform="rotate(-90 40 40)"/>
+        </svg>
+        <div id="hub-sla-pct" style="font-size: 1.6em; font-weight: bold; color: #ff4444; margin-top: -8px;">0%</div>
+        <div id="hub-sla-badge" style="display: inline-block; font-size: 0.75em; font-weight: bold; padding: 3px 12px; border-radius: 999px; margin-top: 4px; background: rgba(255,68,68,0.15); color: #ff4444;">Menghitung...</div>
+        <div style="font-size: 0.7em; color: #666; margin-top: 4px;">Target: 95%</div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 7px 10px; background: rgba(45,212,175,0.1); border-radius: 6px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: #2dd4bf;"></div>
+                <span style="font-size: 0.85em; color: #2dd4bf; font-weight: bold;">Hit (1-3 hari)</span>
+            </div>
+            <span id="hub-sla-hit" style="font-size: 0.9em; font-weight: bold; color: #2dd4bf;">0 store</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 7px 10px; background: rgba(255,68,68,0.1); border-radius: 6px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: #ff6b6b;"></div>
+                <span style="font-size: 0.85em; color: #ff6b6b; font-weight: bold;">Miss (&gt;3 hari)</span>
+            </div>
+            <span id="hub-sla-miss" style="font-size: 0.9em; font-weight: bold; color: #ff6b6b;">0 store</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.8em; padding: 6px 10px; color: #888; border-top: 1px solid #333; margin-top: 2px;">
+            <span>Total dihitung</span>
+            <span id="hub-sla-total" style="font-weight: bold; color: #aaa;">0 store</span>
+        </div>
+    </div>
+</div>
                 </div>
 
                 <div class="table-content-large" style="overflow-x: auto; background: #1a1a1a; padding: 0; max-height: 400px;">
@@ -1688,9 +1947,124 @@
                     </table>
                 </div>
             </div>
+
+            <!-- ===== ASTOR SLA & OUTSTANDING SECTION ===== -->
+            <div class="astor-sla-section" id="astor-sla-section">
+                <div class="astor-sla-header">
+                    <span><i class="fas fa-chart-pie" style="margin-right:10px;"></i> SLA & OUTSTANDING ASTOR — AZKO & KWI</span>
+                    <div class="astor-filter-row">
+                        <label style="font-size:0.8em;color:#ccc;">BU:</label>
+                        <select id="astor-bu-filter" onchange="renderAstorSLA()">
+                            <option value="ALL">SEMUA (AZKO + KWI)</option>
+                            <option value="AZKO">AZKO</option>
+                            <option value="KWI">KWI</option>
+                        </select>
+                        <label style="font-size:0.8em;color:#ccc;">AREA:</label>
+                        <select id="astor-area-filter" onchange="renderAstorSLA()">
+                            <option value="ALL">SEMUA</option>
+                            <option value="DK">DK</option>
+                            <option value="LK">LK</option>
+                            <option value="LP">LP</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="astor-kpi-row">
+                    <div class="astor-kpi-card total">
+                        <div class="astor-kpi-label">Total Order</div>
+                        <div class="astor-kpi-value" id="astor-total">—</div>
+                    </div>
+                    <div class="astor-kpi-card hit">
+                        <div class="astor-kpi-label">SLA HIT</div>
+                        <div class="astor-kpi-value" id="astor-hit">—</div>
+                    </div>
+                    <div class="astor-kpi-card miss">
+                        <div class="astor-kpi-label">SLA MISS</div>
+                        <div class="astor-kpi-value" id="astor-miss">—</div>
+                    </div>
+                    <div class="astor-kpi-card hit">
+                        <div class="astor-kpi-label">SLA Achievement</div>
+                        <div class="astor-kpi-value" id="astor-pct">—</div>
+                    </div>
+                    <div class="astor-kpi-card outstanding">
+                        <div class="astor-kpi-label">Outstanding</div>
+                        <div class="astor-kpi-value" id="astor-outstanding">—</div>
+                    </div>
+                    <div class="astor-kpi-card miss">
+                        <div class="astor-kpi-label">Outstanding CBM</div>
+                        <div class="astor-kpi-value" id="astor-outstanding-cbm">—</div>
+                    </div>
+                </div>
+                <div class="astor-chart-grid">
+                    <div class="astor-chart-box">
+                        <div class="astor-chart-title"><i class="fas fa-chart-bar" style="margin-right:6px;"></i> SLA HIT vs MISS per BU</div>
+                        <div class="astor-chart-body"><canvas id="astorSlaByBuChart"></canvas></div>
+                    </div>
+                    <div class="astor-chart-box">
+                        <div class="astor-chart-title"><i class="fas fa-chart-pie" style="margin-right:6px;"></i> SLA ACHIEVEMENT per AREA</div>
+                        <div class="astor-chart-body"><canvas id="astorSlaByAreaChart"></canvas></div>
+                    </div>
+                    <div class="astor-chart-box">
+                        <div class="astor-chart-title"><i class="fas fa-hourglass-half" style="margin-right:6px;"></i> OUTSTANDING per AGING BUCKET</div>
+                        <div class="astor-chart-body"><canvas id="astorOutstandingAgingChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="astor-outstanding-box">
+                    <div class="astor-chart-title" style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;">
+                        <span><i class="fas fa-exclamation-triangle" style="margin-right:6px;color:#ffd700;"></i> DETAIL OUTSTANDING ORDER (STUFFING BELUM TERISI)</span>
+                        <span id="astor-outstanding-count" style="background:#b71c1c;padding:3px 12px;border-radius:4px;font-size:0.85em;">0 Order</span>
+                    </div>
+                    <div class="astor-outstanding-table-wrap">
+                        <table style="width:100%;border-collapse:collapse;font-size:0.85em;">
+                            <thead style="background:#111;position:sticky;top:0;z-index:5;">
+                                <tr>
+                                    <th style="padding:10px;border:1px solid #333;color:#ffd700;text-align:center;width:40px;">#</th>
+                                    <th style="padding:10px;border:1px solid #333;color:#ffd700;">TGL INPUT</th>
+                                    <th style="padding:10px;border:1px solid #333;color:#ffd700;">RT/OD</th>
+                                    <th style="padding:10px;border:1px solid #333;color:#ffd700;">NO LC</th>
+                                    <th style="padding:10px;border:1px solid #333;color:#ffd700;text-align:center;">BU</th>
+                                    <th style="padding:10px;border:1px solid #333;color:#ffd700;">KOTA</th>
+                                    <th style="padding:10px;border:1px solid #333;color:#ffd700;">REGION</th>
+                                    <th style="padding:10px;border:1px solid #333;color:#ffd700;text-align:center;">AREA</th>
+                                    <th style="padding:10px;border:1px solid #333;color:#ffd700;text-align:right;">AGING (HARI)</th>
+                                    <th style="padding:10px;border:1px solid #333;color:#ffd700;">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="astor-outstanding-tbody">
+                                <tr><td colspan="9" style="text-align:center;padding:30px;color:#666;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End container -->
+
+    <!-- Circular Navigation Menu -->
+    <div class="circular-menu" id="circularMenu">
+        <div class="floating-btn" onclick="toggleCircularMenu()"></div>
+        <div class="menu-items">
+            <div class="menu-item" onclick="showDashboardSection('main-dashboard-section')">
+                <i class="fas fa-desktop"></i>
+                <div class="menu-label">MAIN DASHBOARD</div>
+            </div>
+            <div class="menu-item" onclick="showDashboardSection('summary-report-section')">
+                <i class="fas fa-chart-line"></i>
+                <div class="menu-label">SUMMARY REPORT SLA & CBM SHIPPED</div>
+            </div>
+            <div class="menu-item" onclick="showDashboardSection('supply-partner-section')">
+                <i class="fas fa-handshake"></i>
+                <div class="menu-label">SUPPLY PARTNER EVALUATION</div>
+                </div>
+            <div class="menu-item" onclick="showDashboardSection('outstanding-section')">
+                <i class="fas fa-hourglass-half"></i>
+                <div class="menu-label">MONITORING OUTSTANDING</div>
+            </div>
+            <div class="menu-item" onclick="showDashboardSection('hub-astor-section')">
+                <i class="fas fa-warehouse"></i>
+                <div class="menu-label">MONITORING HUB GRW & ASTOR</div>
+            </div>
         </div>
     </div>
-
     <!-- Scrolling Marquee Footer -->
     <div class="footer-marquee">
         <div class="marquee-content" id="last-update-text">
@@ -1836,7 +2210,8 @@
             'PALU': [-0.8917, 119.8707],
             'Palopo': [-3.0050, 120.1980],
             'Pare-Pare': [-4.0167, 119.6236],
-            'SIDOARJO': [-7.4478, 112.7183]
+            'SIDOARJO': [-7.4478, 112.7183],
+            'PEKALONGAN': [-6.89, 109.68]
         };
 
         // Data Storage
@@ -1887,10 +2262,18 @@
             selectedCategory = category;
             document.body.className = category === 'store' ? 'view-store' : 'view-dc';
             
-            // Toggle Pivot Section
-            const pivotSection = document.getElementById('pivot-section');
-            if (pivotSection) {
-                pivotSection.style.display = category === 'dc' ? 'block' : 'none';
+            // Show/Hide Circular Menu and Default Section for DC
+            const circMenu = document.getElementById('circularMenu');
+            if (circMenu) {
+                circMenu.style.display = category === 'dc' ? 'block' : 'none';
+            }
+
+            if (category === 'dc') {
+                showDashboardSection('main-dashboard-section');
+            } else if (category === 'store') {
+                // For store view, show all sections or handled differently
+                const sections = document.querySelectorAll('.dash-section');
+                sections.forEach(s => s.style.display = 'block');
             }
 
             document.getElementById('welcome-step-1').classList.add('hidden');
@@ -2083,6 +2466,29 @@
         let pivotAreaBBOptions = new Set();
         let pivotStatusPlanOptions = new Set();
         let pivotHeaderNames = [];
+
+        function toggleCircularMenu() {
+            const menu = document.getElementById('circularMenu');
+            if (menu) menu.classList.toggle('active');
+        }
+
+        function showDashboardSection(sectionId) {
+            const sections = document.querySelectorAll('.dash-section');
+            sections.forEach(s => s.style.display = 'none');
+            
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.style.display = 'block';
+                // Trigger chart resize if visible
+                window.dispatchEvent(new Event('resize'));
+            }
+            
+            const menu = document.getElementById('circularMenu');
+            if (menu) menu.classList.remove('active');
+            
+            // Scroll to top of dashboard
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         async function fetchPivotData(retries = 2) {
             try {
@@ -2368,238 +2774,382 @@
                 lcFilter.value = current === '' ? 'ALL' : (Array.from(lcOpts).includes(current) ? current : 'ALL');
             }
         }
+function renderHubTable() {
+    const head = document.getElementById('hub-summary-head');
+    const tbody = document.getElementById('hub-summary-body');
+    const container = document.getElementById('hub-summary-container');
+    const armadaListEl = document.getElementById('hub-status-armada-list');
+    const sudahLoadingEl = document.getElementById('hub-sudah-loading-cbm');
+    const belumLoadingEl = document.getElementById('hub-belum-loading-cbm');
+    const agingListEl = document.getElementById('hub-aging-list');
 
-        function renderHubTable() {
-            const head = document.getElementById('hub-summary-head');
-            const tbody = document.getElementById('hub-summary-body');
-            const container = document.getElementById('hub-summary-container');
-            const armadaListEl = document.getElementById('hub-status-armada-list');
-            const sudahLoadingEl = document.getElementById('hub-sudah-loading-cbm');
-            const belumLoadingEl = document.getElementById('hub-belum-loading-cbm');
-            const agingListEl = document.getElementById('hub-aging-list');
+    const loadFilter = document.getElementById('hub-loading-filter');
+    const lcFilter = document.getElementById('hub-nolc-filter');
+    const armadaStatusFilter = document.getElementById('hub-armada-status-filter');
+    const agingFilter = document.getElementById('hub-aging-filter');
+    const regionFilter = document.getElementById('hub-region-filter');
 
-            const loadFilter = document.getElementById('hub-loading-filter');
-            const lcFilter = document.getElementById('hub-nolc-filter');
-            const armadaStatusFilter = document.getElementById('hub-armada-status-filter');
-            const agingFilter = document.getElementById('hub-aging-filter');
-            
-            const selectedLoading = loadFilter ? loadFilter.value : 'ALL';
-            const selectedLc = lcFilter ? lcFilter.value : 'ALL';
-            const selectedArmadaStatus = armadaStatusFilter ? armadaStatusFilter.value : 'ALL';
-            const selectedAging = agingFilter ? agingFilter.value : 'ALL';
+    const selectedLoading = loadFilter ? loadFilter.value : 'ALL';
+    const selectedLc = lcFilter ? lcFilter.value : 'ALL';
+    const selectedArmadaStatus = armadaStatusFilter ? armadaStatusFilter.value : 'ALL';
+    const selectedAging = agingFilter ? agingFilter.value : 'ALL';
+    const selectedRegion = regionFilter ? regionFilter.value : 'ALL';
+    const areaFilter2 = document.getElementById('hub-area-filter');
+    const selectedArea2 = areaFilter2 ? areaFilter2.value : 'ALL';
 
-            if (!head || !tbody) return;
+    if (!head || !tbody) return;
 
-            if (container) {
-                container.style.display = selectedCategory === 'dc' ? 'block' : 'none';
+    if (container) {
+        container.style.display = selectedCategory === 'dc' ? 'block' : 'none';
+    }
+    if (selectedCategory !== 'dc') return;
+    if (hubHeaderNames.length === 0) return;
+
+    // Cari index kolom REGION dari header
+    let regionIdx = hubHeaderNames.findIndex(h => h.toUpperCase().includes('REGION'));
+
+    // Populate filter REGION dari data
+    if (regionFilter && regionFilter.options.length <= 1) {
+        const regionOptions = new Set();
+        rawHubData.forEach(row => {
+            const val = (row[regionIdx] || '').trim();
+            if (val) regionOptions.add(val);
+        });
+        Array.from(regionOptions).sort().forEach(opt => {
+            const o = document.createElement('option');
+            o.value = opt;
+            o.textContent = opt;
+            regionFilter.appendChild(o);
+        });
+    }
+
+    // Identify Columns to hide
+    const hideIndices = new Set();
+    let noLcIdx = hubHeaderNames.findIndex(h => h.toUpperCase().includes('NO LC'));
+    if (noLcIdx !== -1) {
+        hideIndices.add(noLcIdx + 1);
+    }
+    hubHeaderNames.forEach((h, i) => {
+        if (h.toUpperCase().includes('ESTIMASI PENGENDAPAN')) {
+            hideIndices.add(i);
+        }
+    });
+
+    let agingHariIdx = hubHeaderNames.findIndex(h => h.toUpperCase() === 'AGING');
+    if (agingHariIdx === -1) agingHariIdx = 9;
+    hideIndices.delete(agingHariIdx);
+
+    let statusArmadaIdx = hubHeaderNames.findIndex(h => h.toUpperCase().includes('STATUS ARMADA'));
+    if (statusArmadaIdx === -1) statusArmadaIdx = 15;
+
+    // Helper: konversi tanggal ke nama hari
+    function getDayName(dateStr) {
+        if (!dateStr) return '';
+        const hariIndo = ['MINGGU', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU'];
+        let d = null;
+        // coba format DD/MM/YYYY atau D/M/YYYY
+        if (dateStr.includes('/')) {
+            const parts = dateStr.split('/');
+            if (parts.length === 3) {
+                d = new Date(parts[2], parts[1] - 1, parts[0]);
             }
-            if (selectedCategory !== 'dc') return;
+        }
+        // coba format YYYY-MM-DD
+        if (!d || isNaN(d)) {
+            d = new Date(dateStr);
+        }
+        if (!d || isNaN(d)) return '';
+        return hariIndo[d.getDay()] || '';
+    }
 
-            if (hubHeaderNames.length === 0) return;
+    // Cari index kolom TANGGAL KEDATANGAN (biasanya kolom A / index 0)
+    let tglKedatanganIdx = hubHeaderNames.findIndex(h =>
+        h.toUpperCase().includes('TANGGAL') && h.toUpperCase().includes('KEDATANGAN')
+    );
+    if (tglKedatanganIdx === -1) tglKedatanganIdx = 0;
 
-            // Identify Columns to hide
-            const hideIndices = new Set();
-            let noLcIdx = hubHeaderNames.findIndex(h => h.toUpperCase().includes('NO LC'));
-            if (noLcIdx !== -1) {
-                hideIndices.add(noLcIdx + 1); // Delete column to the right of NO LC
-            }
-            
-            // Specifically hide column "ESTIMASI PENGENDAPAN (HARI)"
-            hubHeaderNames.forEach((h, i) => {
-                if (h.toUpperCase().includes('ESTIMASI PENGENDAPAN')) {
-                    hideIndices.add(i);
-                }
-            });
+    // Render Header — tambahkan kolom HARI setelah TANGGAL KEDATANGAN
+    let headHtml = '<tr style="background: #222;">';
+    let hubSortKey = window.hubSortKey || -1;
+    let hubSortDir = window.hubSortDir || 'asc';
 
-            // Aging calculation index (usually index 9 / Column J)
-            let agingHariIdx = hubHeaderNames.findIndex(h => h.toUpperCase() === 'AGING');
-            if (agingHariIdx === -1) agingHariIdx = 9; // Fallback to Column J
-            
-            // Ensure AGING column (index 9) is NOT in hideIndices if it was accidentally added
-            // The user wants it visible next to TOTAL CBM (index 8)
-            hideIndices.delete(agingHariIdx);
+    headHtml += `<th style="padding: 10px; border: 1px solid #333; text-align: center; color: #ffd700; width: 40px;">#</th>`;
+    let hariInserted = false;
+    hubHeaderNames.forEach((h, i) => {
+        if (i > statusArmadaIdx) return;
+        if (hideIndices.has(i)) return;
+        const isActive = hubSortKey === i;
+        const icon = isActive ? (hubSortDir === 'asc' ? '▲' : '▼') : '⇅';
+        const iconColor = isActive ? '#ffd700' : '#555';
+        headHtml += `<th onclick="hubSort(${i})" style="padding: 10px; border: 1px solid #333; text-align: center; color: #ffd700; cursor: pointer; user-select: none;">
+            ${h} <span style="font-size: 0.75em; color: ${iconColor};">${icon}</span>
+        </th>`;
+        // Tambahkan kolom HARI tepat setelah kolom TANGGAL KEDATANGAN
+        if (i === tglKedatanganIdx && !hariInserted) {
+            const hariSortActive = hubSortKey === -1;
+const hariIcon = hariSortActive ? (hubSortDir === 'asc' ? '▲' : '▼') : '⇅';
+const hariIconColor = hariSortActive ? '#ffd700' : '#555';
+headHtml += `<th onclick="hubSort(-1)" style="padding: 10px; border: 1px solid #333; text-align: center; color: #ffd700; background: #1a2a1a; cursor: pointer; user-select: none;">HARI <span style="font-size: 0.75em; color: ${hariIconColor};">${hariIcon}</span></th>`;
+            hariInserted = true;
+        }
+    });
+    headHtml += '</tr>';
+    head.innerHTML = headHtml;
 
-            let statusArmadaIdx = hubHeaderNames.findIndex(h => h.toUpperCase().includes('STATUS ARMADA'));
-            if (statusArmadaIdx === -1) statusArmadaIdx = 15; // default fallback
-
-            // Render Header
-            let headHtml = '<tr style="background: #222;">';
-            hubHeaderNames.forEach((h, i) => {
-                if (i > statusArmadaIdx) return;
-                if (hideIndices.has(i)) return;
-                headHtml += `<th style="padding: 10px; border: 1px solid #333; text-align: center; color: #ffd700;">${h}</th>`;
-            });
-            headHtml += '</tr>';
-            head.innerHTML = headHtml;
-
-            // Filter Data
-            const filteredHubData = rawHubData.filter(row => {
-                const rowLoading = (row[13] || '').trim() || 'KOSONG'; // Use Column N for filter
-                const statusK = (row[10] || '').toUpperCase();
-                
-                let currentLcStatus = 'BELUM PLAN';
-                if (noLcIdx !== -1 && (row[noLcIdx] || '').trim()) {
-                    currentLcStatus = 'SUDAH PLAN';
-                }
-
-                const matchesLoading = selectedLoading === 'ALL' || rowLoading === selectedLoading;
-                const matchesLc = selectedLc === 'ALL' || currentLcStatus === selectedLc;
-                
-                const armadaValue = (row[15] || '').toUpperCase();
-                const isComing = armadaValue.includes('SUDAH DATANG') || armadaValue.includes('TERJALURKAN');
-                const isNotComing = armadaValue.includes('BELUM DATANG');
-                
-                let matchesArmadaStatus = true;
-                if (selectedArmadaStatus === 'SUDAH DATANG') matchesArmadaStatus = isComing;
-                else if (selectedArmadaStatus === 'BELUM DATANG') matchesArmadaStatus = isNotComing;
-
-                // Aging Filter Logic
-                let matchesAging = true;
-                if (selectedAging !== 'ALL') {
-                    const agingVal = parseInt(row[agingHariIdx]) || 0;
-                    if (selectedAging === '1-3') {
-                        matchesAging = (agingVal >= 0 && agingVal <= 3);
-                    } else if (selectedAging === '4-5') {
-                        matchesAging = (agingVal >= 4 && agingVal <= 5);
-                    } else if (selectedAging === '5+') {
-                        matchesAging = (agingVal > 5);
-                    }
-                }
-                
-                return matchesLoading && matchesLc && matchesArmadaStatus && matchesAging;
-            });
-
-            if (filteredHubData.length === 0) {
-                let colCount = hubHeaderNames.filter((_, i) => i <= statusArmadaIdx && !hideIndices.has(i)).length;
-                tbody.innerHTML = `<tr><td colspan="${colCount}" style="text-align: center; padding: 20px; color: #666;">Tidak ada data Hub sesuai filter.</td></tr>`;
-            }
-
-            // Summary Calculations (always from ALL data or filtered? usually summary for filtered view)
-            let cbmSudahLoading = 0;
-            let cbmBelumLoading = 0;
-            
-            // Stats for Status Armada
-            const stats = {
-                sudahDatang: { sudahPlan: 0, belumPlan: 0 },
-                belumDatang: { sudahPlan: 0, belumPlan: 0 }
-            };
-
-            // Aging bucket stats
-            const agingBuckets = { "1-3": 0, "4-5": 0, "5 UP": 0 };
-            
-            filteredHubData.forEach(row => {
-                const cbmValue = parseNumberWithComma(row[8]); 
-                const statusK = (row[10] || '').toUpperCase(); 
-                const statusN = (row[13] || '').toUpperCase(); 
-                const actualAgingDays = agingHariIdx !== -1 ? (parseInt(row[agingHariIdx]) || 0) : 0;
-                const hasLc = noLcIdx !== -1 && (row[noLcIdx] || '').trim();
-
-                // 1. Status Armada Stats
-                const armadaValue = (row[15] || '').toUpperCase();
-                const isComing = armadaValue.includes('SUDAH DATANG') || armadaValue.includes('TERJALURKAN');
-                const isNotComing = armadaValue.includes('BELUM DATANG');
-
-                if (isComing) {
-                    if (hasLc) stats.sudahDatang.sudahPlan++;
-                    else stats.sudahDatang.belumPlan++;
-                } else if (isNotComing) {
-                    if (hasLc) stats.belumDatang.sudahPlan++;
-                    else stats.belumDatang.belumPlan++;
-                }
-
-                if (statusK.includes('SUDAH LOADING') || statusK.includes('SUDAH MUAT') || statusN.includes('SUDAH LOADING') || statusN.includes('SUDAH MUAT')) {
-                    cbmSudahLoading += cbmValue;
-                } else {
-                    // Default to Belum Loading if not Sudah Loading, as long as it's not totally empty
-                    cbmBelumLoading += cbmValue;
-                }
-
-                // 3. Aging (Belum Loading) - Grouping based on days
-                const isSudahLoading = statusK.includes('SUDAH LOADING') || statusK.includes('SUDAH MUAT') || statusN.includes('SUDAH LOADING') || statusN.includes('SUDAH MUAT');
-                if (!isSudahLoading) {
-                    if (actualAgingDays >= 1 && actualAgingDays <= 3) {
-                        agingBuckets["1-3"] += cbmValue;
-                    } else if (actualAgingDays >= 4 && actualAgingDays <= 5) {
-                        agingBuckets["4-5"] += cbmValue;
-                    } else if (actualAgingDays > 5) {
-                        agingBuckets["5 UP"] += cbmValue;
-                    } else if (actualAgingDays === 0) {
-                        // If 0 days, include in 1-3 bucket as "fresh" but only if strictly 0
-                        agingBuckets["1-3"] += cbmValue;
-                    }
-                }
-            });
-
-            // Update Summary UI
-            if (armadaListEl) {
-                armadaListEl.innerHTML = `
-                    <div style="margin-bottom: 15px;">
-                        <div style="color: #4ade80; font-weight: bold; margin-bottom: 5px;">SUDAH DATANG</div>
-                        <div style="padding-left: 10px;">
-                            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 2px 0;">
-                                <span>SUDAH PLAN</span>
-                                <span style="color: #ffd700; font-weight: bold;">${stats.sudahDatang.sudahPlan}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 2px 0;">
-                                <span>BELUM PLAN</span>
-                                <span style="color: #ffd700; font-weight: bold;">${stats.sudahDatang.belumPlan}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div style="color: #f87171; font-weight: bold; margin-bottom: 5px;">BELUM DATANG</div>
-                        <div style="padding-left: 10px;">
-                            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 2px 0;">
-                                <span>SUDAH PLAN</span>
-                                <span style="color: #ffd700; font-weight: bold;">${stats.belumDatang.sudahPlan}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 2px 0;">
-                                <span>BELUM PLAN</span>
-                                <span style="color: #ffd700; font-weight: bold;">${stats.belumDatang.belumPlan}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (sudahLoadingEl) sudahLoadingEl.textContent = `${formatIndo(cbmSudahLoading)} CBM`;
-            if (belumLoadingEl) belumLoadingEl.textContent = `${formatIndo(cbmBelumLoading)} CBM`;
-
-            if (agingListEl) {
-                agingListEl.innerHTML = `
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 4px 0;">
-                            <span>AGING 1-3 HARI</span>
-                            <span style="color: #ffd700; font-weight: bold;">${formatIndo(agingBuckets["1-3"])} CBM</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 4px 0;">
-                            <span>AGING 4-5 HARI</span>
-                            <span style="color: #ffd700; font-weight: bold;">${formatIndo(agingBuckets["4-5"])} CBM</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 4px 0;">
-                            <span>AGING 5 UP HARI</span>
-                            <span style="color: #ffd700; font-weight: bold;">${formatIndo(agingBuckets["5 UP"])} CBM</span>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Render Table Body
-            let bodyHtml = '';
-            filteredHubData.forEach(row => {
-                bodyHtml += '<tr>';
-                row.forEach((val, i) => {
-                    if (i > statusArmadaIdx) return;
-                    if (hideIndices.has(i)) return;
-                    const isNumber = !isNaN(parseFloat(val)) && isFinite(val);
-                    const style = isNumber ? 'text-align: right;' : 'text-align: left;';
-                    bodyHtml += `<td style="border: 1px solid #333; padding: 8px; ${style}">${val}</td>`;
-                });
-                bodyHtml += '</tr>';
-            });
-            tbody.innerHTML = bodyHtml;
+    // Filter Data
+    const filteredHubData = rawHubData.filter(row => {
+        const rowLoading = (row[13] || '').trim() || 'KOSONG';
+        let currentLcStatus = 'BELUM PLAN';
+        if (noLcIdx !== -1 && (row[noLcIdx] || '').trim()) {
+            currentLcStatus = 'SUDAH PLAN';
         }
 
+        const matchesLoading = selectedLoading === 'ALL' || rowLoading === selectedLoading;
+        const matchesLc = selectedLc === 'ALL' || currentLcStatus === selectedLc;
+
+        const armadaValue = (row[15] || '').toUpperCase();
+        const isComing = armadaValue.includes('SUDAH DATANG') || armadaValue.includes('TERJALURKAN');
+        const isNotComing = armadaValue.includes('BELUM DATANG');
+        let matchesArmadaStatus = true;
+        if (selectedArmadaStatus === 'SUDAH DATANG') matchesArmadaStatus = isComing;
+        else if (selectedArmadaStatus === 'BELUM DATANG') matchesArmadaStatus = isNotComing;
+
+        let matchesAging = true;
+        if (selectedAging !== 'ALL') {
+            const agingVal = parseInt(row[agingHariIdx]) || 0;
+            if (selectedAging === '1-3') matchesAging = (agingVal >= 0 && agingVal <= 3);
+            else if (selectedAging === '4-5') matchesAging = (agingVal >= 4 && agingVal <= 5);
+            else if (selectedAging === '5+') matchesAging = (agingVal > 5);
+        }
+
+        // Filter REGION
+        const rowRegion = (row[regionIdx] || '').trim();
+        const matchesRegion = selectedRegion === 'ALL' || rowRegion === selectedRegion;
+
+        let matchesArea2 = true;
+if (selectedArea2 === 'DK') {
+    matchesArea2 = rowRegion === 'JATIM DK';
+} else if (selectedArea2 === 'LK') {
+    matchesArea2 = rowRegion !== 'JATIM DK';
+}
+
+return matchesLoading && matchesLc && matchesArmadaStatus && matchesAging && matchesRegion && matchesArea2;
+    });
+
+    if (filteredHubData.length === 0) {
+        let colCount = hubHeaderNames.filter((_, i) => i <= statusArmadaIdx && !hideIndices.has(i)).length + 2; // +2 untuk # dan HARI
+        tbody.innerHTML = `<tr><td colspan="${colCount}" style="text-align: center; padding: 20px; color: #666;">Tidak ada data Hub sesuai filter.</td></tr>`;
+    }
+
+    // Summary Calculations
+    let cbmSudahLoading = 0;
+    let cbmBelumLoading = 0;
+    const stats = {
+        sudahDatang: { sudahPlan: 0, belumPlan: 0 },
+        belumDatang: { sudahPlan: 0, belumPlan: 0 }
+    };
+    const agingBuckets = { "1-3": 0, "4-5": 0, "5 UP": 0 };
+
+    filteredHubData.forEach(row => {
+        const cbmValue = parseNumberWithComma(row[8]);
+        const statusK = (row[10] || '').toUpperCase();
+        const statusN = (row[13] || '').toUpperCase();
+        const actualAgingDays = agingHariIdx !== -1 ? (parseInt(row[agingHariIdx]) || 0) : 0;
+        const hasLc = noLcIdx !== -1 && (row[noLcIdx] || '').trim();
+
+        const armadaValue = (row[15] || '').toUpperCase();
+        const isComing = armadaValue.includes('SUDAH DATANG') || armadaValue.includes('TERJALURKAN');
+        const isNotComing = armadaValue.includes('BELUM DATANG');
+
+        if (isComing) {
+            if (hasLc) stats.sudahDatang.sudahPlan++;
+            else stats.sudahDatang.belumPlan++;
+        } else if (isNotComing) {
+            if (hasLc) stats.belumDatang.sudahPlan++;
+            else stats.belumDatang.belumPlan++;
+        }
+
+        if (statusK.includes('SUDAH LOADING') || statusK.includes('SUDAH MUAT') || statusN.includes('SUDAH LOADING') || statusN.includes('SUDAH MUAT')) {
+            cbmSudahLoading += cbmValue;
+        } else {
+            cbmBelumLoading += cbmValue;
+        }
+
+        const isSudahLoading = statusK.includes('SUDAH LOADING') || statusK.includes('SUDAH MUAT') || statusN.includes('SUDAH LOADING') || statusN.includes('SUDAH MUAT');
+        if (!isSudahLoading) {
+            if (actualAgingDays >= 1 && actualAgingDays <= 3) agingBuckets["1-3"] += cbmValue;
+            else if (actualAgingDays >= 4 && actualAgingDays <= 5) agingBuckets["4-5"] += cbmValue;
+            else if (actualAgingDays > 5) agingBuckets["5 UP"] += cbmValue;
+            else if (actualAgingDays === 0) agingBuckets["1-3"] += cbmValue;
+        }
+    });
+
+    // Update Summary UI
+    if (armadaListEl) {
+        armadaListEl.innerHTML = `
+            <div style="margin-bottom: 15px;">
+                <div style="color: #4ade80; font-weight: bold; margin-bottom: 5px;">SUDAH DATANG</div>
+                <div style="padding-left: 10px;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 2px 0;">
+                        <span>SUDAH PLAN</span>
+                        <span style="color: #ffd700; font-weight: bold;">${stats.sudahDatang.sudahPlan} STORE</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0;">
+                        <span>BELUM PLAN</span>
+                        <span style="color: #ffd700; font-weight: bold;">${stats.sudahDatang.belumPlan} STORE</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div style="color: #f87171; font-weight: bold; margin-bottom: 5px;">BELUM DATANG</div>
+                <div style="padding-left: 10px;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 2px 0;">
+                        <span>SUDAH PLAN</span>
+                        <span style="color: #ffd700; font-weight: bold;">${stats.belumDatang.sudahPlan} STORE</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0;">
+                        <span>BELUM PLAN</span>
+                        <span style="color: #ffd700; font-weight: bold;">${stats.belumDatang.belumPlan} STORE</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    if (sudahLoadingEl) sudahLoadingEl.textContent = `${formatIndo(cbmSudahLoading)} CBM`;
+    if (belumLoadingEl) belumLoadingEl.textContent = `${formatIndo(cbmBelumLoading)} CBM`;
+
+    // SLA Calculation
+    let slaHit = 0, slaMiss = 0;
+    filteredHubData.forEach(row => {
+        const statusLoading = (row[13] || '').toUpperCase();
+        const isSudahLoading = statusLoading.includes('SUDAH LOADING') || statusLoading.includes('SUDAH MUAT');
+        if (!isSudahLoading) return;
+        const agingVal = parseInt(row[agingHariIdx]) || 0;
+        if (agingVal >= 0 && agingVal <= 3) slaHit++;
+        else if (agingVal > 3) slaMiss++;
+    });
+
+    const slaTotal = slaHit + slaMiss;
+    const slaRate = slaTotal > 0 ? (slaHit / slaTotal * 100) : 0;
+    const circumference = 2 * Math.PI * 30;
+    const slaOffset = circumference - (slaRate / 100) * circumference;
+
+    const slaArc = document.getElementById('hub-sla-arc');
+    const slaPctEl = document.getElementById('hub-sla-pct');
+    const slaBadgeEl = document.getElementById('hub-sla-badge');
+    const slaHitEl = document.getElementById('hub-sla-hit');
+    const slaMissEl = document.getElementById('hub-sla-miss');
+    const slaTotalEl = document.getElementById('hub-sla-total');
+
+    if (slaArc) {
+        slaArc.setAttribute('stroke-dasharray', circumference.toFixed(1));
+        slaArc.setAttribute('stroke-dashoffset', slaOffset.toFixed(1));
+    }
+
+    let slaColor, slaBg, slaText;
+    if (slaRate >= 95) { slaColor = '#2dd4bf'; slaBg = 'rgba(45,212,175,0.15)'; slaText = 'On target'; }
+    else if (slaRate >= 80) { slaColor = '#ffd700'; slaBg = 'rgba(255,215,0,0.15)'; slaText = 'Near target'; }
+    else { slaColor = '#ff6b6b'; slaBg = 'rgba(255,107,107,0.15)'; slaText = 'Below target'; }
+
+    if (slaArc) slaArc.setAttribute('stroke', slaColor);
+    if (slaPctEl) { slaPctEl.textContent = slaRate.toFixed(1) + '%'; slaPctEl.style.color = slaColor; }
+    if (slaBadgeEl) { slaBadgeEl.textContent = slaText; slaBadgeEl.style.color = slaColor; slaBadgeEl.style.background = slaBg; }
+    if (slaHitEl) slaHitEl.textContent = slaHit + ' store';
+    if (slaMissEl) slaMissEl.textContent = slaMiss + ' store';
+    if (slaTotalEl) slaTotalEl.textContent = slaTotal + ' store';
+    const slaCard = document.getElementById('hub-sla-card');
+    if (slaCard) slaCard.style.borderColor = slaColor;
+
+    if (agingListEl) {
+        agingListEl.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 4px 0;">
+                    <span>AGING 1-3 HARI</span>
+                    <span style="color: #ffd700; font-weight: bold;">${formatIndo(agingBuckets["1-3"])} CBM</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 4px 0;">
+                    <span>AGING 4-5 HARI</span>
+                    <span style="color: #ffd700; font-weight: bold;">${formatIndo(agingBuckets["4-5"])} CBM</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 4px 0;">
+                    <span>AGING 5 UP HARI</span>
+                    <span style="color: #ffd700; font-weight: bold;">${formatIndo(agingBuckets["5 UP"])} CBM</span>
+                </div>
+            </div>
+        `;
+    }
+
+    // Render Table Body dengan kolom HARI
+    let sortedHubData = [...filteredHubData];
+    if (window.hubSortKey !== undefined && window.hubSortKey === -1) {
+    const hariOrder = ['SENIN','SELASA','RABU','KAMIS','JUMAT','SABTU','MINGGU'];
+    sortedHubData.sort((a, b) => {
+        const tglA = (a[tglKedatanganIdx] || '');
+        const tglB = (b[tglKedatanganIdx] || '');
+        const hariA = hariOrder.indexOf(getDayName(tglA));
+        const hariB = hariOrder.indexOf(getDayName(tglB));
+        return window.hubSortDir === 'asc' ? hariA - hariB : hariB - hariA;
+    });
+} else if (window.hubSortKey !== undefined && window.hubSortKey >= 0) {
+    sortedHubData.sort((a, b) => {
+        let valA = a[window.hubSortKey] || '';
+        let valB = b[window.hubSortKey] || '';
+        const numA = parseFloat(valA);
+        const numB = parseFloat(valB);
+        if (!isNaN(numA) && !isNaN(numB)) {
+            return window.hubSortDir === 'asc' ? numA - numB : numB - numA;
+        }
+        return window.hubSortDir === 'asc'
+            ? String(valA).localeCompare(String(valB))
+            : String(valB).localeCompare(String(valA));
+    });
+}
+
+    let bodyHtml = '';
+    sortedHubData.forEach((row, rowIndex) => {
+        bodyHtml += '<tr>';
+        bodyHtml += `<td style="border: 1px solid #333; padding: 8px; text-align: center; color: #888; background: #151515;">${rowIndex + 1}</td>`;
+        let hariCellInserted = false;
+        row.forEach((val, i) => {
+            if (i > statusArmadaIdx) return;
+            if (hideIndices.has(i)) return;
+            const isNumber = !isNaN(parseFloat(val)) && isFinite(val);
+            const style = isNumber ? 'text-align: right;' : 'text-align: left;';
+            bodyHtml += `<td style="border: 1px solid #333; padding: 8px; ${style}">${val}</td>`;
+            // Sisipkan kolom HARI setelah kolom TANGGAL KEDATANGAN
+            if (i === tglKedatanganIdx && !hariCellInserted) {
+                const hariNama = getDayName(val);
+                const hariColor = hariNama === 'MINGGU' ? '#ff6b6b' : hariNama === 'SABTU' ? '#ffd700' : '#4ade80';
+                bodyHtml += `<td style="border: 1px solid #333; padding: 8px; text-align: center; font-weight: bold; color: ${hariColor}; background: #1a2a1a;">${hariNama}</td>`;
+                hariCellInserted = true;
+            }
+        });
+        bodyHtml += '</tr>';
+    });
+    tbody.innerHTML = bodyHtml;
+}
+        
+function hubSort(colIdx) {
+    // -1 = sort by HARI
+    if (colIdx === -1) {
+        const hariOrder = ['SENIN','SELASA','RABU','KAMIS','JUMAT','SABTU','MINGGU'];
+        if (window.hubSortKey === -1) {
+            window.hubSortDir = window.hubSortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+            window.hubSortKey = -1;
+            window.hubSortDir = 'asc';
+        }
+    } else {
+        if (window.hubSortKey === colIdx) {
+            window.hubSortDir = window.hubSortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+            window.hubSortKey = colIdx;
+            window.hubSortDir = 'asc';
+        }
+    }
+    renderHubTable();
+}
         function downloadHubExcel() {
             if (!rawHubData || rawHubData.length === 0) {
                 alert("Data Hub tidak tersedia.");
@@ -3114,259 +3664,125 @@ Tim Planner DC Sidoarjo`;
             }
             renderPivotTable();
         }
+function renderStoringPivotTable(filteredData) {
+    const tbody = document.getElementById('storing-aging-body');
+    const tfoot = document.getElementById('storing-aging-foot');
+    if (!tbody) return;
 
-        function renderStoringPivotTable(filteredData) {
-            const tbody = document.getElementById('storing-aging-body');
-            const tfoot = document.getElementById('storing-aging-foot');
-            if (!tbody) return;
-
-            // Aggregate data by Area BB
-            const areas = {};
-            filteredData.forEach(row => {
-                const key = row.areaBB || 'AREA ASTOR';
-                
-                if (!areas[key]) {
-                    areas[key] = {
-                        areaBB: key,
-                        agingCbm: Array(4).fill(0),
-                        unplannedCbm: Array(4).fill(0),
-                        agingTotal: 0,
-                        unplannedTotal: 0
-                    };
-                }
-
-                let agingIdx = 0;
-                if (row.aging === 0) agingIdx = 0;
-                else if (row.aging >= 1 && row.aging <= 3) agingIdx = 1;
-                else if (row.aging >= 4 && row.aging <= 7) agingIdx = 2;
-                else if (row.aging > 7) agingIdx = 3;
-                
-                if (row.status === 'Sudah Plan') {
-                    areas[key].agingCbm[agingIdx] += row.cbm;
-                    areas[key].agingTotal += row.cbm;
-                }
-
-                if (row.status === 'Belum Plan') {
-                    areas[key].unplannedCbm[agingIdx] += row.cbm;
-                    areas[key].unplannedTotal += row.cbm;
-                }
-            });
-
-            const areaList = Object.values(areas);
-            
-            // Sorting
-            areaList.sort((a, b) => {
-                const k = storingPivotSort.key;
-                const d = storingPivotSort.dir === 'asc' ? 1 : -1;
-                
-                if (k === 'areaBB') return a.areaBB.localeCompare(b.areaBB) * d;
-                if (k === 'aging0') return (a.agingCbm[0] - b.agingCbm[0]) * d;
-                if (k === 'aging1_3') return (a.agingCbm[1] - b.agingCbm[1]) * d;
-                if (k === 'aging4_7') return (a.agingCbm[2] - b.agingCbm[2]) * d;
-                if (k === 'aging7up') return (a.agingCbm[3] - b.agingCbm[3]) * d;
-                if (k === 'agingTotal') return (a.agingTotal - b.agingTotal) * d;
-                if (k === 'unplanned0') return (a.unplannedCbm[0] - b.unplannedCbm[0]) * d;
-                if (k === 'unplanned1_3') return (a.unplannedCbm[1] - b.unplannedCbm[1]) * d;
-                if (k === 'unplanned4_7') return (a.unplannedCbm[2] - b.unplannedCbm[2]) * d;
-                if (k === 'unplanned7up') return (a.unplannedCbm[3] - b.unplannedCbm[3]) * d;
-                if (k === 'unplannedTotal') return (a.unplannedTotal - b.unplannedTotal) * d;
-                
-                return 0;
-            });
-
-            if (areaList.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="11" style="text-align: center; padding: 20px; color: #666;">Tidak ada data untuk area ini.</td></tr>`;
-                if (tfoot) tfoot.innerHTML = '';
-                return;
-            }
-
-            let html = '';
-            let totals = {
-                aging: Array(4).fill(0),
-                unplanned: Array(4).fill(0),
+    const areas = {};
+    filteredData.forEach(row => {
+        const key = row.areaBB || 'AREA ASTOR';
+        if (!areas[key]) {
+            areas[key] = {
+                areaBB: key,
+                agingCbm: Array(4).fill(0),
+                unplannedCbm: Array(4).fill(0),
                 agingTotal: 0,
                 unplannedTotal: 0
             };
-
-            areaList.forEach(area => {
-                html += `<tr>
-                    <td style="background: #222; border: 1px solid #333; padding: 10px 20px; font-weight: bold; color: #ffd700;">${area.areaBB}</td>`;
-                
-                area.agingCbm.forEach((val, i) => {
-                    const displayVal = val > 0 ? formatIndo(val) : '-';
-                    const color = val > 0 ? '#fff' : '#444';
-                    const bgColor = i < 2 ? (val > 0 ? '#1b5e20' : 'transparent') : (val > 0 ? '#b71c1c' : 'transparent');
-                    html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; color: ${color}; background: ${bgColor};">${displayVal}</td>`;
-                    totals.aging[i] += val;
-                });
-                
-                html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; background: #34495e; font-weight: bold;">${area.agingTotal > 0 ? formatIndo(area.agingTotal) : '-'}</td>`;
-                totals.agingTotal += area.agingTotal;
-
-                area.unplannedCbm.forEach((val, i) => {
-                    const displayVal = val > 0 ? formatIndo(val) : '-';
-                    const color = val > 0 ? '#fff' : '#444';
-                    const bgColor = i < 2 ? (val > 0 ? '#1b5e20' : 'transparent') : (val > 0 ? '#b71c1c' : 'transparent');
-                    html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; color: ${color}; font-weight: ${val > 0 ? 'bold' : 'normal'}; background: ${bgColor};">${displayVal}</td>`;
-                    totals.unplanned[i] += val;
-                });
-                
-                html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; background: #219150; font-weight: bold;">${area.unplannedTotal > 0 ? formatIndo(area.unplannedTotal) : '-'}</td>`;
-                totals.unplannedTotal += area.unplannedTotal;
-
-                html += `</tr>`;
-            });
-
-            // Grand Total Row for Storing Table
-            let footHtml = `<tr style="background: #2c3e50; font-weight: bold; color: #ffd700;">
-                <td style="padding: 10px 20px; text-align: right; border: 1px solid #444;">GRAND TOTAL</td>`;
-            
-            totals.aging.forEach(val => {
-                footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444;">${val > 0 ? formatIndo(val) : '0'}</td>`;
-            });
-            footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444; background: #1a252f;">${totals.agingTotal > 0 ? formatIndo(totals.agingTotal) : '0'}</td>`;
-            
-            totals.unplanned.forEach(val => {
-                footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444;">${val > 0 ? formatIndo(val) : '0'}</td>`;
-            });
-            footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444; background: #166534;">${totals.unplannedTotal > 0 ? formatIndo(totals.unplannedTotal) : '0'}</td>`;
-            footHtml += `</tr>`;
-
-            tbody.innerHTML = html;
-            if (tfoot) tfoot.innerHTML = footHtml;
         }
 
-        function sortStoringPivot(field) {
-            if (storingPivotSort.key === field) {
-                storingPivotSort.dir = storingPivotSort.dir === 'asc' ? 'desc' : 'asc';
-            } else {
-                storingPivotSort.key = field;
-                storingPivotSort.dir = 'desc';
-            }
-            renderPivotTable();
+        let agingIdx = 0;
+        if (row.aging === 0) agingIdx = 0;
+        else if (row.aging >= 1 && row.aging <= 3) agingIdx = 1;
+        else if (row.aging >= 4 && row.aging <= 7) agingIdx = 2;
+        else if (row.aging > 7) agingIdx = 3;
+
+        if (row.status === 'Sudah Plan') {
+            areas[key].agingCbm[agingIdx] += row.cbm;
+            areas[key].agingTotal += row.cbm;
         }
-
-        function renderStoringPivotTable(filteredData) {
-            const tbody = document.getElementById('storing-aging-body');
-            const tfoot = document.getElementById('storing-aging-foot');
-            if (!tbody) return;
-
-            // Aggregate data by Area BB
-            const areas = {};
-            filteredData.forEach(row => {
-                const key = row.areaBB || 'AREA ASTOR';
-                
-                if (!areas[key]) {
-                    areas[key] = {
-                        areaBB: key,
-                        agingCbm: Array(4).fill(0),
-                        unplannedCbm: Array(4).fill(0),
-                        agingTotal: 0,
-                        unplannedTotal: 0
-                    };
-                }
-
-                let agingIdx = 0;
-                if (row.aging === 0) agingIdx = 0;
-                else if (row.aging >= 1 && row.aging <= 3) agingIdx = 1;
-                else if (row.aging >= 4 && row.aging <= 7) agingIdx = 2;
-                else if (row.aging > 7) agingIdx = 3;
-                
-                if (row.status === 'Sudah Plan') {
-                    areas[key].agingCbm[agingIdx] += row.cbm;
-                    areas[key].agingTotal += row.cbm;
-                }
-
-                if (row.status === 'Belum Plan') {
-                    areas[key].unplannedCbm[agingIdx] += row.cbm;
-                    areas[key].unplannedTotal += row.cbm;
-                }
-            });
-
-            const areaList = Object.values(areas);
-            
-            // Sorting
-            areaList.sort((a, b) => {
-                const k = storingPivotSort.key;
-                const d = storingPivotSort.dir === 'asc' ? 1 : -1;
-                
-                if (k === 'areaBB') return a.areaBB.localeCompare(b.areaBB) * d;
-                if (k === 'aging0') return (a.agingCbm[0] - b.agingCbm[0]) * d;
-                if (k === 'aging1_3') return (a.agingCbm[1] - b.agingCbm[1]) * d;
-                if (k === 'aging4_7') return (a.agingCbm[2] - b.agingCbm[2]) * d;
-                if (k === 'aging7up') return (a.agingCbm[3] - b.agingCbm[3]) * d;
-                if (k === 'agingTotal') return (a.agingTotal - b.agingTotal) * d;
-                if (k === 'unplanned0') return (a.unplannedCbm[0] - b.unplannedCbm[0]) * d;
-                if (k === 'unplanned1_3') return (a.unplannedCbm[1] - b.unplannedCbm[1]) * d;
-                if (k === 'unplanned4_7') return (a.unplannedCbm[2] - b.unplannedCbm[2]) * d;
-                if (k === 'unplanned7up') return (a.unplannedCbm[3] - b.unplannedCbm[3]) * d;
-                if (k === 'unplannedTotal') return (a.unplannedTotal - b.unplannedTotal) * d;
-                
-                return 0;
-            });
-
-            if (areaList.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="11" style="text-align: center; padding: 20px; color: #666;">Tidak ada data untuk area ini.</td></tr>`;
-                if (tfoot) tfoot.innerHTML = '';
-                return;
-            }
-
-            let html = '';
-            let totals = {
-                aging: Array(4).fill(0),
-                unplanned: Array(4).fill(0),
-                agingTotal: 0,
-                unplannedTotal: 0
-            };
-
-            areaList.forEach(area => {
-                html += `<tr>
-                    <td style="background: #222; border: 1px solid #333; padding: 10px 20px; font-weight: bold; color: #ffd700;">${area.areaBB}</td>`;
-                
-                area.agingCbm.forEach((val, i) => {
-                    const displayVal = val > 0 ? formatIndo(val) : '-';
-                    const color = val > 0 ? '#fff' : '#444';
-                    const bgColor = i < 2 ? (val > 0 ? '#1b5e20' : 'transparent') : (val > 0 ? '#b71c1c' : 'transparent');
-                    html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; color: ${color}; background: ${bgColor};">${displayVal}</td>`;
-                    totals.aging[i] += val;
-                });
-                
-                html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; background: #34495e; font-weight: bold;">${area.agingTotal > 0 ? formatIndo(area.agingTotal) : '-'}</td>`;
-                totals.agingTotal += area.agingTotal;
-
-                area.unplannedCbm.forEach((val, i) => {
-                    const displayVal = val > 0 ? formatIndo(val) : '-';
-                    const color = val > 0 ? '#fff' : '#444';
-                    const bgColor = i < 2 ? (val > 0 ? '#1b5e20' : 'transparent') : (val > 0 ? '#b71c1c' : 'transparent');
-                    html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; color: ${color}; font-weight: ${val > 0 ? 'bold' : 'normal'}; background: ${bgColor};">${displayVal}</td>`;
-                    totals.unplanned[i] += val;
-                });
-                
-                html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; background: #219150; font-weight: bold;">${area.unplannedTotal > 0 ? formatIndo(area.unplannedTotal) : '-'}</td>`;
-                totals.unplannedTotal += area.unplannedTotal;
-
-                html += `</tr>`;
-            });
-
-            // Grand Total Row for Storing Table
-            let footHtml = `<tr style="background: #2c3e50; font-weight: bold; color: #ffd700;">
-                <td style="padding: 10px 20px; text-align: right; border: 1px solid #444;">GRAND TOTAL</td>`;
-            
-            totals.aging.forEach(val => {
-                footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444;">${val > 0 ? formatIndo(val) : '0'}</td>`;
-            });
-            footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444; background: #1a252f;">${totals.agingTotal > 0 ? formatIndo(totals.agingTotal) : '0'}</td>`;
-            
-            totals.unplanned.forEach(val => {
-                footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444;">${val > 0 ? formatIndo(val) : '0'}</td>`;
-            });
-            footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444; background: #166534;">${totals.unplannedTotal > 0 ? formatIndo(totals.unplannedTotal) : '0'}</td>`;
-            footHtml += `</tr>`;
-
-            tbody.innerHTML = html;
-            if (tfoot) tfoot.innerHTML = footHtml;
+        if (row.status === 'Belum Plan') {
+            areas[key].unplannedCbm[agingIdx] += row.cbm;
+            areas[key].unplannedTotal += row.cbm;
         }
+    });
 
+    const areaList = Object.values(areas);
+
+    areaList.sort((a, b) => {
+        const k = storingPivotSort.key;
+        const d = storingPivotSort.dir === 'asc' ? 1 : -1;
+        if (k === 'areaBB') return a.areaBB.localeCompare(b.areaBB) * d;
+        if (k === 'aging0') return (a.agingCbm[0] - b.agingCbm[0]) * d;
+        if (k === 'aging1_3') return (a.agingCbm[1] - b.agingCbm[1]) * d;
+        if (k === 'aging4_7') return (a.agingCbm[2] - b.agingCbm[2]) * d;
+        if (k === 'aging7up') return (a.agingCbm[3] - b.agingCbm[3]) * d;
+        if (k === 'agingTotal') return (a.agingTotal - b.agingTotal) * d;
+        if (k === 'unplanned0') return (a.unplannedCbm[0] - b.unplannedCbm[0]) * d;
+        if (k === 'unplanned1_3') return (a.unplannedCbm[1] - b.unplannedCbm[1]) * d;
+        if (k === 'unplanned4_7') return (a.unplannedCbm[2] - b.unplannedCbm[2]) * d;
+        if (k === 'unplanned7up') return (a.unplannedCbm[3] - b.unplannedCbm[3]) * d;
+        if (k === 'unplannedTotal') return (a.unplannedTotal - b.unplannedTotal) * d;
+        return 0;
+    });
+
+    if (areaList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="11" style="text-align: center; padding: 20px; color: #666;">Tidak ada data untuk area ini.</td></tr>`;
+        if (tfoot) tfoot.innerHTML = '';
+        return;
+    }
+
+    let html = '';
+    let totals = {
+        aging: Array(4).fill(0),
+        unplanned: Array(4).fill(0),
+        agingTotal: 0,
+        unplannedTotal: 0
+    };
+
+    areaList.forEach(area => {
+        const totalCbmRow = area.agingTotal + area.unplannedTotal;
+
+        html += `<tr>
+            <td style="background: #222; border: 1px solid #333; padding: 10px 20px; font-weight: bold; color: #ffd700;">${area.areaBB}</td>
+            <td style="border: 1px solid #333; padding: 8px; text-align: right; background: #3a2a00; color: #ffd700; font-weight: bold;">${totalCbmRow > 0 ? formatIndo(totalCbmRow) : '-'}</td>`;
+
+        area.agingCbm.forEach((val, i) => {
+            const displayVal = val > 0 ? formatIndo(val) : '-';
+            const color = val > 0 ? '#fff' : '#444';
+            const bgColor = i < 2 ? (val > 0 ? '#1b5e20' : 'transparent') : (val > 0 ? '#b71c1c' : 'transparent');
+            html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; color: ${color}; background: ${bgColor};">${displayVal}</td>`;
+            totals.aging[i] += val;
+        });
+
+        html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; background: #34495e; font-weight: bold;">${area.agingTotal > 0 ? formatIndo(area.agingTotal) : '-'}</td>`;
+        totals.agingTotal += area.agingTotal;
+
+        area.unplannedCbm.forEach((val, i) => {
+            const displayVal = val > 0 ? formatIndo(val) : '-';
+            const color = val > 0 ? '#fff' : '#444';
+            const bgColor = i < 2 ? (val > 0 ? '#1b5e20' : 'transparent') : (val > 0 ? '#b71c1c' : 'transparent');
+            html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; color: ${color}; font-weight: ${val > 0 ? 'bold' : 'normal'}; background: ${bgColor};">${displayVal}</td>`;
+            totals.unplanned[i] += val;
+        });
+
+        html += `<td style="border: 1px solid #333; padding: 8px; text-align: right; background: #219150; font-weight: bold;">${area.unplannedTotal > 0 ? formatIndo(area.unplannedTotal) : '-'}</td>`;
+        totals.unplannedTotal += area.unplannedTotal;
+
+        html += `</tr>`;
+    });
+
+    const grandTotalCbm = totals.agingTotal + totals.unplannedTotal;
+    let footHtml = `<tr style="background: #2c3e50; font-weight: bold; color: #ffd700;">
+        <td style="padding: 10px 20px; text-align: right; border: 1px solid #444;">GRAND TOTAL</td>
+        <td style="padding: 10px; text-align: right; border: 1px solid #444; background: #3a2a00; color: #ffd700;">${formatIndo(grandTotalCbm)}</td>`;
+
+    totals.aging.forEach(val => {
+        footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444;">${val > 0 ? formatIndo(val) : '0'}</td>`;
+    });
+    footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444; background: #1a252f;">${totals.agingTotal > 0 ? formatIndo(totals.agingTotal) : '0'}</td>`;
+
+    totals.unplanned.forEach(val => {
+        footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444;">${val > 0 ? formatIndo(val) : '0'}</td>`;
+    });
+    footHtml += `<td style="padding: 10px; text-align: right; border: 1px solid #444; background: #166534;">${totals.unplannedTotal > 0 ? formatIndo(totals.unplannedTotal) : '0'}</td>`;
+    footHtml += `</tr>`;
+
+    tbody.innerHTML = html;
+    if (tfoot) tfoot.innerHTML = footHtml;
+}
+        
         function renderAllocationSummary(data) {
             const tbody = document.getElementById('allocation-summary-body');
             const container = document.getElementById('allocation-summary-container');
@@ -4766,7 +5182,7 @@ Tim Planner DC Sidoarjo`;
                         <td>${row.M || '-'}</td>
                         <td>${row.AO} ${row.AP}</td>
                         <td>${parseNumberWithComma(row.Z).toFixed(2)}</td>
-                        <td>${aging} HARI</td>
+                        <td>${aging}</td>
                     </tr>
                 `;
             });
@@ -4805,7 +5221,7 @@ Tim Planner DC Sidoarjo`;
                         <td>${row.M || '-'}</td>
                         <td>${row.AO} ${row.AP}</td>
                         <td>${parseNumberWithComma(row.Z).toFixed(2)}</td>
-                        <td>${aging} HARI</td>
+                        <td>${aging}</td>
                     </tr>
                 `;
             });
@@ -5154,14 +5570,14 @@ Tim Planner DC Sidoarjo`;
             const caseIdRatio = caseIdPlan > 0 ? (caseIdShipped / caseIdPlan) * 100 : 0;
             const cbmRatio = cbmPlan > 0 ? (cbmShipped / cbmPlan) * 100 : 0;
 
-            document.getElementById('caseIdShipped').textContent = caseIdShipped.toFixed(0);
+            document.getElementById('caseIdShipped').textContent = Math.round(caseIdShipped).toLocaleString('id-ID');
             document.getElementById('caseIdRatioShipped').textContent = caseIdRatio.toFixed(1) + '%';
-            document.getElementById('caseIdPlan').textContent = caseIdPlan.toFixed(0);
-            document.getElementById('cbmPlan').textContent = cbmPlan.toFixed(2);
+            document.getElementById('caseIdPlan').textContent = Math.round(caseIdPlan).toLocaleString('id-ID');
+            document.getElementById('cbmPlan').textContent = cbmPlan.toLocaleString('id-ID', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('cbmRatioShipped').textContent = cbmRatio.toFixed(1) + '%';
-            document.getElementById('cbmShipped').textContent = cbmShipped.toFixed(2);
-            document.getElementById('cbmPlanShift1').textContent = cbmShift1.toFixed(2);
-            document.getElementById('cbmPlanShift2').textContent = cbmShift2.toFixed(2);
+            document.getElementById('cbmShipped').textContent = cbmShipped.toLocaleString('id-ID', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('cbmPlanShift1').textContent = cbmShift1.toLocaleString('id-ID', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('cbmPlanShift2').textContent = cbmShift2.toLocaleString('id-ID', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
             // Display SLA KPIs
             if (slaCount > 0) {
@@ -5179,10 +5595,10 @@ Tim Planner DC Sidoarjo`;
                 document.getElementById('slaGrwKPI').textContent = '0%';
             }
 
-            document.getElementById('caseIdPlanB1').textContent = b1.toFixed(0);
-            document.getElementById('caseIdPlanB2').textContent = b2.toFixed(0);
-            document.getElementById('caseIdPlanB3').textContent = b3.toFixed(0);
-            document.getElementById('caseIdPlanB4').textContent = b4.toFixed(0);
+            document.getElementById('caseIdPlanB1').textContent = Math.round(b1).toLocaleString('id-ID');
+            document.getElementById('caseIdPlanB2').textContent = Math.round(b2).toLocaleString('id-ID');
+            document.getElementById('caseIdPlanB3').textContent = Math.round(b3).toLocaleString('id-ID');
+            document.getElementById('caseIdPlanB4').textContent = Math.round(b4).toLocaleString('id-ID');
         }
 
         // Update Map - More accurate city locations
@@ -5268,6 +5684,211 @@ Tim Planner DC Sidoarjo`;
         // Initialize
         initMap();
         fetchData();
+        // ===== ASTOR SLA & OUTSTANDING ENGINE =====
+const ASTOR_GID     = '1345578811';
+const ASTOR_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${ASTOR_GID}`;
+
+let rawAstorData = [];
+let astorChartBu = null, astorChartArea = null, astorChartAging = null;
+
+const ACOL = { TGL:0, RTOD:1, CBM:3, BU:7, KOTA:8, REGION:9, AREA:10, STUFFING:11, AGING:12 };
+
+async function fetchAstorData() {
+    try {
+        const res = await fetch(`${ASTOR_CSV_URL}&t=${Date.now()}`, { cache:'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const csv = await res.text();
+        if (csv.trim().startsWith('<!DOCTYPE')) throw new Error('Received HTML');
+        parseAstorCSV(csv);
+    } catch(e) {
+        console.error('Astor fetch error:', e);
+        document.getElementById('astor-outstanding-tbody').innerHTML =
+            `<tr><td colspan="9" style="text-align:center;padding:20px;color:#f87171;">
+                Gagal: ${e.message}
+                <button onclick="fetchAstorData()" style="margin-left:10px;padding:5px 12px;background:#d32f2f;color:#fff;border:none;border-radius:4px;cursor:pointer;">Coba Lagi</button>
+            </td></tr>`;
+    }
+}
+
+function parseAstorCSV(csv) {
+    const allRows = robustCSVParser(csv); // pakai fungsi yg sudah ada
+    rawAstorData = [];
+    const dataRows = allRows.slice(3); // skip 3 baris (2 kosong + 1 header)
+
+    dataRows.forEach(row => {
+        if (row.length < 12) return;
+        const bu = (row[ACOL.BU]||'').trim().toUpperCase();
+        if (bu !== 'AZKO' && bu !== 'KWI') return;
+        if (!row[ACOL.RTOD] && !row[ACOL.KOTA]) return;
+
+        const area     = (row[ACOL.AREA]||'').trim().toUpperCase();
+        const stuffing = (row[ACOL.STUFFING]||'').trim();
+        const aging    = parseInt(row[ACOL.AGING]) || 0;
+        const cbm      = parseNumberWithComma(row[ACOL.CBM] || '0');
+
+        let sla = '';
+        if (stuffing !== '') {
+            sla = area === 'DK' ? (aging <= 3 ? 'HIT' : 'MISS') : (aging <= 7 ? 'HIT' : 'MISS');
+        }
+
+        rawAstorData.push({
+            tgl: row[ACOL.TGL]||'', rtod: row[ACOL.RTOD]||'',
+            bu, kota: row[ACOL.KOTA]||'', region: row[ACOL.REGION]||'',
+            area, stuffing, aging, cbm, sla
+        });
+    });
+    renderAstorSLA();
+}
+
+function renderAstorSLA() {
+    const buF   = (document.getElementById('astor-bu-filter')||{}).value   || 'ALL';
+    const areaF = (document.getElementById('astor-area-filter')||{}).value || 'ALL';
+
+    const data = rawAstorData.filter(r =>
+        (buF==='ALL'||r.bu===buF) && (areaF==='ALL'||r.area===areaF)
+    );
+
+    let hit=0, miss=0, os=0, osCbm=0;
+    const byBu   = { AZKO:{hit:0,miss:0}, KWI:{hit:0,miss:0} };
+    const byArea = { DK:{hit:0,miss:0,tot:0}, LK:{hit:0,miss:0,tot:0}, LP:{hit:0,miss:0,tot:0} };
+    const bucket = { '0-3':0, '4-7':0, '8-14':0, '15+':0 };
+    const osList = [];
+
+    data.forEach(r => {
+        if (r.sla==='HIT') {
+            hit++;
+            if(byBu[r.bu])   byBu[r.bu].hit++;
+            if(byArea[r.area]){byArea[r.area].hit++;byArea[r.area].tot++;}
+        } else if (r.sla==='MISS') {
+            miss++;
+            if(byBu[r.bu])   byBu[r.bu].miss++;
+            if(byArea[r.area]){byArea[r.area].miss++;byArea[r.area].tot++;}
+        } else {
+            os++; osCbm+=r.cbm; osList.push(r);
+            if(r.aging<=3)       bucket['0-3']++;
+            else if(r.aging<=7)  bucket['4-7']++;
+            else if(r.aging<=14) bucket['8-14']++;
+            else                 bucket['15+']++;
+        }
+    });
+
+    const total = hit + miss;
+    const pct   = total > 0 ? (hit/total*100) : 0;
+
+    document.getElementById('astor-total').textContent           = total + os;
+    document.getElementById('astor-hit').textContent             = hit;
+    document.getElementById('astor-miss').textContent            = miss;
+    document.getElementById('astor-pct').textContent             = pct.toFixed(1) + '%';
+    document.getElementById('astor-outstanding').textContent     = os;
+    document.getElementById('astor-outstanding-cbm').textContent = osCbm.toFixed(2);
+    document.getElementById('astor-outstanding-count').textContent = os + ' Order';
+
+    // Chart 1: HIT vs MISS per BU
+    const ctx1 = document.getElementById('astorSlaByBuChart').getContext('2d');
+    if(astorChartBu) astorChartBu.destroy();
+    astorChartBu = new Chart(ctx1, {
+        type:'bar',
+        data:{ labels:['AZKO','KWI'],
+            datasets:[
+                { label:'HIT',  data:[byBu.AZKO.hit, byBu.KWI.hit],  backgroundColor:'#2dd4bf', borderRadius:6 },
+                { label:'MISS', data:[byBu.AZKO.miss,byBu.KWI.miss], backgroundColor:'#f87171', borderRadius:6 }
+            ]
+        },
+        options:{ responsive:true, maintainAspectRatio:false,
+            plugins:{ legend:{labels:{color:'#fff'}},
+                datalabels:{color:'#fff',font:{weight:'bold',size:13},formatter:v=>v>0?v:''} },
+            scales:{ x:{ticks:{color:'#ccc'},grid:{display:false}},
+                     y:{ticks:{color:'#ccc'},grid:{color:'#2a2a2a'},beginAtZero:true} }
+        }
+    });
+
+    // Chart 2: Donut per AREA
+    const ctx2   = document.getElementById('astorSlaByAreaChart').getContext('2d');
+    if(astorChartArea) astorChartArea.destroy();
+    const areas  = Object.keys(byArea).filter(a=>byArea[a].tot>0);
+    const pcts   = areas.map(a=>(byArea[a].tot>0?(byArea[a].hit/byArea[a].tot*100).toFixed(1):0));
+    astorChartArea = new Chart(ctx2, {
+        type:'doughnut',
+        data:{ labels:areas.map((a,i)=>`${a} ${pcts[i]}%`),
+            datasets:[{ data:areas.map(a=>byArea[a].tot),
+                backgroundColor:['#3b82f6','#2dd4bf','#fbbf24'],
+                borderColor:'#1a1a1a', borderWidth:4 }]
+        },
+        options:{ responsive:true, maintainAspectRatio:false,
+            plugins:{ legend:{position:'bottom',labels:{color:'#fff',font:{size:11},padding:10}},
+                datalabels:{ color:'#fff', font:{weight:'bold',size:14},
+                    formatter:(v,ctx)=>{ const a=areas[ctx.dataIndex]; return byArea[a].tot>0?pcts[ctx.dataIndex]+'%':''; }
+                },
+                tooltip:{ callbacks:{ label:ctx=>{ const a=areas[ctx.dataIndex];
+                    return ` HIT:${byArea[a].hit} | MISS:${byArea[a].miss} | Total:${byArea[a].tot}`; }}}
+            }
+        }
+    });
+
+    // Chart 3: Outstanding per aging bucket
+    const ctx3  = document.getElementById('astorOutstandingAgingChart').getContext('2d');
+    if(astorChartAging) astorChartAging.destroy();
+    const bVals = Object.values(bucket);
+    const bTot  = bVals.reduce((a,b)=>a+b,0);
+    const maxBval = Math.max(...bVals, 1);
+    astorChartAging = new Chart(ctx3, {
+        type:'bar',
+        data:{ labels:Object.keys(bucket).map(l=>l+' hari'),
+            datasets:[{ label:'Outstanding', data:bVals,
+                backgroundColor:['#2dd4bf','#fbbf24','#f87171','#b91c1c'], borderRadius:6 }]
+        },
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+            layout:{ padding:{ right: 90 } },
+            plugins:{ legend:{display:false},
+                datalabels:{ anchor:'end', align:'right', color:'#fff', font:{weight:'bold',size:12},
+                    formatter:v=>v>0?`${v} (${bTot>0?(v/bTot*100).toFixed(0):0}%)`:'',
+                    padding:{left:6} }
+            },
+            scales:{ 
+                x:{ticks:{color:'#ccc'},grid:{color:'#2a2a2a'},beginAtZero:true, max: maxBval * 1.6},
+                y:{ticks:{color:'#ffd700',font:{weight:'bold'}},grid:{display:false}} 
+            }
+        }
+    });
+
+    // Tabel Outstanding
+    const tbody = document.getElementById('astor-outstanding-tbody');
+    if(osList.length===0){
+        tbody.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:30px;color:#2dd4bf;">
+            <i class="fas fa-check-circle" style="font-size:1.5em;display:block;margin-bottom:8px;"></i>
+            Tidak ada outstanding — semua sudah terstuffing!</td></tr>`;
+        return;
+    }
+    const sorted=[...osList].sort((a,b)=>b.aging-a.aging);
+    tbody.innerHTML=sorted.map((r,i)=>{
+        const ac=r.aging>14?'#b91c1c':r.aging>7?'#f87171':r.aging>3?'#fbbf24':'#2dd4bf';
+        const bg=i%2===0?'#1a1a1a':'#111';
+        const buColor=r.bu==='AZKO'?'#60a5fa':'#ffd700';
+        const buBg=r.bu==='AZKO'?'rgba(59,130,246,0.15)':'rgba(255,215,0,0.1)';
+        return `<tr style="background:${bg};">
+            <td style="padding:8px;border:1px solid #222;text-align:center;color:#555;">${i+1}</td>
+            <td style="padding:8px;border:1px solid #222;color:#ccc;">${r.tgl}</td>
+            <td style="padding:8px;border:1px solid #222;font-weight:bold;">${r.rtod}</td>
+            <td style="padding:8px;border:1px solid #222;color:#60a5fa;font-family:monospace;">${r.nolc||'-'}</td>
+            <td style="padding:8px;border:1px solid #222;text-align:center;">
+                <span style="background:${buBg};color:${buColor};padding:2px 10px;border-radius:4px;font-weight:bold;font-size:0.85em;">${r.bu}</span>
+            </td>
+            <td style="padding:8px;border:1px solid #222;">${r.kota}</td>
+            <td style="padding:8px;border:1px solid #222;">${r.region}</td>
+            <td style="padding:8px;border:1px solid #222;text-align:center;">
+                <span style="background:rgba(255,255,255,0.07);padding:2px 8px;border-radius:4px;font-size:0.8em;">${r.area}</span>
+            </td>
+            <td style="padding:8px;border:1px solid #222;text-align:right;font-weight:bold;color:${ac};font-size:1.05em;">${r.aging}</td>
+            <td style="padding:8px;border:1px solid #222;">
+                <span style="background:rgba(255,215,0,0.12);color:#ffd700;padding:2px 10px;border-radius:4px;font-size:0.78em;font-weight:bold;">⏳ OUTSTANDING</span>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+// Fetch & auto-refresh
+fetchAstorData();
+setInterval(fetchAstorData, 60000);
     </script>
 </body>
 </html>

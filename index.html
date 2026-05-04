@@ -2,8 +2,9 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-Frame-Options" content="ALLOWALL">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> LOGISTICS DASHBOARD | ORDER PLANNING AHI</title>
+    <title> LOGISTICS DASHBOARD | ORDER PLANNING NDC AHI SIDOARJO</title>
     <link rel="icon" href="https://yt3.googleusercontent.com/dUQD3wes_tbyfG4flb6l1MeNToiZTx8BU0O91r3TWzNkMtgosmpCG1YtDDWXi5QCTPWEo5_umCE=s128-c-k-c0x00ffffff-no-rj" type="image/png">
     <link rel="apple-touch-icon" href="https://yt3.googleusercontent.com/dUQD3wes_tbyfG4flb6l1MeNToiZTx8BU0O91r3TWzNkMtgosmpCG1YtDDWXi5QCTPWEo5_umCE=s180-c-k-c0x00ffffff-no-rj">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,6 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -877,6 +880,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 25px; /* Consistent gap */
             margin-top: 25px;
+            margin-bottom: 80px; /* Space between this section and the next expanded to prevent touching */
             align-items: start;
         }
 
@@ -896,15 +900,22 @@
             margin-bottom: 0 !important;
         }
 
-        .table-content-extra {
-            flex-grow: 1;
-            height: 400px;
-            overflow-y: auto;
-            background-color: #1a1a1a;
+        /* Fix height of second items to align their bottoms */
+        .extra-section > div > *:last-child {
+            height: 680px !important; /* Slightly increased to ensure charts fit nicely */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); /* Added depth */
+            border: 1px solid #333;
+            border-radius: 8px;
         }
 
-        .extra-section .chart-container {
-            height: auto;
+        .table-content-extra {
+            flex-grow: 1;
+            /* Height will be determined by flex-grow due to parent fixed height */
+            overflow-y: auto;
+            background-color: #1a1a1a;
         }
 
         .extra-section .chart-body {
@@ -1031,11 +1042,69 @@
     margin-bottom: 8px;
     font-weight: 600;
 }
-.astor-kpi-value { font-size: 1.9em; font-weight: bold; color: #fff; }
+.astor-kpi-value { font-size: 1.9em; font-weight: bold; color: #fff; line-height: 1.2; }
 .astor-kpi-card.hit  .astor-kpi-value { color: #2dd4bf; }
 .astor-kpi-card.miss .astor-kpi-value { color: #f87171; }
 .astor-kpi-card.outstanding .astor-kpi-value { color: #ffd700; }
 .astor-kpi-card.total .astor-kpi-value { color: #60a5fa; }
+
+/* Tooltip Style for KPI Cards */
+.astor-kpi-breakdown { 
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -10px);
+    background: #000;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    z-index: 1000;
+    width: 160px;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    font-family: inherit;
+    text-align: left;
+}
+.astor-kpi-breakdown::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
+}
+.astor-kpi-card:hover .astor-kpi-breakdown {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, -15px);
+}
+.astor-kpi-breakdown span { 
+    display: flex; 
+    justify-content: space-between; 
+    font-size: 0.85em;
+    color: #aaa;
+    border-bottom: 1px solid #222;
+    padding-bottom: 4px;
+}
+.astor-kpi-breakdown span:last-child { border-bottom: none; }
+.astor-kpi-breakdown span b { color: #fff; }
+.astor-kpi-breakdown .brk-title {
+    font-size: 0.75em;
+    font-weight: bold;
+    color: #ffd700;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    border: none;
+}
 .astor-chart-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -1279,7 +1348,7 @@
     <!-- Welcome Overlay -->
     <div id="welcome-overlay">
         <div class="welcome-content">
-            <h2 class="welcome-title">Selamat Datang di Dashboard Planning 2026</h2>
+            <h2 class="welcome-title">Selamat Datang di Dashboard Order Planning AHI</h2>
             
             <!-- Step 1: Category Selection -->
             <div id="welcome-step-1" class="welcome-step">
@@ -1288,6 +1357,20 @@
                     <button class="welcome-btn btn-iya" onclick="handleCategoryChoice('dc')">Distribution Center</button>
                     <button class="welcome-btn btn-tidak" onclick="handleCategoryChoice('store')">Store</button>
                 </div>
+            </div>
+
+            <!-- Step Login: Authentication for DC -->
+            <div id="welcome-step-login" class="welcome-step hidden">
+                <p class="welcome-question">Silahkan Login untuk Mengakses DC Dashboard:</p>
+                <div style="display: flex; flex-direction: column; gap: 15px; max-width: 300px; margin: 0 auto 25px;">
+                    <input type="text" id="login-nik" placeholder="MASUKKAN NIK" style="padding: 12px; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; text-align: center; font-weight: bold; letter-spacing: 2px;">
+                    <input type="password" id="login-pass" placeholder="PASSWORD" style="padding: 12px; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; text-align: center; font-weight: bold; letter-spacing: 2px;">
+                </div>
+                <div class="welcome-buttons">
+                    <button class="welcome-btn btn-iya" onclick="handleLogin()">LOGIN</button>
+                    <button class="welcome-btn btn-tidak" onclick="document.getElementById('welcome-step-login').classList.add('hidden'); document.getElementById('welcome-step-1').classList.remove('hidden');">KEMBALI</button>
+                </div>
+                <div id="login-error" style="color: #ff4444; font-size: 0.85em; margin-top: 15px; display: none;">NIK atau Password salah!</div>
             </div>
 
             <!-- Step 2: Plan Update Selection -->
@@ -1302,7 +1385,7 @@
     </div>
 
     <div class="header">
-        <h1>LOGISTICS DASHBOARD | ORDER PLANNING AHI</h1>
+        <h1>LOGISTICS DASHBOARD | ORDER PLANNING NDC AHI SIDOARJO</h1>
     </div>
 
     <div class="container">
@@ -1596,7 +1679,7 @@
         <!-- Pivot Table Section Removed in favor of Dashboard Sections -->
             
             <!-- Table: DELIVERY DELAY AGING PER CARRIER -->
-            <div id="carrier-aging-container" style="margin-bottom: 30px; border-bottom: 2px solid #333;">
+            <div id="carrier-aging-container" style="margin-top: 40px; margin-bottom: 30px; border-bottom: 2px solid #333;">
                 <div class="table-header" style="background: linear-gradient(90deg, #1a1a1a 0%, #333 100%); border-left: 4px solid #ffd700; color: #ffd700; padding: 15px 20px; font-weight: bold; text-transform: uppercase; font-size: 0.9em;">
                     <i class="fas fa-history" style="margin-right: 10px; color: #ffd700;"></i> DELIVERY DELAY AGING PER CARRIER
                 </div>
@@ -1604,18 +1687,18 @@
                     <table class="pivot-table" style="width: 100%; border-collapse: collapse; font-size: 0.85em; background: #1a1a1a; color: #fff;">
                         <thead>
                             <tr class="nested-header">
-                                <th rowspan="2" style="width: 50px; background: #1a1a1a; border-right: 1px solid #333;">NO</th>
+                                <th rowspan="2" style="width: 50px; background: #1a1a1a; border-right: 1px solid #333; text-align: center;">NO</th>
                                 <th rowspan="2" style="width: 250px; background: #1a1a1a; text-align: left; padding-left: 20px; border-right: 1px solid #333;">CARRIER</th>
-                                <th colspan="6" style="background: #006994; color: #fff; font-weight: bold; border-right: 1px solid #333;">AGING DELAY</th>
-                                <th rowspan="2" style="width: 120px; background: #8b0000; color: #fff; font-weight: bold;">TOTAL DELAY <i class="fas fa-sort-down"></i></th>
+                                <th colspan="6" style="background: #006994; color: #fff; font-weight: bold; border-right: 1px solid #333; text-align: center;">AGING DELAY</th>
+                                <th rowspan="2" style="width: 120px; background: #8b0000; color: #fff; font-weight: bold; text-align: center;">TOTAL DELAY <i class="fas fa-sort-down"></i></th>
                             </tr>
                             <tr class="sub-header">
-                                <th style="background: #111; color: #00a8e8; width: 60px;">1</th>
-                                <th style="background: #111; color: #00a8e8; width: 60px;">2</th>
-                                <th style="background: #111; color: #00a8e8; width: 60px;">3</th>
-                                <th style="background: #111; color: #00a8e8; width: 60px;">4</th>
-                                <th style="background: #111; color: #00a8e8; width: 60px;">5</th>
-                                <th style="background: #111; color: #00a8e8; width: 80px; border-right: 1px solid #333;">5 UP</th>
+                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center;">1</th>
+                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center;">2</th>
+                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center;">3</th>
+                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center;">4</th>
+                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center;">5</th>
+                                <th style="background: #111; color: #00a8e8; width: 80px; border-right: 1px solid #333; text-align: center;">5 UP</th>
                             </tr>
                         </thead>
                         <tbody id="carrier-aging-body">
@@ -1702,6 +1785,12 @@
                     </div>
                 </div>
                 <div class="pivot-filter" style="display: flex; align-items: center; gap: 15px;">
+                    <button id="pdf-download-btn" onclick="downloadPivotPDF()" 
+                       style="background: #d32f2f; color: #fff; border:none; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 0.8em; display: flex; align-items: center; gap: 8px; font-weight: bold; transition: opacity 0.2s; cursor: pointer;"
+                       onmouseover="this.style.opacity='0.8'" 
+                       onmouseout="this.style.opacity='1'">
+                        <i class="fas fa-file-pdf" style="font-size: 1.2em;"></i> DOWNLOAD PDF KURANG KUOTA
+                    </button>
                     <a id="whatsapp-btn" href="https://wa.me/6285973792145?text=Halo%20Tim%20Inventory%20Planner%2C%0A%0AKami%20ingin%20menginformasikan%20bahwa%20saat%20ini%20STOREBOOKING%20kami%20mengalami%20kekurangan%20kuota.%20Sehubungan%20dengan%20hal%20tersebut%2C%20kami%20mohon%20bantuannya%20untuk%20penambahan%20kuota%20agar%20proses%20operasional%20dapat%20berjalan%20dengan%20lancar.%0A%0AMohon%20dapat%20ditindaklanjuti%20secepatnya.%20Terima%20kasih%20atas%20perhatian%20dan%20kerjasamanya.%0A%0ABest%20regards%2C%0A%5BTim%20Planner%20DC%20Sidoarjo%5D" 
                        target="_blank" 
                        style="background: #25D366; color: #fff; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 0.8em; display: flex; align-items: center; gap: 8px; font-weight: bold; transition: opacity 0.2s;"
@@ -1860,7 +1949,7 @@
                             <label style="font-size: 0.8em; color: #ffd700; opacity: 0.8;">AGING:</label>
                             <select id="hub-aging-filter" onchange="renderHubTable()" style="background: #222; color: #ffd700; border: 1px solid #ffd700; padding: 3px 8px; border-radius: 4px; font-size: 0.85em; outline: none;">
                                 <option value="ALL">ALL</option>
-                                <option value="1-3">AGING 1-3 HARI</option>
+                                <option value="1-3">AGING 0-3 HARI</option>
                                 <option value="4-5">AGING 4-5 HARI</option>
                                 <option value="5+">AGING 5 UP HARI</option>
                             </select>
@@ -1960,14 +2049,14 @@
         <div style="display: flex; justify-content: space-between; align-items: center; padding: 7px 10px; background: rgba(45,212,175,0.1); border-radius: 6px;">
             <div style="display: flex; align-items: center; gap: 6px;">
                 <div style="width: 6px; height: 6px; border-radius: 50%; background: #2dd4bf;"></div>
-                <span style="font-size: 0.85em; color: #2dd4bf; font-weight: bold;">Hit (1-3 hari)</span>
+                <span style="font-size: 0.85em; color: #2dd4bf; font-weight: bold;">Hit (DK ≤3 / LK ≤5 hari)</span>
             </div>
             <span id="hub-sla-hit" style="font-size: 0.9em; font-weight: bold; color: #2dd4bf;">0 store</span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; padding: 7px 10px; background: rgba(255,68,68,0.1); border-radius: 6px;">
             <div style="display: flex; align-items: center; gap: 6px;">
                 <div style="width: 6px; height: 6px; border-radius: 50%; background: #ff6b6b;"></div>
-                <span style="font-size: 0.85em; color: #ff6b6b; font-weight: bold;">Miss (&gt;3 hari)</span>
+                <span style="font-size: 0.85em; color: #ff6b6b; font-weight: bold;">Miss (DK &gt;3 / LK &gt;5 hari)</span>
             </div>
             <span id="hub-sla-miss" style="font-size: 0.9em; font-weight: bold; color: #ff6b6b;">0 store</span>
         </div>
@@ -2002,7 +2091,15 @@
                 <div class="astor-sla-header">
                     <span><i class="fas fa-chart-pie" style="margin-right:10px;"></i> SLA & OUTSTANDING ASTOR — AZKO & KWI</span>
                     <div class="astor-filter-row">
-                        <label style="font-size:0.8em;color:#ccc;">BU:</label>
+    <label style="font-size:0.8em;color:#ccc;">BULAN:</label>
+    <select id="astor-bulan-filter" onchange="renderAstorSLA()">
+        <option value="ALL">SEMUA</option>
+    </select>
+    <label style="font-size:0.8em;color:#ccc;margin-left:6px;">TGL INPUT:</label>
+    <select id="astor-tgl-filter" onchange="renderAstorSLA()">
+        <option value="ALL">SEMUA</option>
+    </select>
+    <label style="font-size:0.8em;color:#ccc;margin-left:6px;">BU:</label>
                         <select id="astor-bu-filter" onchange="renderAstorSLA()">
                             <option value="ALL">SEMUA</option>
                             <option value="AZKO">AZKO</option>
@@ -2029,26 +2126,52 @@
                     <div class="astor-kpi-card total">
                         <div class="astor-kpi-label">Total Order</div>
                         <div class="astor-kpi-value" id="astor-total">—</div>
+                        <div class="astor-kpi-breakdown" id="astor-total-breakdown">
+                            <div class="brk-title">Breakdown Area</div>
+                            <span>DK: <b>-</b></span><span>LK: <b>-</b></span><span>LP: <b>-</b></span>
+                        </div>
                     </div>
-                    <div class="astor-kpi-card hit">
-                        <div class="astor-kpi-label">SLA HIT</div>
-                        <div class="astor-kpi-value" id="astor-hit">—</div>
+                        <div class="astor-kpi-card hit">
+                            <div class="astor-kpi-label">SLA HIT</div>
+                            <div class="astor-kpi-value" id="astor-hit">—</div>
+                            <div style="font-size:0.7em;color:#2dd4bf;opacity:0.8;margin-bottom:6px;font-style:italic;">(DK ≤3 / LK ≤5 hari)</div>
+                        <div class="astor-kpi-breakdown" id="astor-hit-breakdown">
+                            <div class="brk-title">Breakdown Area</div>
+                            <span>DK: <b>-</b></span><span>LK: <b>-</b></span><span>LP: <b>-</b></span>
+                        </div>
                     </div>
-                    <div class="astor-kpi-card miss">
-                        <div class="astor-kpi-label">SLA MISS</div>
-                        <div class="astor-kpi-value" id="astor-miss">—</div>
+                       <div class="astor-kpi-card miss">
+                            <div class="astor-kpi-label">SLA MISS</div>
+                            <div class="astor-kpi-value" id="astor-miss">—</div>
+                            <div style="font-size:0.7em;color:#f87171;opacity:0.8;margin-bottom:6px;font-style:italic;">(DK &gt;3 / LK &gt;5 hari)</div>
+                        <div class="astor-kpi-breakdown" id="astor-miss-breakdown">
+                            <div class="brk-title">Breakdown Area</div>
+                            <span>DK: <b>-</b></span><span>LK: <b>-</b></span><span>LP: <b>-</b></span>
+                        </div>
                     </div>
                     <div class="astor-kpi-card hit">
                         <div class="astor-kpi-label">SLA Achievement</div>
                         <div class="astor-kpi-value" id="astor-pct">—</div>
+                        <div class="astor-kpi-breakdown" id="astor-pct-breakdown">
+                            <div class="brk-title">Achievement per Area</div>
+                            <span>DK: <b>-</b></span><span>LK: <b>-</b></span><span>LP: <b>-</b></span>
+                        </div>
                     </div>
                     <div class="astor-kpi-card outstanding">
                         <div class="astor-kpi-label">Outstanding</div>
                         <div class="astor-kpi-value" id="astor-outstanding">—</div>
+                        <div class="astor-kpi-breakdown" id="astor-os-breakdown">
+                            <div class="brk-title">Breakdown Area</div>
+                            <span>DK: <b>-</b></span><span>LK: <b>-</b></span><span>LP: <b>-</b></span>
+                        </div>
                     </div>
                     <div class="astor-kpi-card miss">
                         <div class="astor-kpi-label">Outstanding CBM</div>
                         <div class="astor-kpi-value" id="astor-outstanding-cbm">—</div>
+                        <div class="astor-kpi-breakdown" id="astor-os-cbm-breakdown">
+                            <div class="brk-title">CBM Breakdown</div>
+                            <span>DK: <b>-</b></span><span>LK: <b>-</b></span><span>LP: <b>-</b></span>
+                        </div>
                     </div>
                 </div>
                 <div class="astor-chart-grid">
@@ -2067,7 +2190,7 @@
                 </div>
                 <div class="astor-outstanding-box">
                     <div class="astor-chart-title" style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;">
-                        <span><i class="fas fa-exclamation-triangle" style="margin-right:6px;color:#ffd700;"></i> DETAIL OUTSTANDING ORDER (STUFFING BELUM TERISI)</span>
+                        <span><i class="fas fa-exclamation-triangle" style="margin-right:6px;color:#ffd700;"></i> DETAIL OUTSTANDING ORDER ASTOR (AZKO & KWI)</span>
                         <span id="astor-outstanding-count" style="background:#b71c1c;padding:3px 12px;border-radius:4px;font-size:0.85em;">0 Order</span>
                     </div>
                     <div class="astor-outstanding-table-wrap">
@@ -2082,6 +2205,7 @@
                                     <th onclick="sortAstorOS('kota')" style="padding:10px;border:1px solid #333;color:#ffd700;cursor:pointer;">STORE TUJUAN <i class="fas fa-sort" style="font-size:0.8em;opacity:0.5;"></i></th>
                                     <th onclick="sortAstorOS('region')" style="padding:10px;border:1px solid #333;color:#ffd700;cursor:pointer;">REGION <i class="fas fa-sort" style="font-size:0.8em;opacity:0.5;"></i></th>
                                     <th onclick="sortAstorOS('area')" style="padding:10px;border:1px solid #333;color:#ffd700;text-align:center;cursor:pointer;">AREA <i class="fas fa-sort" style="font-size:0.8em;opacity:0.5;"></i></th>
+                                    <th onclick="sortAstorOS('cbm')" style="padding:10px;border:1px solid #333;color:#ffd700;text-align:right;cursor:pointer;">CBM <i class="fas fa-sort" style="font-size:0.8em;opacity:0.5;"></i></th>
                                     <th onclick="sortAstorOS('aging')" style="padding:10px;border:1px solid #333;color:#ffd700;text-align:right;cursor:pointer;background:#450a0a;">AGING (HARI) <i class="fas fa-sort" style="font-size:0.8em;opacity:0.8;"></i></th>
                                     <th style="padding:10px;border:1px solid #333;color:#ffd700;">STATUS</th>
                                 </tr>
@@ -2141,6 +2265,7 @@
         const PIVOT_SHEET_GID = '1075426956';
         const PIVOT_CSV_URL = `https://docs.google.com/spreadsheets/d/${PIVOT_SHEET_ID}/export?format=csv&gid=${PIVOT_SHEET_GID}`;
         const HUB_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=199482130`;
+        const USER_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=1368870427`;
 
         // Column Index Mapping (0-based)
         const COLUMNS = {
@@ -2317,34 +2442,95 @@
 
         function handleCategoryChoice(category) {
             selectedCategory = category;
-            document.body.className = category === 'store' ? 'view-store' : 'view-dc';
             
-            // Show/Hide Circular Menu and Default Section for DC
-            const circMenu = document.getElementById('circularMenu');
-            if (circMenu) {
-                circMenu.style.display = category === 'dc' ? 'block' : 'none';
+            if (category === 'dc') {
+                // Tampilkan form login jika pilih DC
+                document.getElementById('welcome-step-1').classList.add('hidden');
+                document.getElementById('welcome-step-login').classList.remove('hidden');
+            } else {
+                // Langsung ke step 2 jika pilih Store
+                document.body.className = 'view-store';
+                document.getElementById('welcome-step-1').classList.add('hidden');
+                document.getElementById('welcome-step-2').classList.remove('hidden');
+                
+                const circMenu = document.getElementById('circularMenu');
+                if (circMenu) circMenu.style.display = 'none';
+            }
+        }
+
+        async function handleLogin() {
+            const nikInput = document.getElementById('login-nik').value.trim();
+            const passInput = document.getElementById('login-pass').value.trim();
+            const errorMsg = document.getElementById('login-error');
+            const loginBtn = document.querySelector('#welcome-step-login .btn-iya');
+
+            if (nikInput === '' || passInput === '') {
+                errorMsg.style.display = 'block';
+                errorMsg.textContent = "Silahkan isi NIK dan Password!";
+                return;
             }
 
-            if (category === 'dc') {
-                showDashboardSection('main-dashboard-section');
-            } else if (category === 'store') {
-                // For store view, show all sections or handled differently
-                const sections = document.querySelectorAll('.dash-section');
-                sections.forEach(s => s.style.display = 'block');
-                const globalFilter = document.getElementById('global-filter-section');
-                if (globalFilter) globalFilter.style.display = 'grid';
-            }
+            try {
+                loginBtn.disabled = true;
+                loginBtn.textContent = "VERIFYING...";
+                
+                // Fetch user data from spreadsheet
+                const response = await fetch(`${USER_CSV_URL}&t=${Date.now()}`);
+                const csv = await response.text();
+                const lines = csv.split(/\r?\n/);
+                
+                let isValid = false;
+                let userName = '';
+                // Loop through lines, skip header (i=0)
+                // Assume Column A (0) is NIK, Column B (1) is Password, Column C (2) is Name
+                for (let i = 1; i < lines.length; i++) {
+                    if (!lines[i]) continue;
+                    const cols = lines[i].split(',');
+                    if (cols.length >= 2) {
+                        const nik = cols[0].replace(/"/g, '').trim();
+                        const pass = cols[1].replace(/"/g, '').trim();
+                        const name = cols[2] ? cols[2].replace(/"/g, '').trim() : 'User';
+                        
+                        if (nik === nikInput && pass === passInput) {
+                            isValid = true;
+                            userName = name;
+                            break;
+                        }
+                    }
+                }
 
-            document.getElementById('welcome-step-1').classList.add('hidden');
-            document.getElementById('welcome-step-2').classList.remove('hidden');
-            
-            // Request full screen on first interaction
-            toggleFullScreen();
+                if (isValid) {
+                    errorMsg.style.display = 'none';
+                    // Apply DC view settings
+                    document.body.className = 'view-dc';
+                    const circMenu = document.getElementById('circularMenu');
+                    if (circMenu) circMenu.style.display = 'block';
+                    showDashboardSection('main-dashboard-section');
+                    
+                    // Update welcome message in step 2
+                    const step2Question = document.querySelector('#welcome-step-2 .welcome-question');
+                    if (step2Question) {
+                        step2Question.innerHTML = `Selamat datang, <strong>${userName}</strong>. Anda berhasil login ke sistem. Silakan gunakan dashboard untuk memantau dan mengelola aktivitas Anda.<br><br>Apakah anda ingin melihat Plan Update terbaru?`;
+                    }
 
-            // If DC is selected, fetch pivot data
-            if (category === 'dc') {
-                fetchPivotData();
-                fetchHubData();
+                    document.getElementById('welcome-step-login').classList.add('hidden');
+                    document.getElementById('welcome-step-2').classList.remove('hidden');
+                    
+                    fetchPivotData();
+                    fetchHubData();
+                    toggleFullScreen();
+                } else {
+                    errorMsg.style.display = 'block';
+                    errorMsg.textContent = "NIK atau Password salah!";
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = "LOGIN";
+                }
+            } catch (e) {
+                console.error("Login Error:", e);
+                errorMsg.style.display = 'block';
+                errorMsg.textContent = "Gagal memproses login (Koneksi Database).";
+                loginBtn.disabled = false;
+                loginBtn.textContent = "LOGIN";
             }
         }
 
@@ -3085,15 +3271,19 @@ return matchesLoading && matchesLc && matchesArmadaStatus && matchesAging && mat
     if (belumLoadingEl) belumLoadingEl.textContent = `${formatIndo(cbmBelumLoading)} CBM`;
 
     // SLA Calculation
-    let slaHit = 0, slaMiss = 0;
-    filteredHubData.forEach(row => {
-        const statusLoading = (row[13] || '').toUpperCase();
-        const isSudahLoading = statusLoading.includes('SUDAH LOADING') || statusLoading.includes('SUDAH MUAT');
-        if (!isSudahLoading) return;
-        const agingVal = parseInt(row[agingHariIdx]) || 0;
-        if (agingVal >= 0 && agingVal <= 3) slaHit++;
-        else if (agingVal > 3) slaMiss++;
-    });
+    // SLA Calculation
+let slaHit = 0, slaMiss = 0;
+filteredHubData.forEach(row => {
+    const statusLoading = (row[13] || '').toUpperCase();
+    const isSudahLoading = statusLoading.includes('SUDAH LOADING') || statusLoading.includes('SUDAH MUAT');
+    if (!isSudahLoading) return;
+    const agingVal = parseInt(row[agingHariIdx]) || 0;
+    const rowRegion = (row[regionIdx] || '').trim().toUpperCase();
+    const isDK = rowRegion === 'JATIM DK';
+    const slaThreshold = isDK ? 3 : 5;
+    if (agingVal >= 0 && agingVal <= slaThreshold) slaHit++;
+    else slaMiss++;
+});
 
     const slaTotal = slaHit + slaMiss;
     const slaRate = slaTotal > 0 ? (slaHit / slaTotal * 100) : 0;
@@ -3130,7 +3320,7 @@ return matchesLoading && matchesLc && matchesArmadaStatus && matchesAging && mat
         agingListEl.innerHTML = `
             <div style="display: flex; flex-direction: column; gap: 8px;">
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 4px 0;">
-                    <span>AGING 1-3 HARI</span>
+                    <span>AGING 0-3 HARI</span>
                     <span style="color: #ffd700; font-weight: bold;">${formatIndo(agingBuckets["1-3"])} CBM</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 4px 0;">
@@ -3340,6 +3530,144 @@ function hubSort(colIdx) {
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Allocation Data");
             XLSX.writeFile(workbook, "Allocation_Summary_Data.xlsx");
+        }
+
+        async function downloadPivotPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'pt', 'a4');
+            const targetAreas = ['SULAWESI', 'PAPUA', 'MALUKU', 'NUSRA'];
+            
+            // Aggregation logic: Process ALL data to find target regions regardless of UI filter
+            const filtered = rawPivotData;
+            const stores = {};
+
+            filtered.forEach(row => {
+                const key = row.storeBooking;
+                const name = row.storeBookingName;
+                const area = row.area ? row.area.toUpperCase() : '';
+                if (!key || !name || key.trim() === "" || name.trim() === "") return;
+
+                if (!stores[key]) {
+                    stores[key] = {
+                        code: key,
+                        name: name,
+                        area: area,
+                        unplannedCbm: Array(4).fill(0),
+                        unplannedTotal: 0
+                    };
+                }
+
+                if (row.status === 'Belum Plan') {
+                    let agingIdx = 0;
+                    if (row.aging === 0) agingIdx = 0;
+                    else if (row.aging >= 1 && row.aging <= 3) agingIdx = 1;
+                    else if (row.aging >= 4 && row.aging <= 7) agingIdx = 2;
+                    else if (row.aging > 7) agingIdx = 3;
+
+                    stores[key].unplannedCbm[agingIdx] += row.cbm;
+                    stores[key].unplannedTotal += row.cbm;
+                }
+            });
+
+            // Filter ONLY requested regions AND volume < 19 CBM
+            const rows = Object.values(stores)
+                .filter(s => targetAreas.includes(s.area) && s.unplannedTotal > 0 && s.unplannedTotal < 19)
+                .sort((a, b) => b.unplannedCbm[3] - a.unplannedCbm[3]); // Sort by 7 UP (index 3) descending
+
+            if (rows.length === 0) {
+                alert("Tidak ada data 'Kurang Kuota' (< 19 CBM) yang ditemukan di area: " + targetAreas.join(', '));
+                return;
+            }
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
+            const timeStr = now.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
+
+            // Header Section
+            doc.setFillColor(183, 28, 28); // Dark Red
+            doc.rect(40, 40, 515, 50, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(16);
+            doc.setFont("helvetica", "bold");
+            doc.text("LAPORAN PERMOHONAN PENAMBAHAN KUOTA", 297.5, 72, { align: 'center' });
+
+            // Formal Message
+            doc.setTextColor(50, 50, 50);
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "bold");
+            doc.text("Kepada Yth. Tim Inventory Planner,", 40, 115);
+            
+            doc.setFont("helvetica", "normal");
+            const message = "Kami ingin menginformasikan bahwa saat ini STOREBOOKING kami mengalami kekurangan kuota. Sehubungan dengan hal tersebut, kami mohon bantuannya untuk penambahan kuota agar proses operasional dapat berjalan dengan lancar. Berikut adalah rincian store yang memerlukan penanganan segera:";
+            const splitMessage = doc.splitTextToSize(message, 515);
+            doc.text(splitMessage, 40, 130);
+
+            // Summary
+            doc.setFillColor(245, 245, 245);
+            doc.rect(40, 160, 515, 30, 'F');
+            doc.setDrawColor(200, 200, 200);
+            doc.rect(40, 160, 515, 30, 'S');
+            
+            doc.setFont("helvetica", "bold");
+            const currentTotalBacklog = rows.reduce((sum, r) => sum + r.unplannedTotal, 0);
+            doc.text(`TOTAL BACKLOG CBM: ${formatIndo(currentTotalBacklog)}`, 50, 179);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Tanggal: ${dateStr}`, 515+40, 179, { align: 'right' });
+
+            // Table Data
+            const tableBody = rows.map((s, idx) => [
+                idx + 1,
+                s.code,
+                s.name,
+                s.unplannedCbm[0] > 0 ? formatIndo(s.unplannedCbm[0]) : '-',
+                s.unplannedCbm[1] > 0 ? formatIndo(s.unplannedCbm[1]) : '-',
+                s.unplannedCbm[2] > 0 ? formatIndo(s.unplannedCbm[2]) : '-',
+                s.unplannedCbm[3] > 0 ? formatIndo(s.unplannedCbm[3]) : '-',
+                formatIndo(s.unplannedTotal),
+                formatIndo(19 - s.unplannedTotal)
+            ]);
+
+            // Table Drawing
+            doc.autoTable({
+                startY: 205,
+                head: [['NO', 'CODE', 'SHIP TO', '0', '1-3', '4-7', '7 UP', 'TOTAL CBM', 'KURANG KUOTA']],
+                body: tableBody,
+                theme: 'grid',
+                headStyles: { 
+                    fillColor: [30, 30, 30], 
+                    textColor: [255, 215, 0], 
+                    fontSize: 8, 
+                    halign: 'center' 
+                },
+                columnStyles: {
+                    0: { halign: 'center', cellWidth: 30 },
+                    1: { halign: 'center', cellWidth: 45 },
+                    2: { cellWidth: 'auto' },
+                    3: { halign: 'right', cellWidth: 35 },
+                    4: { halign: 'right', cellWidth: 35 },
+                    5: { halign: 'right', cellWidth: 35, textColor: [183, 28, 28], fontStyle: 'bold' }, // 4-7 Red
+                    6: { halign: 'right', cellWidth: 35, textColor: [183, 28, 28], fontStyle: 'bold' }, // 7 UP Red
+                    7: { halign: 'right', cellWidth: 50, fontStyle: 'bold' }, 
+                    8: { halign: 'right', cellWidth: 60, textColor: [183, 28, 28], fontStyle: 'bold', fillColor: [255, 248, 225] }
+                },
+                styles: { fontSize: 8, cellPadding: 6, valign: 'middle' },
+                alternateRowStyles: { fillColor: [252, 252, 252] },
+                margin: { left: 40, right: 40 },
+                didParseCell: function(data) {
+                    // Color header cells for 4-7 and 7 UP to Red
+                    if (data.section === 'head' && (data.column.index === 5 || data.column.index === 6)) {
+                        data.cell.styles.textColor = [255, 68, 68]; // Bright Red for visibility on dark background
+                    }
+                },
+                didDrawPage: (data) => {
+                    doc.setFontSize(8);
+                    doc.setTextColor(150);
+                    doc.text("Best regards, Tim Planner DC Sidoarjo", 40, doc.internal.pageSize.height - 30);
+                    doc.text(`Halaman ${doc.internal.getNumberOfPages()}`, 555, doc.internal.pageSize.height - 30, { align: 'right' });
+                }
+            });
+
+            doc.save(`Request_Kuota_Gabungan_${now.getTime()}.pdf`);
         }
 
         async function shareAllocationMobile() {
@@ -5359,7 +5687,7 @@ function renderStoringPivotTable(filteredData) {
                     datasets: [{
                         label: 'TERLAMBAT',
                         data: agingData.map(v => totalAging ? (v / totalAging * 100).toFixed(0) : 0),
-                        backgroundColor: '#3b82f6',
+                        backgroundColor: '#d32f2f',
                         borderRadius: 5
                     }]
                 },
@@ -5757,7 +6085,7 @@ let rawAstorData = [];
 let astorChartBu = null, astorChartArea = null, astorChartAging = null;
 let astorSort = { key: 'aging', dir: 'desc' };
 
-const ACOL = { TGL:0, RTOD:1, LC:4, CBM:3, BU:7, KOTA:8, REGION:9, AREA:10, STUFFING:11, AGING:12, SLA:13 };
+const ACOL = { TGL:0, RTOD:1, LC:4, CBM:3, BU:7, KOTA:2, REGION:9, AREA:10, STUFFING:11, AGING:12, SLA:13 };
 
 async function fetchAstorData() {
     try {
@@ -5769,7 +6097,7 @@ async function fetchAstorData() {
     } catch(e) {
         console.error('Astor fetch error:', e);
         document.getElementById('astor-outstanding-tbody').innerHTML =
-            `<tr><td colspan="9" style="text-align:center;padding:20px;color:#f87171;">
+            `<tr><td colspan="10" style="text-align:center;padding:20px;color:#f87171;">
                 Gagal: ${e.message}
                 <button onclick="fetchAstorData()" style="margin-left:10px;padding:5px 12px;background:#d32f2f;color:#fff;border:none;border-radius:4px;cursor:pointer;">Coba Lagi</button>
             </td></tr>`;
@@ -5801,11 +6129,143 @@ function parseAstorCSV(csv) {
         }
 
         rawAstorData.push({
-            tgl: row[ACOL.TGL]||'', rtod: row[ACOL.RTOD]||'', lc: row[ACOL.LC]||'',
-            bu, kota: row[ACOL.KOTA]||'', region: row[ACOL.REGION]||'',
-            area, stuffing, aging, cbm, sla
+        tgl: row[ACOL.TGL]||'', rtod: row[ACOL.RTOD]||'', lc: row[ACOL.LC]||'',
+        bu, kota: row[ACOL.KOTA]||'', region: row[ACOL.REGION]||'',
+        area, stuffing, aging, cbm, sla
+    });
+    });
+
+    function parseTgl(tglStr) {
+        if (!tglStr) return null;
+        const months = {
+            'jan':0,'feb':1,'mar':2,'apr':3,'mei':4,'may':4,
+            'jun':5,'jul':6,'agu':7,'aug':7,'sep':8,'okt':9,'oct':9,'nov':10,'des':11,'dec':11
+        };
+        const parts = tglStr.trim().split(/\s+/);
+        if (parts.length === 3) {
+            const day = parseInt(parts[0]);
+            const monthKey = parts[1].toLowerCase().substring(0,3);
+            const year = parseInt(parts[2]) + (parseInt(parts[2]) < 100 ? 2000 : 0);
+            const month = months[monthKey];
+            if (!isNaN(day) && month !== undefined && !isNaN(year)) {
+                return new Date(year, month, day);
+            }
+        }
+        if (tglStr.includes('/')) {
+            const p = tglStr.split('/');
+            if (p.length === 3) return new Date(p[2], p[1]-1, p[0]);
+        }
+        return null;
+    }
+
+    const bulanMap = {};
+    rawAstorData.forEach(r => {
+        const d = parseTgl(r.tgl);
+        if (!d) return;
+        const key = d.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+        const sortKey = d.getFullYear() * 100 + d.getMonth();
+        bulanMap[key] = sortKey;
+    });
+
+    const bulanFilter = document.getElementById('astor-bulan-filter');
+    if (bulanFilter) {
+        bulanFilter.innerHTML = '<option value="ALL">SEMUA</option>';
+        Object.keys(bulanMap)
+            .sort((a, b) => bulanMap[b] - bulanMap[a])
+            .forEach(b => {
+                const o = document.createElement('option');
+                o.value = b; o.textContent = b;
+                bulanFilter.appendChild(o);
+            });
+    }
+
+    const tglDateMap = {};
+    rawAstorData.forEach(r => {
+        if (!r.tgl) return;
+        const d = parseTgl(r.tgl);
+        tglDateMap[r.tgl] = d ? d.getTime() : 0;
+    });
+
+    const tglFilter = document.getElementById('astor-tgl-filter');
+    if (tglFilter) {
+        tglFilter.innerHTML = '<option value="ALL">SEMUA</option>';
+        Object.keys(tglDateMap)
+            .sort((a, b) => tglDateMap[b] - tglDateMap[a])
+            .forEach(t => {
+                const o = document.createElement('option');
+                o.value = t; o.textContent = t;
+                tglFilter.appendChild(o);
+            });
+    }
+    renderAstorSLA();
+}
+    
+    let selectedAstorTgl = [];
+
+function populateMultiSelectAstor(filterId, options, label) {
+    const optionsContainer = document.getElementById(`${filterId}-options`);
+    const displayElement = document.getElementById(`${filterId}-display`);
+    if (!optionsContainer || !displayElement) return;
+
+    optionsContainer.innerHTML = '';
+
+    const selectAllDiv = document.createElement('div');
+    selectAllDiv.className = 'option-item select-all-btn';
+    selectAllDiv.innerHTML = `
+        <input type="checkbox" id="${filterId}-all">
+        <label for="${filterId}-all">PILIH SEMUA</label>
+    `;
+    optionsContainer.appendChild(selectAllDiv);
+    const allCheckbox = selectAllDiv.querySelector('input');
+
+    options.forEach(option => {
+        const div = document.createElement('div');
+        div.className = 'option-item';
+        div.innerHTML = `
+            <input type="checkbox" value="${option}" id="${filterId}-${option}" class="${filterId}-checkbox">
+            <label for="${filterId}-${option}">${option}</label>
+        `;
+        optionsContainer.appendChild(div);
+    });
+
+    const checkboxes = optionsContainer.querySelectorAll(`.${filterId}-checkbox`);
+
+    allCheckbox.addEventListener('change', () => {
+        checkboxes.forEach(cb => cb.checked = allCheckbox.checked);
+        updateAstorTglState(filterId, label);
+    });
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+            allCheckbox.checked = Array.from(checkboxes).every(c => c.checked);
+            updateAstorTglState(filterId, label);
         });
     });
+
+    displayElement.onclick = (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.multi-select-options').forEach(opt => {
+            if (opt.id !== `${filterId}-options`) opt.classList.remove('show');
+        });
+        optionsContainer.classList.toggle('show');
+    };
+}
+
+function updateAstorTglState(filterId, label) {
+    const checkboxes = document.querySelectorAll(`.${filterId}-checkbox:checked`);
+    selectedAstorTgl = Array.from(checkboxes).map(cb => cb.value);
+
+    const displayElement = document.getElementById(`${filterId}-display`);
+    const count = selectedAstorTgl.length;
+    const totalCount = document.querySelectorAll(`.${filterId}-checkbox`).length;
+
+    if (count === 0) {
+        displayElement.textContent = `-- Semua ${label} --`;
+    } else if (count === totalCount && totalCount > 0) {
+        displayElement.textContent = `Semua Terpilih (${count})`;
+    } else {
+        displayElement.textContent = `${count} Terpilih`;
+    }
     renderAstorSLA();
 }
 
@@ -5814,25 +6274,67 @@ function renderAstorSLA() {
     const areaF = (document.getElementById('astor-area-filter')||{}).value || 'ALL';
     const agingF = (document.getElementById('astor-aging-filter')||{}).value || 'ALL';
 
-    const data = rawAstorData.filter(r =>
-        (buF==='ALL'||r.bu===buF) && (areaF==='ALL'||r.area===areaF)
-    );
+    const bulanF = (document.getElementById('astor-bulan-filter')||{}).value || 'ALL';
+const tglF   = (document.getElementById('astor-tgl-filter')||{}).value   || 'ALL';
+
+const data = rawAstorData.filter(r => {
+    const matchBu   = buF==='ALL'   || r.bu===buF;
+    const matchArea = areaF==='ALL' || r.area===areaF;
+    
+   let matchBulan = true;
+    if (bulanF !== 'ALL' && r.tgl) {
+        const months = {
+            'jan':0,'feb':1,'mar':2,'apr':3,'mei':4,'may':4,
+            'jun':5,'jul':6,'agu':7,'aug':7,'sep':8,'okt':9,'oct':9,'nov':10,'des':11,'dec':11
+        };
+        const parts = r.tgl.trim().split(/\s+/);
+        if (parts.length === 3) {
+            const day = parseInt(parts[0]);
+            const monthKey = parts[1].toLowerCase().substring(0,3);
+            const year = parseInt(parts[2]) + (parseInt(parts[2]) < 100 ? 2000 : 0);
+            const month = months[monthKey];
+            if (!isNaN(day) && month !== undefined && !isNaN(year)) {
+                const d = new Date(year, month, day);
+                const label = d.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+                matchBulan = label === bulanF;
+            }
+        }
+    }
+    
+    const matchTgl = tglF==='ALL' || r.tgl===tglF;
+    return matchBu && matchArea && matchBulan && matchTgl;
+});
 
     let hit=0, miss=0, os=0, osCbm=0;
     const byBu   = { AZKO:{hit:0,miss:0}, KWI:{hit:0,miss:0} };
     const byArea = { DK:{hit:0,miss:0,tot:0}, LK:{hit:0,miss:0,tot:0}, LP:{hit:0,miss:0,tot:0} };
     const bucket = { '0-3':0, '4-7':0, '8-14':0, '15+':0 };
+    
+    // Breakdowns for KPI
+    const brk = {
+        total: { DK: 0, LK: 0, LP: 0 },
+        hit:   { DK: 0, LK: 0, LP: 0 },
+        miss:  { DK: 0, LK: 0, LP: 0 },
+        os:    { DK: 0, LK: 0, LP: 0 },
+        osCbm: { DK: 0, LK: 0, LP: 0 }
+    };
+
     let osList = [];
 
     data.forEach(r => {
+        const a = r.area; // DK, LK, LP
+        if (brk.total[a] !== undefined) brk.total[a]++;
+
         if (r.sla==='HIT') {
             hit++;
             if(byBu[r.bu])   byBu[r.bu].hit++;
             if(byArea[r.area]){byArea[r.area].hit++;byArea[r.area].tot++;}
+            if(brk.hit[a] !== undefined) brk.hit[a]++;
         } else if (r.sla==='MISS') {
             miss++;
             if(byBu[r.bu])   byBu[r.bu].miss++;
             if(byArea[r.area]){byArea[r.area].miss++;byArea[r.area].tot++;}
+            if(brk.miss[a] !== undefined) brk.miss[a]++;
         } else {
             // Apply aging filter to OS list
             let matchAging = true;
@@ -5849,6 +6351,9 @@ function renderAstorSLA() {
                 else if(r.aging<=7)  bucket['4-7']++;
                 else if(r.aging<=14) bucket['8-14']++;
                 else                 bucket['15+']++;
+
+                if(brk.os[a] !== undefined) brk.os[a]++;
+                if(brk.osCbm[a] !== undefined) brk.osCbm[a] += r.cbm;
             }
         }
     });
@@ -5864,6 +6369,29 @@ function renderAstorSLA() {
     document.getElementById('astor-outstanding-cbm').textContent = osCbm.toFixed(2);
     document.getElementById('astor-outstanding-count').textContent = os + ' Order';
 
+    // Helper to update breakdown text (Tooltip content)
+    const setBrk = (id, obj, isCbm=false, isPct=false) => {
+        const el = document.getElementById(id);
+        if(!el) return;
+        const title = el.querySelector('.brk-title') ? el.querySelector('.brk-title').outerHTML : '<div class="brk-title">Breakdown</div>';
+        if(isPct) {
+            const dk = obj.DK.tot > 0 ? (obj.DK.hit/obj.DK.tot*100).toFixed(0) : '-';
+            const lk = obj.LK.tot > 0 ? (obj.LK.hit/obj.LK.tot*100).toFixed(0) : '-';
+            const lp = obj.LP.tot > 0 ? (obj.LP.hit/obj.LP.tot*100).toFixed(0) : '-';
+            el.innerHTML = `${title}<span>DK: <b>${dk}%</b></span><span>LK: <b>${lk}%</b></span><span>LP: <b>${lp}%</b></span>`;
+        } else {
+            const f = v => isCbm ? v.toFixed(1) : v;
+            el.innerHTML = `${title}<span>DK: <b>${f(obj.DK)}</b></span><span>LK: <b>${f(obj.LK)}</b></span><span>LP: <b>${f(obj.LP)}</b></span>`;
+        }
+    };
+
+    setBrk('astor-total-breakdown', brk.total);
+    setBrk('astor-hit-breakdown', brk.hit);
+    setBrk('astor-miss-breakdown', brk.miss);
+    setBrk('astor-pct-breakdown', byArea, false, true);
+    setBrk('astor-os-breakdown', brk.os);
+    setBrk('astor-os-cbm-breakdown', brk.osCbm, true);
+
     // Chart 1: HIT vs MISS per BU
     const ctx1 = document.getElementById('astorSlaByBuChart').getContext('2d');
     if(astorChartBu) astorChartBu.destroy();
@@ -5871,25 +6399,46 @@ function renderAstorSLA() {
         type:'bar',
         data:{ labels:['AZKO','KWI'],
             datasets:[
-                { label:'HIT',  data:[byBu.AZKO.hit, byBu.KWI.hit],  backgroundColor:'#2dd4bf', borderRadius:6 },
-                { label:'MISS', data:[byBu.AZKO.miss,byBu.KWI.miss], backgroundColor:'#f87171', borderRadius:6 }
+                { label:'SLA HIT',  data:[byBu.AZKO.hit, byBu.KWI.hit],  backgroundColor:'#2dd4bf', borderRadius:6 },
+                { label:'SLA MISS', data:[byBu.AZKO.miss,byBu.KWI.miss], backgroundColor:'#f87171', borderRadius:6 }
             ]
         },
         options:{ responsive:true, maintainAspectRatio:false,
             layout: { padding: { top: 30 } },
-            plugins:{ legend:{labels:{color:'#fff'}},
+            plugins:{ 
+                legend:{labels:{color:'#fff'}},
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.9)',
+                    titleColor: '#ffd700',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyColor: '#fff',
+                    borderColor: '#ffd700',
+                    borderWidth: 1,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.dataset.label || '';
+                            const value = context.parsed.y;
+                            const bu = context.chart.data.labels[context.dataIndex];
+                            const total = byBu[bu].hit + byBu[bu].miss;
+                            const pct = total > 0 ? (value / total * 100).toFixed(1) : 0;
+                            return ` ${label}: ${value} order (${pct}%)`;
+                        }
+                    }
+                },
                 datalabels:{
                     anchor:'end', 
                     align:'top', 
                     offset: 5,
                     color:'#fff',
-                    font:{weight:'bold',size:13},
+                    font:{weight:'bold',size:11},
                     formatter: (value, context) => {
                         if (!value || value === 0) return '';
                         const bu = context.chart.data.labels[context.dataIndex];
                         const total = byBu[bu].hit + byBu[bu].miss;
                         const pct = total > 0 ? (value / total * 100).toFixed(0) : 0;
-                        return `${value} (${pct}%)`;
+                        return `${value}`;
                     }
                 } 
             },
@@ -5905,18 +6454,39 @@ function renderAstorSLA() {
     const pcts   = areas.map(a=>(byArea[a].tot>0?(byArea[a].hit/byArea[a].tot*100).toFixed(1):0));
     astorChartArea = new Chart(ctx2, {
         type:'doughnut',
-        data:{ labels:areas.map((a,i)=>`${a} ${pcts[i]}%`),
+        data:{ labels:areas.map((a,i)=>`${a} (${pcts[i]}%)`),
             datasets:[{ data:areas.map(a=>byArea[a].tot),
-                backgroundColor:['#3b82f6','#2dd4bf','#fbbf24'],
+                backgroundColor:['#60a5fa','#2dd4bf','#fbbf24'],
                 borderColor:'#1a1a1a', borderWidth:4 }]
         },
         options:{ responsive:true, maintainAspectRatio:false,
-            plugins:{ legend:{position:'bottom',labels:{color:'#fff',font:{size:11},padding:10}},
-                datalabels:{ color:'#fff', font:{weight:'bold',size:14},
-                    formatter:(v,ctx)=>{ const a=areas[ctx.dataIndex]; return byArea[a].tot>0?pcts[ctx.dataIndex]+'%':''; }
+            plugins:{ 
+                legend:{position:'bottom',labels:{color:'#fff',font:{size:11},padding:10}},
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.9)',
+                    titleColor: '#ffd700',
+                    titleFont: { size: 14, weight: 'bold' },
+                    borderColor: '#ffd700',
+                    borderWidth: 1,
+                    padding: 12,
+                    callbacks: {
+                        label: function(context) {
+                            const area = areas[context.dataIndex];
+                            const stats = byArea[area];
+                            const p = pcts[context.dataIndex];
+                            return [
+                                ` Area: ${area}`,
+                                ` Achievement: ${p}%`,
+                                ` Total Order: ${stats.tot}`,
+                                ` SLA Hit: ${stats.hit}`,
+                                ` SLA Miss: ${stats.miss}`
+                            ];
+                        }
+                    }
                 },
-                tooltip:{ callbacks:{ label:ctx=>{ const a=areas[ctx.dataIndex];
-                    return ` HIT:${byArea[a].hit} | MISS:${byArea[a].miss} | Total:${byArea[a].tot}`; }}}
+                datalabels:{ color:'#fff', font:{weight:'bold',size:12},
+                    formatter:(v,ctx)=>{ const a=areas[ctx.dataIndex]; return byArea[a].tot>0?pcts[ctx.dataIndex]+'%':''; }
+                }
             }
         }
     });
@@ -5935,7 +6505,23 @@ function renderAstorSLA() {
         },
         options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
             layout:{ padding:{ right: 90 } },
-            plugins:{ legend:{display:false},
+            plugins:{ 
+                legend:{display:false},
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.9)',
+                    titleColor: '#ffd700',
+                    titleFont: { size: 14, weight: 'bold' },
+                    borderColor: '#ffd700',
+                    borderWidth: 1,
+                    padding: 12,
+                    callbacks: {
+                        label: function(context) {
+                            const val = context.parsed.x;
+                            const pct = bTot > 0 ? (val / bTot * 100).toFixed(1) : 0;
+                            return ` Outstanding: ${val} order (${pct}%)`;
+                        }
+                    }
+                },
                 datalabels:{ anchor:'end', align:'right', color:'#fff', font:{weight:'bold',size:12},
                     formatter:v=>v>0?`${v} (${bTot>0?(v/bTot*100).toFixed(0):0}%)`:'',
                     padding:{left:6} }
@@ -5987,6 +6573,7 @@ function renderAstorSLA() {
             <td style="padding:8px;border:1px solid #222;text-align:center;">
                 <span style="background:rgba(255,255,255,0.07);padding:2px 8px;border-radius:4px;font-size:0.8em;">${r.area}</span>
             </td>
+            <td style="padding:8px;border:1px solid #222;text-align:right;font-weight:bold;color:#ffd700;">${r.cbm > 0 ? r.cbm.toFixed(2) : '-'}</td>
             <td style="padding:8px;border:1px solid #222;text-align:right;font-weight:bold;color:${ac};font-size:1.05em;">${r.aging}</td>
             <td style="padding:8px;border:1px solid #222;">
                 <span style="background:rgba(255,215,0,0.12);color:#ffd700;padding:2px 10px;border-radius:4px;font-size:0.78em;font-weight:bold;">⏳ OUTSTANDING</span>

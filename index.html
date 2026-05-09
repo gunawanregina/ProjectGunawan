@@ -3012,7 +3012,7 @@
                 if (container) container.style.display = 'block';
                 
                 const finalUrl = `${HUB_CSV_URL}&t=${Date.now()}`;
-                const response = await fetch(finalUrl, { cache: "no-store" });
+                const response = await fetch(finalUrl);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const csv = await response.text();
                 
@@ -4436,7 +4436,7 @@ function renderStoringPivotTable(filteredData) {
             try {
                 // Menambahkan timestamp untuk menghindari cache
                 const finalUrl = `${CSV_URL}&t=${Date.now()}`;
-                const response = await fetch(finalUrl, { cache: "no-store" });
+                const response = await fetch(finalUrl);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

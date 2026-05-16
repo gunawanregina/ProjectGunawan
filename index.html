@@ -2051,13 +2051,19 @@
 
                     <!-- 2. Middle: Logo Section (Centered) -->
                     <div style="background: #ffffff; padding: 10px 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(106, 27, 154, 0.08); border: 2px solid #f0f4f8; display: flex; align-items: center; justify-content: center; min-width: 320px; flex: 1.2;">
-                         <svg width="320" height="90" viewBox="0 0 450 100" style="display: block;">
-                            <!-- Stylized Leaf -->
-                            <path d="M40 75 Q15 45 50 25 Q85 5 70 45 Q55 85 35 75" fill="#4ade80" />
-                            <path d="M45 65 Q65 45 85 55" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round" />
-                            <!-- Centered Chatime text -->
-                            <text x="240" y="78" font-family="'Inter', 'Trebuchet MS', sans-serif" font-weight="900" font-style="italic" font-size="85" fill="#6a1b9a" text-anchor="middle">Chatime</text>
-                        </svg>
+                         <!-- GANTI DENGAN INI: -->
+<svg width="280" height="90" viewBox="0 0 280 90" style="display: block;">
+    <!-- Outer circle -->
+    <circle cx="45" cy="45" r="40" fill="none" stroke="#3d2b8c" stroke-width="6"/>
+    <!-- Inner circle / smile face -->
+    <circle cx="45" cy="45" r="28" fill="none" stroke="#f5c400" stroke-width="5"/>
+    <!-- Smile arc -->
+    <path d="M30 50 Q45 65 60 50" fill="none" stroke="#3d2b8c" stroke-width="5" stroke-linecap="round"/>
+    <!-- F&B text -->
+    <text x="100" y="48" font-family="'Inter', Arial, sans-serif" font-weight="900" font-size="42" fill="#3d2b8c">F&amp;B</text>
+    <!-- INDONESIA text -->
+    <text x="100" y="72" font-family="'Inter', Arial, sans-serif" font-weight="700" font-size="18" fill="#3d2b8c" letter-spacing="3">INDONESIA</text>
+</svg>
                     </div>
 
                     <!-- 3. Right: Filter Area -->
@@ -3575,10 +3581,12 @@
 
         // Helper to format numbers like the image (Indo format)
         function formatIndo(val) {
-            if (val === 0) return '0';
-            // Show up to 2 decimal places, but remove trailing zeros. Use dot as requested in prompt "33.5"
-            return parseFloat(val.toFixed(2)).toString();
-        }
+    if (val === 0) return '0';
+    return val.toLocaleString('id-ID', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    });
+}
 
         // Initialize Map
         function initMap() {
@@ -3712,43 +3720,66 @@
             }
 
             // 1. Calculate KPIs and Summary
-            const uniqueStores = new Set();
-            const uniqueOrders = new Set();
-            const uniqueOrdersSudah = new Set();
-            const uniqueOrdersBelum = new Set();
-            
-            const coverageData = {}; // By Day for Chart
+            // GANTI DENGAN INI:
+const uniqueStores = new Set();
+const uniqueOrders = new Set();
+const uniqueOrdersSudah = new Set();
+const uniqueOrdersBelum = new Set();
 
-            rawPivotData.forEach(row => {
-                const colI = row.rawColumns && row.rawColumns.I ? row.rawColumns.I.trim() : "";
-                const colBC = row.status ? row.status.trim() : ""; // Column BC
-                const colF = row.rawColumns && row.rawColumns.F ? row.rawColumns.F.trim() : ""; // Column F
-                const date = row.stuffingDate || 'No Date';
+const coverageData = {}; // By Day for Chart
 
-                if (colI) {
-                    uniqueStores.add(colI.toUpperCase());
-                }
-                
-                if (colF) {
-                    uniqueOrders.add(colF);
-                    if (colBC.toUpperCase() === 'SUDAH PLAN') {
-                        uniqueOrdersSudah.add(colF);
-                    }
-                    if (colBC.toUpperCase() === 'BELUM PLAN') {
-                        uniqueOrdersBelum.add(colF);
-                    }
-                }
+rawPivotData.forEach(row => {
+    const colI = row.rawColumns && row.rawColumns.I ? row.rawColumns.I.trim() : "";
+    const colBC = row.status ? row.status.trim() : ""; // Column BC
 
-                // Coverage per Hari (based on Stuffing Date/Tanggal)
-                if (!coverageData[date]) coverageData[date] = 0;
-                coverageData[date] += row.cbm;
-            });
+    // PERBAIKAN: pakai Column E sebagai primary, Column F sebagai fallback
+    const colE = row.rawColumns && row.rawColumns.E ? row.rawColumns.E.trim() : "";
+    const colF = row.rawColumns && row.rawColumns.F ? row.rawColumns.F.trim() : "";
+    const orderId = colE || colF; // ambil yang ada nilainya
 
-            // Update KPI DOM
-            updateVal('fbi-kpi-total-stores', uniqueStores.size);
-            updateVal('fbi-kpi-sudah-plan', formatIndo(uniqueOrdersSudah.size));
-            updateVal('fbi-kpi-outstanding-aging', formatIndo(uniqueOrders.size));
-            updateVal('fbi-kpi-belum-plan', formatIndo(uniqueOrdersBelum.size));
+    const date = row.stuffingDate || 'No Date';
+
+    if (colI) {
+        uniqueStores.add(colI.toUpperCase());
+    }
+    
+    if (orderId) {
+        uniqueOrders.add(orderId);
+        if (colBC.toUpperCase() === 'SUDAH PLAN') {
+            uniqueOrdersSudah.add(orderId);
+        }
+        if (colBC.toUpperCase() === 'BELUM PLAN') {
+            uniqueOrdersBelum.add(orderId);
+        }
+    }
+
+    // Coverage per Hari (based on Stuffing Date/Tanggal)
+    if (!coverageData[date]) coverageData[date] = 0;
+    coverageData[date] += row.cbm;
+});
+
+// Hitung dari rawOrderDistData — sumber yang sama dengan Donut Chart
+const uniqueOrdersFromDist = new Set();
+const uniqueOrdersSudahDist = new Set();
+const uniqueOrdersBelumDist = new Set();
+
+rawOrderDistData.forEach(d => {
+    if (!d.orderNo) return;
+    uniqueOrdersFromDist.add(d.orderNo);
+});
+
+// Sudah Plan & Belum Plan tetap dari rawPivotData (karena ada kolom status BC)
+// tapi pakai rawOrderDistData sebagai referensi total yang benar
+// Hitung selisih: Belum Plan = Total - Sudah Plan
+const totalOrder = uniqueOrdersFromDist.size;           // 273 (dari rawOrderDistData)
+const sudahPlan  = uniqueOrdersSudah.size;              // 175 (dari rawPivotData)
+const belumPlan  = totalOrder - sudahPlan;              // 273 - 175 = 98
+
+// Update KPI DOM
+updateVal('fbi-kpi-total-stores', uniqueStores.size);
+updateVal('fbi-kpi-sudah-plan', formatIndo(sudahPlan));
+updateVal('fbi-kpi-outstanding-aging', formatIndo(totalOrder));
+updateVal('fbi-kpi-belum-plan', formatIndo(belumPlan));
 
             // Render Chatime Dashboard (independent now)
             renderChatimeDashboard();
@@ -4486,7 +4517,7 @@
         
             if (!fbiMap) {
                 // Initialize Leaflet Map (mimicking Google Maps)
-                fbiMap = L.map('fbi-google-map').setView([-7.45, 112.7], 10);
+                fbiMap = L.map('fbi-google-map').setView([-5.0, 115.0], 5);
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                     attribution: '© OpenStreetMap, © CARTO'
                 }).addTo(fbiMap);
@@ -4496,17 +4527,46 @@
                 if (fbiMarkersLayer) fbiMarkersLayer.clearLayers();
             }
         
-            // Add some dummy markers for visualization
-            const markers = [
-                { lat: -7.4478, lng: 112.7183, name: 'Sidoarjo Center' },
-                { lat: -7.345, lng: 112.737, name: 'Surabaya Border' }
-            ];
-        
-            markers.forEach(m => {
-                L.marker([m.lat, m.lng]).addTo(fbiMarkersLayer)
-                    .bindPopup(m.name);
-            });
-        }
+            // Wilayah FBI coverage markers
+        const wilayahData = [
+            { name: 'Bali',        lat: -8.4095,  lng: 115.1889, count: 22 },
+            { name: 'Surabaya',    lat: -7.2575,  lng: 112.7521, count: 16 },
+            { name: 'Sidoarjo',    lat: -7.4478,  lng: 112.7183, count: 4  },
+            { name: 'Mojokerto',   lat: -7.4722,  lng: 112.4336, count: 2  },
+            { name: 'Lamongan',    lat: -7.1178,  lng: 112.4153, count: 1  },
+            { name: 'Gresik',      lat: -7.1539,  lng: 112.6561, count: 2  },
+            { name: 'Malang',      lat: -7.9666,  lng: 112.6326, count: 9  },
+            { name: 'Pasuruan',    lat: -7.6457,  lng: 112.9075, count: 1  },
+            { name: 'Madiun',      lat: -7.6298,  lng: 111.5239, count: 2  },
+            { name: 'Kediri',      lat: -7.8169,  lng: 112.0114, count: 1  },
+            { name: 'Tuban',       lat: -6.8944,  lng: 111.9533, count: 1  },
+            { name: 'Jember',      lat: -8.1724,  lng: 113.7000, count: 1  },
+            { name: 'Banyuwangi',  lat: -8.2192,  lng: 114.3691, count: 1  },
+            { name: 'Maluku',      lat: -3.6954,  lng: 128.1814, count: 2  },
+            { name: 'Lombok',      lat: -8.6363,  lng: 116.3150, count: 3  },
+            { name: 'Kupang',      lat: -10.1639, lng: 123.5812, count: 1  },
+            { name: 'Sorong',      lat: -0.8651,  lng: 131.2502, count: 1  },
+            { name: 'Abepura',       lat: -4.2699,  lng: 138.0804, count: 1  },
+            { name: 'Manado',      lat: 1.4748,   lng: 124.8228, count: 1  },
+            { name: 'Makassar',    lat: -5.1477,  lng: 119.4327, count: 2  },
+            { name: 'Gorontalo',   lat: 0.5435,   lng: 123.0568, count: 1  },
+            { name: 'Kendari',     lat: -3.9456,  lng: 122.5144, count: 3  },
+            { name: 'Palu',        lat: -0.8917,  lng: 119.8707, count: 3  },
+        ];
+
+        wilayahData.forEach(w => {
+            const radius = Math.min(Math.max(w.count * 2, 8), 28);
+            L.circleMarker([w.lat, w.lng], {
+                radius: radius,
+                fillColor: '#ba68c8',
+                color: '#fff',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.85
+            }).addTo(fbiMarkersLayer)
+              .bindPopup(`<strong>${w.name}</strong><br/>Jumlah: ${w.count}`);
+        });
+    }
 
         async function fetchFBIScheduleData() {
             try {

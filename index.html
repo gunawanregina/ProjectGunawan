@@ -1903,6 +1903,11 @@
             <span>Hub Astor</span>
         </div>
 
+        <div class="bottom-nav-item" id="nav-transit" onclick="showDashboardSection('transit-schema-section')">
+    <i class="fas fa-route"></i>
+    <span>Skema Transit</span>
+</div>
+        
         <div class="bottom-nav-item" id="nav-jadwal-dc" onclick="window.open('https://script.google.com/a/macros/kawanlamacorp.com/s/AKfycbz-otD-56iTVsM8KiVcC0orH2f2F9450cVZx1N40Og3fPQAfuMbL3EVFFXpBqSf3U1f/exec', '_blank')">
             <i class="fas fa-clock"></i>
             <span>JADWAL DC</span>
@@ -2650,8 +2655,8 @@
                         const setWidth = (id, val) => { const e = document.getElementById(id); if (e) e.style.width = val; };
                         const setBg = (id, val) => { const e = document.getElementById(id); if (e) e.style.background = val; };
     
-                        setTxt('c-data-plan-today', totalTasks + ' Orders');
-                        setTxt('c-data-case-today', typeof formatIndo === 'function' ? formatIndo(caseIdPlan) + ' Cases' : caseIdPlan + ' Cases');
+                        setTxt('c-data-plan-today', totalTasks + ' Armada');
+                        setTxt('c-data-case-today', typeof formatIndo === 'function' ? formatIndo(caseIdPlan) + ' Case ID' : caseIdPlan + ' Case ID');
                         
                         setTxt('c-data-sla-grw', avgSlaGrw + '%');
                         setWidth('c-prog-sla-grw', avgSlaGrw + '%');
@@ -2871,6 +2876,66 @@
             </div>
         </div>
 
+        <!-- Daily Vendor Performance Trend Section -->
+        <div class="daily-vendor-trend-container" style="background: #1a1a1a; border: 1px solid #333; border-radius: 8px; margin-top: 25px; margin-bottom: 25px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+            <div class="table-header" style="color: #ffd700; margin-bottom: 15px; font-weight: bold; border-bottom: 1px solid #333; padding-bottom: 10px; display: flex; align-items: center; justify-content: space-between; font-size: 0.9em; text-transform: uppercase;">
+                <span><i class="fas fa-chart-line" style="margin-right: 10px; color: #ffd700;"></i> TREND DAILY VENDOR PERFORMANCE (ON TIME ACHIEVEMENT)</span>
+                <span id="trend-disclaimer" style="font-size: 0.8em; color: #aaa; font-weight: normal; text-transform: none;">*Menampilkan seluruh tanggal pada bulan aktif (Abaikan filter Stuffing Date)</span>
+            </div>
+
+            <!-- KPI Cards Row -->
+            <div class="vendor-kpi-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                <!-- KPI 1 -->
+                <div class="vendor-kpi-card" style="background: #242424; border: 1px solid #3d3d3d; border-radius: 6px; padding: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                    <div>
+                        <div style="font-size: 0.75em; color: #aaa; text-transform: uppercase; font-weight: 500; letter-spacing: 0.5px;">Vendor Supporting</div>
+                        <div id="kpi-supporting-percent" style="font-size: 1.8em; font-weight: bold; color: #ffd700; margin-top: 5px;">0.0%</div>
+                        <div style="font-size: 0.7em; color: #888; margin-top: 2px;">Monthly On-Time Avg</div>
+                    </div>
+                    <div style="background: rgba(255, 215, 0, 0.1); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 215, 0, 0.2);">
+                        <i class="fas fa-handshake" style="color: #ffd700; font-size: 1.2em;"></i>
+                    </div>
+                </div>
+                <!-- KPI 2 -->
+                <div class="vendor-kpi-card" style="background: #242424; border: 1px solid #3d3d3d; border-radius: 6px; padding: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                    <div>
+                        <div style="font-size: 0.75em; color: #aaa; text-transform: uppercase; font-weight: 500; letter-spacing: 0.5px;">Total Completed LC</div>
+                        <div id="kpi-total-lc" style="font-size: 1.8em; font-weight: bold; color: #3b82f6; margin-top: 5px;">0</div>
+                        <div style="font-size: 0.7em; color: #888; margin-top: 2px;">Total Load Containers</div>
+                    </div>
+                    <div style="background: rgba(59, 130, 246, 0.1); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <i class="fas fa-boxes" style="color: #3b82f6; font-size: 1.2em;"></i>
+                    </div>
+                </div>
+                <!-- KPI 3 -->
+                <div class="vendor-kpi-card" style="background: #242424; border: 1px solid #3d3d3d; border-radius: 6px; padding: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                    <div>
+                        <div style="font-size: 0.75em; color: #aaa; text-transform: uppercase; font-weight: 500; letter-spacing: 0.5px;">Total On-Time LC</div>
+                        <div id="kpi-ontime-lc" style="font-size: 1.8em; font-weight: bold; color: #4ade80; margin-top: 5px;">0</div>
+                        <div style="font-size: 0.7em; color: #888; margin-top: 2px;">Delivered Within Schedule</div>
+                    </div>
+                    <div style="background: rgba(74, 222, 128, 0.1); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(74, 222, 128, 0.2);">
+                        <i class="fas fa-shipping-fast" style="color: #4ade80; font-size: 1.2em;"></i>
+                    </div>
+                </div>
+                <!-- KPI 4 -->
+                <div class="vendor-kpi-card" style="background: #242424; border: 1px solid #3d3d3d; border-radius: 6px; padding: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                    <div>
+                        <div style="font-size: 0.75em; color: #aaa; text-transform: uppercase; font-weight: 500; letter-spacing: 0.5px;">Total Delayed LC</div>
+                        <div id="kpi-delayed-lc" style="font-size: 1.8em; font-weight: bold; color: #f87171; margin-top: 5px;">0</div>
+                        <div style="font-size: 0.7em; color: #888; margin-top: 2px;">Requires Dispatch Follow-up</div>
+                    </div>
+                    <div style="background: rgba(248, 113, 113, 0.1); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(248, 113, 113, 0.2);">
+                        <i class="fas fa-exclamation-triangle" style="color: #f87171; font-size: 1.2em;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-body" style="height: 320px; position: relative;">
+                <canvas id="dailyVendorPerfChart"></canvas>
+            </div>
+        </div>
+
         <!-- Extra Section (New Tables & Charts) -->
         <div class="extra-section">
             <div class="extra-left">
@@ -2975,8 +3040,8 @@
                                 <th onclick="sortVendorPerformance('onTime')" style="width: 100px; text-align: center; border: 1px solid #333; cursor: pointer; position: relative;">
                                     ON TIME <i class="fas fa-sort" style="font-size: 0.8em; margin-left: 5px; opacity: 0.5;"></i>
                                 </th>
-                                <th onclick="sortVendorPerformance('terlambat')" style="width: 120px; text-align: center; border: 1px solid #333; cursor: pointer; position: relative;">
-                                    TERLAMBAT <i class="fas fa-sort" style="font-size: 0.8em; margin-left: 5px; opacity: 0.5;"></i>
+                                <th onclick="sortVendorPerformance('terlambat')" style="width: 150px; text-align: center; border: 1px solid #333; cursor: pointer; position: relative;">
+                                    DELAYED SUPPORT <i class="fas fa-sort" style="font-size: 0.8em; margin-left: 5px; opacity: 0.5;"></i>
                                 </th>
                                 <th onclick="sortVendorPerformance('total')" style="width: 100px; text-align: center; border: 1px solid #333; cursor: pointer; position: relative;">
                                     TOTAL <i class="fas fa-sort" style="font-size: 0.8em; margin-left: 5px; opacity: 0.5;"></i>
@@ -3208,7 +3273,666 @@
                 </div>
             </div>
         </div> <!-- End outstanding-section -->
+<!-- ============================================================
+     SKEMA TRANSIT NDC AHI JABABEKA → NDC AHI SIDOARJO
+     Tambahkan blok ini SEBELUM: <div id="hub-astor-section" ...>
+     ============================================================ -->
+<div id="transit-schema-section" class="dash-section" style="display: none;">
 
+  <!-- Internal CSS untuk section ini saja -->
+  <style>
+    /* ── Root variables ── */
+    #transit-schema-section {
+      --tr-green:   #1a3a2a;
+      --tr-green2:  #2d6a47;
+      --tr-accent:  #7de0a4;
+      --tr-gold:    #ffd864;
+      --tr-kirim:   #f59e42;
+      --tr-load:    #22a86b;
+      --tr-row-alt: rgba(255,255,255,0.03);
+      font-family: 'Inter','Segoe UI',sans-serif;
+    }
+
+    /* ── Section Banner ── */
+    .tr-banner {
+      background: linear-gradient(90deg, var(--tr-green) 0%, #0f2419 100%);
+      border-left: 6px solid var(--tr-gold);
+      padding: 18px 28px;
+      margin-bottom: 24px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .tr-banner h2 {
+      color: #fff;
+      font-size: 1.4em;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin: 0;
+      text-shadow: 1px 2px 6px rgba(0,0,0,0.5);
+    }
+    .tr-banner i { color: var(--tr-gold); font-size: 1.6em; }
+
+    /* ── Route Bar ── */
+    .tr-route-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .tr-wh-pill {
+      background: var(--tr-green2);
+      border: 1px solid var(--tr-accent);
+      color: var(--tr-accent);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 7px 18px;
+      border-radius: 30px;
+      letter-spacing: 0.5px;
+    }
+    .tr-arrow { color: #7de0a4; font-size: 22px; }
+    .tr-eta {
+      background: rgba(255,216,100,0.12);
+      border: 1px solid rgba(255,216,100,0.35);
+      color: var(--tr-gold);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-left: 4px;
+    }
+
+    /* ── Controls Bar ── */
+    .tr-controls {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 6px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .tr-controls label { font-size: 12px; color: #aaa; white-space: nowrap; font-weight: 600; }
+    .tr-filter-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tr-fbtn {
+      font-size: 11px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: 1px solid #333;
+      background: #222;
+      color: #888;
+      transition: all 0.15s;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .tr-fbtn:hover { border-color: var(--tr-green2); color: #ccc; }
+    .tr-fbtn.active {
+      background: var(--tr-green);
+      color: var(--tr-accent);
+      border-color: var(--tr-green2);
+    }
+    .tr-day-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+    .tr-day-wrap label { color: #888; font-size: 12px; }
+    .tr-day-wrap select {
+      background: #222;
+      color: #ffd700;
+      border: 1px solid #ffd700;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* ── Legend ── */
+    .tr-legend {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    .tr-leg { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #888; font-weight: 600; }
+    .tr-dot { width: 12px; height: 12px; border-radius: 3px; }
+    .tr-dot-k { background: var(--tr-kirim); }
+    .tr-dot-l { background: var(--tr-load); }
+    .tr-dot-e { background: #2a2a2a; border: 1px solid #444; }
+
+    /* ── Table Wrapper ── */
+    .tr-table-wrap {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      overflow: hidden;
+      overflow-x: auto;
+    }
+    .tr-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+    }
+
+    /* ── Table Header ── */
+    .tr-table thead tr.tr-h1 th {
+      background: var(--tr-green);
+      color: var(--tr-accent);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 11px 8px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .tr-table thead tr.tr-h1 th.tr-left { text-align: left; padding-left: 14px; }
+    .tr-table thead tr.tr-h2 th {
+      background: #1e3d2a;
+      color: var(--tr-accent);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 7px 6px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .tr-table thead tr.tr-h2 th.tr-load-head { background: #162d1e; }
+    th.tr-sep { background: #111 !important; width: 6px; padding: 0 !important; }
+
+    /* ── Table Body ── */
+    .tr-table tbody tr { border-bottom: 1px solid #222; transition: background 0.1s; }
+    .tr-table tbody tr:hover { background: rgba(45,106,70,0.12); }
+    .tr-table tbody tr.tr-area-start td { border-top: 2px solid #2d6a47; }
+    .tr-table td {
+      padding: 6px 5px;
+      text-align: center;
+      font-size: 11px;
+      vertical-align: middle;
+    }
+    .tr-table td.tr-area-cell {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--tr-gold);
+      text-align: left;
+      padding: 6px 14px;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+    .tr-table td.tr-wil-cell {
+      font-size: 11px;
+      color: #ccc;
+      text-align: left;
+      padding: 6px 14px;
+      white-space: nowrap;
+    }
+    td.tr-sep-col {
+      background: #111;
+      width: 6px;
+      padding: 0;
+      border-left: 1px solid #2a2a2a;
+      border-right: 1px solid #2a2a2a;
+    }
+
+    /* ── Pills ── */
+    .tr-pill-k {
+      background: rgba(245,158,66,0.18);
+      color: var(--tr-kirim);
+      border: 1px solid rgba(245,158,66,0.5);
+      border-radius: 4px;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 8px;
+      display: inline-block;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .tr-pill-l {
+      background: rgba(34,168,107,0.18);
+      color: var(--tr-load);
+      border: 1px solid rgba(34,168,107,0.5);
+      border-radius: 4px;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 8px;
+      display: inline-block;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    /* ── Note Bar ── */
+    .tr-note {
+      background: rgba(255,216,100,0.08);
+      border: 1px solid rgba(255,216,100,0.25);
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 12px;
+      color: #ffd864;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+      font-weight: 600;
+    }
+
+    /* ── KPI Row ── */
+    .tr-kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .tr-kpi-card {
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform 0.2s;
+    }
+    .tr-kpi-card:hover { transform: translateY(-3px); }
+    .tr-kpi-label { font-size: 10px; color: #666; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .tr-kpi-val { font-size: 2em; font-weight: 800; }
+    .tr-kpi-card.tr-k1 { border-bottom: 3px solid var(--tr-kirim); }
+    .tr-kpi-card.tr-k2 { border-bottom: 3px solid var(--tr-load); }
+    .tr-kpi-card.tr-k3 { border-bottom: 3px solid #60a5fa; }
+    .tr-kpi-card.tr-k4 { border-bottom: 3px solid var(--tr-gold); }
+    .tr-kpi-card.tr-k1 .tr-kpi-val { color: var(--tr-kirim); }
+    .tr-kpi-card.tr-k2 .tr-kpi-val { color: var(--tr-load); }
+    .tr-kpi-card.tr-k3 .tr-kpi-val { color: #60a5fa; }
+    .tr-kpi-card.tr-k4 .tr-kpi-val { color: var(--tr-gold); }
+
+    /* ── Day Highlight ── */
+    .tr-table td.tr-today-k { background: rgba(245,158,66,0.07); }
+    .tr-table td.tr-today-l { background: rgba(34,168,107,0.07); }
+    .tr-table th.tr-today-head { background: #1a3a1a !important; box-shadow: inset 0 -3px 0 var(--tr-gold); }
+  </style>
+
+  <!-- Banner -->
+  <div class="tr-banner">
+    <i class="fas fa-route"></i>
+    <div>
+      <h2>Skema Transit Titip Kirim Astor</h2>
+      <div style="font-size:12px;color:#9dc9b0;margin-top:3px;">Jadwal pengiriman &amp; loading per wilayah distribusi</div>
+    </div>
+  </div>
+
+  <!-- Route + KPI -->
+  <div class="tr-route-bar">
+    <span class="tr-wh-pill"><i class="fas fa-warehouse" style="margin-right:6px;"></i>WH JABABEKA</span>
+    <span class="tr-arrow">⟶</span>
+    <span class="tr-wh-pill"><i class="fas fa-warehouse" style="margin-right:6px;"></i>WH SIDOARJO</span>
+    <span class="tr-eta"><i class="fas fa-clock" style="margin-right:5px;"></i>Lead Time 2–3 Hari</span>
+  </div>
+
+  <!-- KPI cards -->
+  <div class="tr-kpi-row" id="tr-kpi-row">
+    <div class="tr-kpi-card tr-k1"><div class="tr-kpi-label">Jadwal Kirim Hari Ini</div><div class="tr-kpi-val" id="tr-kv1">—</div></div>
+    <div class="tr-kpi-card tr-k2"><div class="tr-kpi-label">Jadwal Loading Hari Ini</div><div class="tr-kpi-val" id="tr-kv2">—</div></div>
+    <div class="tr-kpi-card tr-k3"><div class="tr-kpi-label">Total Wilayah</div><div class="tr-kpi-val" id="tr-kv3">—</div></div>
+    <div class="tr-kpi-card tr-k4"><div class="tr-kpi-label">Total Area</div><div class="tr-kpi-val" id="tr-kv4">—</div></div>
+  </div>
+
+  <!-- Controls -->
+  <div class="tr-controls">
+    <label>Filter Area:</label>
+    <div class="tr-filter-btns" id="tr-filter-btns">
+      <button class="tr-fbtn active" onclick="trFilterArea('ALL',this)">Semua</button>
+    </div>
+    <div class="tr-legend" style="margin-left:auto;">
+      <div class="tr-leg"><div class="tr-dot tr-dot-k"></div>Kirim (Jababeka)</div>
+      <div class="tr-leg"><div class="tr-dot tr-dot-l"></div>Loading (Sidoarjo)</div>
+      <div class="tr-leg"><div class="tr-dot tr-dot-e"></div>Tidak ada</div>
+    </div>
+    <div class="tr-day-wrap">
+      <label>Sorot Hari:</label>
+      <select id="tr-day-select" onchange="trRenderTable(trCurrentFilter)">
+        <option value="">— Pilih —</option>
+        <option>SENIN</option><option>SELASA</option><option>RABU</option>
+        <option>KAMIS</option><option>JUMAT</option><option>SABTU</option><option>MINGGU</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="tr-table-wrap">
+    <table class="tr-table" id="tr-main-table">
+      <thead>
+        <tr class="tr-h1">
+          <th class="tr-left" rowspan="2">Area</th>
+          <th class="tr-left" rowspan="2">Wilayah</th>
+          <th colspan="7" style="border-right:2px solid #2d6a47;">Schedule Kirim dari Jababeka</th>
+          <th colspan="7">Schedule Loading dari Sidoarjo</th>
+        </tr>
+        <tr class="tr-h2" id="tr-day-headers">
+          <!-- filled by JS -->
+        </tr>
+      </thead>
+      <tbody id="tr-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- Note -->
+  <div class="tr-note">
+    <i class="fas fa-info-circle" style="font-size:20px;"></i>
+    <span><strong>Catatan:</strong> Lead Time Jababeka – Sidoarjo estimasi <strong>2–3 hari</strong>.
+    Jadwal dapat berubah sesuai ketersediaan kuota dan armada. Hubungi Tim Planner untuk konfirmasi.</span>
+  </div>
+
+  <!-- ── JavaScript untuk section transit ── -->
+  <!-- ============================================================
+     GANTI SELURUH BLOK <script> di dalam #transit-schema-section
+     Dari: (function() { ... /* DATA hardcoded */ ... })();
+     Sampai: })();
+     Dengan kode di bawah ini:
+     ============================================================ -->
+<script>
+(function () {
+
+  /* ── CONFIG SPREADSHEET ── */
+  const TRANSIT_SHEET_ID = '1noBpxmLuT3XQAYzO2Bdv_LrXqzDTqw1ugPN4ST_AYtg';
+  const TRANSIT_GID      = '1362466245';
+  const TRANSIT_CSV_URL  = `https://docs.google.com/spreadsheets/d/${TRANSIT_SHEET_ID}/export?format=csv&gid=${TRANSIT_GID}`;
+
+  /* ── KONSTANTA ── */
+  const DAYS = ['SENIN','SELASA','RABU','KAMIS','JUMAT','SABTU','MINGGU'];
+
+  /* ── STATE ── */
+  let DATA = [];
+  window.trCurrentFilter = 'ALL';
+
+  /* ══════════════════════════════════════════
+     FETCH & PARSE
+  ══════════════════════════════════════════ */
+  async function fetchTransitData() {
+    const tbody = document.getElementById('tr-tbody');
+    if (tbody) {
+      tbody.innerHTML = `<tr><td colspan="16" style="text-align:center;padding:30px;color:#7de0a4;">
+        <i class="fas fa-spinner fa-spin" style="font-size:1.5em;display:block;margin-bottom:8px;"></i>
+        Memuat jadwal transit dari spreadsheet...
+      </td></tr>`;
+    }
+
+    try {
+      const res = await fetch(TRANSIT_CSV_URL);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const csv = await res.text();
+      if (csv.trim().startsWith('<!DOCTYPE')) {
+        throw new Error('Sheet belum di-share publik. Pastikan "Anyone with the link can view".');
+      }
+      parseTransitCSV(csv);
+    } catch (e) {
+      console.error('Transit fetch error:', e);
+      if (tbody) {
+        tbody.innerHTML = `<tr><td colspan="16" style="text-align:center;padding:30px;color:#f87171;">
+          <i class="fas fa-exclamation-triangle" style="font-size:1.5em;display:block;margin-bottom:8px;"></i>
+          <strong>Gagal memuat data:</strong> ${e.message}
+          <br/><button onclick="fetchTransitData()" style="margin-top:12px;padding:6px 16px;background:#2d6a47;color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:bold;">
+            <i class="fas fa-sync"></i> Coba Lagi
+          </button>
+        </td></tr>`;
+      }
+    }
+  }
+
+  /* ── Parser CSV ── */
+  function parseCSVLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') { inQuotes = !inQuotes; }
+      else if (c === ',' && !inQuotes) { result.push(current.trim()); current = ''; }
+      else { current += c; }
+    }
+    result.push(current.trim());
+    return result;
+  }
+
+  function normalizeCell(val) {
+    const v = (val || '').trim().toUpperCase();
+    if (v.includes('KIRIM'))   return 'KIRIM';
+    if (v.includes('LOADING')) return 'LOADING';
+    return '';
+  }
+
+  function parseTransitCSV(csv) {
+    const lines = csv.split(/\r?\n/);
+
+    /* Cari baris header hari (mengandung SENIN) */
+    let headerRowIdx = -1;
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].toUpperCase().includes('SENIN')) {
+        headerRowIdx = i;
+        break;
+      }
+    }
+    if (headerRowIdx === -1) {
+      console.error('Header hari tidak ditemukan di sheet');
+      return;
+    }
+
+    /* Deteksi kolom KIRIM & LOADING (cari 2x kemunculan SENIN) */
+    const headerCols = parseCSVLine(lines[headerRowIdx]);
+    let kirimStart = -1;
+    let loadingStart = -1;
+    for (let i = 0; i < headerCols.length; i++) {
+      const v = headerCols[i].toUpperCase().trim();
+      if (v === 'SENIN' || v.includes('SENIN')) {
+        if (kirimStart === -1) kirimStart = i;
+        else if (loadingStart === -1) { loadingStart = i; break; }
+      }
+    }
+
+    /* Fallback:
+       A(0)=kosong, B(1)=AREA, C(2)=WILAYAH,
+       D(3)=SENIN-KIRIM...J(9)=MINGGU-KIRIM,
+       K(10)=separator, L(11)=SENIN-LOADING...R(17)=MINGGU-LOADING */
+    if (kirimStart   === -1) kirimStart   = 3;
+    if (loadingStart === -1) loadingStart = 11;
+
+    console.log(`Transit: kirimStart=${kirimStart}, loadingStart=${loadingStart}`);
+
+    DATA = [];
+    let lastArea = '';
+
+    const dataLines = lines.slice(headerRowIdx + 1);
+    dataLines.forEach(line => {
+      if (!line.trim()) return;
+
+      const cols = parseCSVLine(line);
+      if (cols.length < 3) return;
+
+      /* cols[1]=AREA (kolom B), cols[2]=WILAYAH (kolom C) */
+      const area    = (cols[1] || '').trim() || lastArea;
+      const wilayah = (cols[2] || '').trim();
+      if (!wilayah) return;
+
+      const wLower = wilayah.toLowerCase();
+      if (wLower.includes('wilayah') ||
+          wLower.includes('area')    ||
+          wLower.includes('schedule')||
+          wLower.includes('total'))  return;
+
+      if (area) lastArea = area;
+
+      const kArr = DAYS.map((_, i) => normalizeCell(cols[kirimStart  + i] || ''));
+      const lArr = DAYS.map((_, i) => normalizeCell(cols[loadingStart + i] || ''));
+
+      if (kArr.every(v => !v) && lArr.every(v => !v)) return;
+
+      DATA.push([lastArea, wilayah, kArr, lArr]);
+    });
+
+    console.log(`Transit: ${DATA.length} baris berhasil dimuat`);
+
+    trPopulateFilters();
+    trInitDaySelect();
+    trRenderTable('ALL');
+  }
+
+  /* ══════════════════════════════════════════
+     RENDER TABEL
+  ══════════════════════════════════════════ */
+  function getTodayDayName() {
+    const d = ['MINGGU','SENIN','SELASA','RABU','KAMIS','JUMAT','SABTU'];
+    return d[new Date().getDay()];
+  }
+
+  function pillK() { return '<span class="tr-pill-k">KIRIM</span>'; }
+  function pillL() { return '<span class="tr-pill-l">LOADING</span>'; }
+
+  function trRenderDayHeaders(todayDay) {
+    const tr = document.getElementById('tr-day-headers');
+    if (!tr) return;
+    let h = '';
+
+    /* KIRIM headers - kolom terakhir (MIN) dapat border-right sebagai separator */
+    DAYS.forEach((d, idx) => {
+      const cls = d === todayDay ? ' tr-today-head' : '';
+      const sep = idx === DAYS.length - 1 ? ' style="border-right:3px solid #2d6a47;"' : '';
+      h += `<th class="${cls}"${sep}>${d.substring(0,3)}</th>`;
+    });
+
+    /* LOADING headers */
+    DAYS.forEach(d => {
+      const cls = 'tr-load-head' + (d === todayDay ? ' tr-today-head' : '');
+      h += `<th class="${cls}">${d.substring(0,3)}</th>`;
+    });
+
+    tr.innerHTML = h;
+  }
+
+  window.trRenderTable = function (filter) {
+    window.trCurrentFilter = filter || 'ALL';
+    const todayDay = (document.getElementById('tr-day-select')?.value) || getTodayDayName();
+
+    trRenderDayHeaders(todayDay);
+
+    const tbody = document.getElementById('tr-tbody');
+    if (!tbody) return;
+
+    if (DATA.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="16" style="text-align:center;padding:30px;color:#555;">Data belum tersedia.</td></tr>';
+      return;
+    }
+
+    const filtered = DATA.filter(r => filter === 'ALL' || r[0] === filter);
+    if (!filtered.length) {
+      tbody.innerHTML = '<tr><td colspan="16" style="text-align:center;padding:30px;color:#555;">Tidak ada data untuk area ini.</td></tr>';
+      return;
+    }
+
+    const areaCount = {};
+    filtered.forEach(r => { areaCount[r[0]] = (areaCount[r[0]] || 0) + 1; });
+    const areaRendered = {};
+
+    let html = '';
+    filtered.forEach(row => {
+      const [area, wil, kArr, lArr] = row;
+      const isFirst = !areaRendered[area];
+      if (isFirst) areaRendered[area] = true;
+
+      const areaCell = isFirst
+        ? `<td class="tr-area-cell" rowspan="${areaCount[area]}">${area}</td>`
+        : '';
+
+      /* KIRIM cells - kolom terakhir (MIN) dapat border-right sebagai separator */
+      let kCells = '';
+      kArr.forEach((v, i) => {
+        const isToday = DAYS[i] === todayDay;
+        const cls     = isToday && v === 'KIRIM' ? ' class="tr-today-k"' : '';
+        const sep     = i === DAYS.length - 1 ? ' style="border-right:3px solid #2d6a47;"' : '';
+        kCells += `<td${cls}${sep}>${v === 'KIRIM' ? pillK() : ''}</td>`;
+      });
+
+      /* LOADING cells */
+      let lCells = '';
+      lArr.forEach((v, i) => {
+        const isToday = DAYS[i] === todayDay;
+        const cls     = isToday && v === 'LOADING' ? ' class="tr-today-l"' : '';
+        lCells += `<td${cls}>${v === 'LOADING' ? pillL() : ''}</td>`;
+      });
+
+      html += `<tr class="${isFirst ? 'tr-area-start' : ''}">
+        ${areaCell}
+        <td class="tr-wil-cell">${wil}</td>
+        ${kCells}${lCells}
+      </tr>`;
+    });
+
+    tbody.innerHTML = html;
+    trUpdateKPI(filtered, todayDay);
+  };
+
+  /* ── KPI ── */
+  function trUpdateKPI(filtered, todayDay) {
+    const dayIdx = DAYS.indexOf(todayDay);
+    let kToday = 0, lToday = 0;
+    filtered.forEach(r => {
+      if (dayIdx >= 0) {
+        if (r[2][dayIdx] === 'KIRIM')   kToday++;
+        if (r[3][dayIdx] === 'LOADING') lToday++;
+      }
+    });
+    const areas = new Set(filtered.map(r => r[0]));
+    const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setEl('tr-kv1', kToday);
+    setEl('tr-kv2', lToday);
+    setEl('tr-kv3', filtered.length);
+    setEl('tr-kv4', areas.size);
+  }
+
+  /* ── Filter Area ── */
+  window.trFilterArea = function (area, btn) {
+    document.querySelectorAll('.tr-fbtn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    trRenderTable(area);
+  };
+
+  function trPopulateFilters() {
+    const areas = [...new Set(DATA.map(r => r[0]))];
+    const wrap = document.getElementById('tr-filter-btns');
+    if (!wrap) return;
+    wrap.innerHTML = '<button class="tr-fbtn active" onclick="trFilterArea(\'ALL\',this)">Semua</button>';
+    areas.forEach(a => {
+      const btn = document.createElement('button');
+      btn.className = 'tr-fbtn';
+      btn.textContent = a;
+      btn.onclick = function () { trFilterArea(a, this); };
+      wrap.appendChild(btn);
+    });
+  }
+
+  function trInitDaySelect() {
+    const sel = document.getElementById('tr-day-select');
+    if (!sel) return;
+    const today = getTodayDayName();
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === today) { sel.selectedIndex = i; break; }
+    }
+  }
+
+  /* ── Init + Auto-refresh ── */
+  fetchTransitData();
+  setInterval(fetchTransitData, 300000);
+
+})();
+</script>
+    
+</div>
+<!-- ============================================================ END TRANSIT SECTION ============================================================ -->
+        
         <div id="hub-astor-section" class="dash-section" style="display: none;">
             <div class="section-title-banner">
                 <i class="fas fa-warehouse"></i> MONITORING HUB GRW & ASTOR
@@ -3644,6 +4368,8 @@
             D: 3,         // CARRIER
             I: 8,         // SHIPPINGLINE
             M: 12,        // JALUR
+            Q: 16,        // TIMING COL Q
+            BJ: 61,       // TIMING COL BJ
             R: 58,        // NOPOL (Column BG)
             Z: 25,        // CBM PLAN
             AN: 39,       // CASE ID PLAN (OLD)
@@ -3781,6 +4507,7 @@
         let slaChartLK = null;
         let vendorResponseChart = null;
         let agingTerlambatChart = null;
+        let dailyVendorPerfChart = null;
 
         let unsupportedPage = 1;
         let delayedPage = 1;
@@ -3788,7 +4515,7 @@
 
         // Sort State for Extra Tables
         let unsupportedSort = { key: 'A', dir: 'asc' };
-        let delayedSort = { key: 'AO', dir: 'desc' };
+        let delayedSort = { key: 'AU', dir: 'desc' };
 
         // Register ChartDataLabels plugin globally
         Chart.register(ChartDataLabels);
@@ -4331,6 +5058,7 @@
                 else if (sectionId === 'supply-partner-section') navId = 'nav-partner';
                 else if (sectionId === 'outstanding-section') navId = 'nav-outstanding';
                 else if (sectionId === 'hub-astor-section') navId = 'nav-hub';
+                else if (sectionId === 'transit-schema-section') navId = 'nav-transit';
 
                 const navItem = document.getElementById(navId);
                 if (navItem) navItem.classList.add('active');
@@ -4341,6 +5069,14 @@
                 if (sectionId === 'fbi-dashboard-section' || sectionId === 'fbi-planning-section') {
                     setTimeout(renderFBIDashboard, 100);
                 }
+            }
+            
+            // Recalculate and update stuffing date options & filtered data dynamically based on active section
+            if (typeof updateStuffingDateOptions === 'function') {
+                updateStuffingDateOptions();
+            }
+            if (typeof applyFilters === 'function') {
+                applyFilters();
             }
             
             // Scroll to top of dashboard
@@ -7345,6 +8081,8 @@ function renderStoringPivotTable(filteredData) {
                         D: values[COLUMNS.D] || '',
                         I: values[COLUMNS.I] || '',
                         M: values[COLUMNS.M] || '',
+                        Q: values[COLUMNS.Q] || '',
+                        BJ: values[COLUMNS.BJ] || '',
                         R: values[COLUMNS.R] || '',
                         Z: values[COLUMNS.Z] || '0',
                         AO: stuffingDate,
@@ -7433,15 +8171,22 @@ function renderStoringPivotTable(filteredData) {
             updateStuffingDateOptions();
         }
 
+        function isVendorActive() {
+            const navPartner = document.getElementById('nav-partner');
+            return navPartner && navPartner.classList.contains('active');
+        }
+
         function updateStuffingDateOptions() {
             const stuffingDateSet = new Set();
             const selectedMonths = selectedFilters.bulan;
             const isFBI = document.body.classList.contains('theme-purple');
+            const isVendor = isVendorActive();
 
             allData.forEach(row => {
-                if (row.AO) {
+                const dateVal = isVendor ? (row.AU || '').trim() : (row.AO || '').trim();
+                if (dateVal && dateVal !== '-' && dateVal !== '0') {
                     if (selectedMonths.length === 0 || selectedMonths.includes(row.AX)) {
-                        stuffingDateSet.add(row.AO);
+                        stuffingDateSet.add(dateVal);
                     }
                 }
             });
@@ -7597,9 +8342,13 @@ function renderStoringPivotTable(filteredData) {
 
         // Apply Filters
         function applyFilters() {
+            const isVendor = isVendorActive();
             filteredData = allData.filter(row => {
                 const matchBulan = selectedFilters.bulan.length === 0 || selectedFilters.bulan.includes(row.AX);
-                const matchDate = selectedFilters.stuffingDate.length === 0 || selectedFilters.stuffingDate.includes(row.AO);
+                
+                const dateVal = isVendor ? (row.AU || '').trim() : (row.AO || '').trim();
+                const matchDate = selectedFilters.stuffingDate.length === 0 || selectedFilters.stuffingDate.includes(dateVal);
+                
                 const matchKota = selectedFilters.kota.length === 0 || selectedFilters.kota.includes(row.AR);
                 const matchRegional = selectedFilters.regional.length === 0 || selectedFilters.regional.includes(row.AT);
                 const matchArea = selectedFilters.area.length === 0 || selectedFilters.area.includes(row.AS);
@@ -7663,10 +8412,8 @@ function renderStoringPivotTable(filteredData) {
 
             // We use filteredData to respect top-level filters (Date, City, etc.)
             filteredData.forEach(row => {
-                // Filter: Only for "Terlambat" records (Column AV)
-                // Case-insensitive check and using includes to be more robust
-                const ketVendor = (row.AV || '').trim().toLowerCase();
-                if (!ketVendor.includes('terlambat')) return;
+                // Filter: Use isBelumSupport logic to match VENDOR SUPPORT NOT AVAILABLE
+                if (!isBelumSupport(row)) return;
 
                 const carrier = (row.D || '').trim();
                 if (!carrier || carrier === '-' || carrier === 'CARRIER') return;
@@ -7779,18 +8526,29 @@ function renderStoringPivotTable(filteredData) {
                     perfData[carrier] = { carrier: carrier, onTime: 0, terlambat: 0, total: 0, achievement: 0 };
                 }
 
-                const ketVendor = (row.AV || '').trim().toLowerCase();
-                const isTerlambat = ketVendor.includes('terlambat');
+                const isBelumSpt = isBelumSupport(row);
 
-                if (isTerlambat) {
+                if (isBelumSpt) {
                     perfData[carrier].terlambat++;
                     grandTerlambat++;
+                    perfData[carrier].total++;
+                    grandTotal++;
                 } else {
+                    // Skip tomorrow's/future (H+1) on time records
+                    const isVendor = isVendorActive();
+                    const dateVal = isVendor ? (row.AU || '').trim() : (row.AO || '').trim();
+                    const dDate = parseDateCustom(dateVal) || parseDate(dateVal);
+                    const today = new Date();
+                    today.setHours(23, 59, 59, 999);
+                    if (dDate && !isNaN(dDate.getTime()) && dDate > today) {
+                        return; // Exclude H+1 on-time record
+                    }
+
                     perfData[carrier].onTime++;
                     grandOnTime++;
+                    perfData[carrier].total++;
+                    grandTotal++;
                 }
-                perfData[carrier].total++;
-                grandTotal++;
             });
 
             // Calculate Achievement and convert back to list for sorting
@@ -8299,36 +9057,127 @@ function renderStoringPivotTable(filteredData) {
         }
 
         // Helper: Status Checkers
+        const EXCLUDED_CITIES_VENDOR = new Set([
+            'MADIUN',
+            'MALANG',
+            'KEDIRI',
+            'SIDOARJO',
+            'SURABAYA',
+            'JEMBER',
+            'KOTA TUBAN',
+            'MOJOKERTO',
+            'BANYUWANGI',
+            'GRESIK',
+            'KOTA PASURUAN'
+        ]);
+
+        function isCityExcluded(row) {
+            const city = (row.AR || '').trim().toUpperCase();
+            return EXCLUDED_CITIES_VENDOR.has(city);
+        }
+
         function isBelumSupport(row) {
-            const carrier = (row.D || '').trim().toUpperCase();
-            // Belum Support jika Carrier kosong, mengandung kata BELUM, TBA, DUMMY, atau tanda strip
-            return !carrier || 
-                   carrier.includes('BELUM') || 
-                   carrier.includes('TBA') || 
-                   carrier.includes('DUMMY') ||
-                   carrier === '-' ||
-                   carrier === '0';
+            if (isCityExcluded(row)) return false;
+
+            const ketVendor = (row.AV || '').trim().toUpperCase();
+            return ketVendor.includes('BELUM SUPPORT');
+        }
+
+        function parseDateCustom(str) {
+            if (!str) return null;
+            str = String(str).trim();
+            if (!str || str === '-' || str === '0') return null;
+
+            let parts = str.split(/[\sT]+/);
+            let datePart = parts[0];
+            let timePart = parts[1] || '00:00:00';
+            
+            let dParts = datePart.split(/[-/]/);
+            let tParts = timePart.split(':');
+            
+            if (dParts.length === 3) {
+                let year, month, day;
+                if (dParts[0].length === 4) {
+                    year = parseInt(dParts[0], 10);
+                    month = parseInt(dParts[1], 10) - 1;
+                    day = parseInt(dParts[2], 10);
+                } else if (dParts[2].length === 4) {
+                    day = parseInt(dParts[0], 10);
+                    month = parseInt(dParts[1], 10) - 1;
+                    year = parseInt(dParts[2], 10);
+                } else {
+                    const d = new Date(str);
+                    return isNaN(d.getTime()) ? null : d;
+                }
+                
+                let hour = parseInt(tParts[0], 10) || 0;
+                let minute = parseInt(tParts[1], 10) || 0;
+                let second = parseInt(tParts[2], 10) || 0;
+                
+                const d = new Date(year, month, day, hour, minute, second);
+                return isNaN(d.getTime()) ? null : d;
+            }
+            
+            const d = new Date(str);
+            return isNaN(d.getTime()) ? null : d;
         }
 
         function isTerlambat(row) {
+            if (isCityExcluded(row)) return false;
             if (isBelumSupport(row)) return false;
+            
+            // Check Q and BJ columns
+            const dateQ = parseDateCustom(row.Q);
+            const dateBJ = parseDateCustom(row.BJ);
+            
+            if (dateQ && dateBJ) {
+                const diffMs = dateBJ.getTime() - dateQ.getTime();
+                const diffHours = diffMs / (1000 * 60 * 60);
+                return diffHours > 2;
+            }
+            
+            // Fallback to aging
             const aging = parseInt(row.AW) || 0;
             return aging > 0;
+        }
+
+        function getDelayHours(row) {
+            const dateQ = parseDateCustom(row.Q);
+            const dateBJ = parseDateCustom(row.BJ);
+            if (dateQ && dateBJ) {
+                const diffMs = dateBJ.getTime() - dateQ.getTime();
+                const diffHours = diffMs / (1000 * 60 * 60);
+                if (diffHours > 0) {
+                    return Math.round(diffHours);
+                }
+            }
+            const aging = parseInt(row.AW) || 0;
+            return aging * 24;
+        }
+
+        function getDelayHoursText(row) {
+            const hrs = getDelayHours(row);
+            if (hrs > 0) {
+                return `${hrs} Jam`;
+            }
+            return '-';
         }
 
         // Helper: Sort Data
         function sortDataList(list, key, direction) {
             return list.sort((a, b) => {
-                let valA = a[key] || '';
-                let valB = b[key] || '';
+                let valA, valB;
 
                 // Handle numeric sorting for CBM and AGING
-                if (key === 'Z' || key === 'AW') {
-                    valA = parseNumberWithComma(valA);
-                    valB = parseNumberWithComma(valB);
+                if (key === 'Z') {
+                    valA = parseNumberWithComma(a[key] || '0');
+                    valB = parseNumberWithComma(b[key] || '0');
+                } else if (key === 'AW') {
+                    valA = getDelayHours(a);
+                    valB = getDelayHours(b);
                 } else {
-                    valA = String(valA).toLowerCase();
-                    valB = String(valB).toLowerCase();
+                    valA = String(a[key] || '').toLowerCase();
+                    valB = String(b[key] || '').toLowerCase();
                 }
 
                 if (valA < valB) return direction === 'asc' ? -1 : 1;
@@ -8431,6 +9280,14 @@ function renderStoringPivotTable(filteredData) {
                     cityStats[kotaSummary].uQty++; // Menghitung total baris sesuai ekspektasi user
                     unsupportedList.push(row);
                     totalBelumSupport++;
+                    
+                    // Aging groups based on AW (for Belum Support / Unsupported)
+                    if (aging === 1) agingGroups['1 Hari']++;
+                    else if (aging === 2) agingGroups['2 Hari']++;
+                    else if (aging === 3) agingGroups['3 Hari']++;
+                    else if (aging === 4) agingGroups['4 Hari']++;
+                    else if (aging === 5) agingGroups['5 Hari']++;
+                    else if (aging > 5) agingGroups['> 5 Hari']++;
                 } else if (isTerlambat(row)) {
                     cityStats[kotaSummary].tCbm += cbm;
                     cityStats[kotaSummary].tQty++; // Menghitung total baris sesuai ekspektasi user
@@ -8438,15 +9295,17 @@ function renderStoringPivotTable(filteredData) {
                     delayedList.push(row);
                     
                     totalTerlambat++;
-                    
-                    // Aging groups based on AW
-                    if (aging === 1) agingGroups['1 Hari']++;
-                    else if (aging === 2) agingGroups['2 Hari']++;
-                    else if (aging === 3) agingGroups['3 Hari']++;
-                    else if (aging === 4) agingGroups['4 Hari']++;
-                    else if (aging === 5) agingGroups['5 Hari']++;
-                    else if (aging > 5) agingGroups['> 5 Hari']++;
                 } else {
+                    // Skip tomorrow's/future (H+1) on time records
+                    const isVendor = isVendorActive();
+                    const dateVal = isVendor ? (row.AU || '').trim() : (row.AO || '').trim();
+                    const dDate = parseDateCustom(dateVal) || parseDate(dateVal);
+                    const today = new Date();
+                    today.setHours(23, 59, 59, 999);
+                    if (dDate && !isNaN(dDate.getTime()) && dDate > today) {
+                        return; // Exclude H+1 on-time record
+                    }
+
                     totalOnTime++;
                     cityStats[kotaSummary].otCbm += cbm;
                     cityStats[kotaSummary].otQty++;
@@ -8461,6 +9320,297 @@ function renderStoringPivotTable(filteredData) {
             renderVendorUnsupportedTable(unsupportedList);
             renderVendorDelayedTable(delayedList);
             renderExtraCharts(totalOnTime, totalTerlambat, totalBelumSupport, agingGroups);
+            updateDailyVendorTrendChart();
+        }
+
+        function updateDailyVendorTrendChart() {
+            const isVendor = isVendorActive();
+            
+            // Filter allData honoring other parameters except stuffingDate
+            const dataForTrend = allData.filter(row => {
+                const matchBulan = selectedFilters.bulan.length === 0 || selectedFilters.bulan.includes(row.AX);
+                const matchKota = selectedFilters.kota.length === 0 || selectedFilters.kota.includes(row.AR);
+                const matchRegional = selectedFilters.regional.length === 0 || selectedFilters.regional.includes(row.AT);
+                const matchArea = selectedFilters.area.length === 0 || selectedFilters.area.includes(row.AS);
+                return matchBulan && matchKota && matchRegional && matchArea;
+            });
+
+            const dailyAgg = {};
+            const excludedCarriers = ['1D-INTERNAL (SDA)', 'AHI', 'DUMMY-LK-EKSP', 'DUMMY'];
+
+            dataForTrend.forEach(row => {
+                const carrier = (row.D || '').trim();
+                if (!carrier || carrier === '-' || carrier === 'CARRIER') return;
+
+                // Exclusion Filter
+                const carrierUpper = carrier.toUpperCase();
+                if (excludedCarriers.includes(carrierUpper) || carrierUpper.includes('DUMMY')) return;
+
+                const dateVal = isVendor ? (row.AU || '').trim() : (row.AO || '').trim();
+                if (!dateVal || dateVal === '-' || dateVal === '0') return;
+
+                if (!dailyAgg[dateVal]) {
+                    dailyAgg[dateVal] = { date: dateVal, onTime: 0, terlambat: 0, total: 0 };
+                }
+
+                const isBelumSpt = isBelumSupport(row);
+                if (isBelumSpt) {
+                    dailyAgg[dateVal].terlambat++;
+                } else {
+                    dailyAgg[dateVal].onTime++;
+                }
+                dailyAgg[dateVal].total++;
+            });
+
+            // Filter out empty states or no dates in agg, and ensure it does not exceed today's date (H-day)
+            const today = new Date();
+            today.setHours(23, 59, 59, 999);
+
+            const sortedDates = Object.keys(dailyAgg).filter(d => {
+                if (!d) return false;
+                const dDate = parseDateCustom(d) || parseDate(d);
+                if (!dDate || isNaN(dDate.getTime())) return true;
+                if (dDate > today) return false;
+
+                // Ensure the date belongs to the currently active/selected month (if any month is selected)
+                if (selectedFilters.bulan.length > 0) {
+                    const dMonthNameID = MonthsID[dDate.getMonth()]; // e.g. "MEI", "APRIL"
+                    const MonthsEN = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+                    const dMonthNameEN = MonthsEN[dDate.getMonth()]; // e.g. "MAY", "APRIL"
+
+                    const matchesBulan = selectedFilters.bulan.some(selBulan => {
+                        const selUpper = (selBulan || '').toUpperCase().trim();
+                        return selUpper === dMonthNameID || dMonthNameID.includes(selUpper) || selUpper.includes(dMonthNameID) ||
+                               selUpper === dMonthNameEN || dMonthNameEN.includes(selUpper) || selUpper.includes(dMonthNameEN);
+                    });
+                    if (!matchesBulan) return false;
+                }
+
+                return true;
+            }).sort((a, b) => {
+                const dA = parseDateCustom(a) || parseDate(a);
+                const dB = parseDateCustom(b) || parseDate(b);
+                return dA - dB;
+            });
+
+            const achievementData = [];
+            const delayedData = [];
+            const onTimeData = [];
+
+            sortedDates.forEach(date => {
+                const agg = dailyAgg[date];
+                const achievement = agg.total > 0 ? parseFloat(((agg.onTime / agg.total) * 100).toFixed(1)) : 0;
+                achievementData.push(achievement);
+                delayedData.push(agg.terlambat);
+                onTimeData.push(agg.onTime);
+            });
+
+            let kpiTotalLCVal = 0;
+            let kpiOnTimeLCVal = 0;
+            let kpiDelayedLCVal = 0;
+
+            dataForTrend.forEach(row => {
+                const carrier = (row.D || '').trim();
+                if (!carrier || carrier === '-' || carrier === 'CARRIER') return;
+
+                // Exclusion Filter
+                const carrierUpper = carrier.toUpperCase();
+                if (excludedCarriers.includes(carrierUpper) || carrierUpper.includes('DUMMY')) return;
+
+                const isBelumSpt = isBelumSupport(row);
+                if (isBelumSpt) {
+                    kpiDelayedLCVal++;
+                    kpiTotalLCVal++;
+                } else {
+                    const dateVal = isVendor ? (row.AU || '').trim() : (row.AO || '').trim();
+                    const dDate = parseDateCustom(dateVal) || parseDate(dateVal);
+                    if (dDate && !isNaN(dDate.getTime()) && dDate > today) {
+                        return; // Exclude H+1 on-time record
+                    }
+                    kpiOnTimeLCVal++;
+                    kpiTotalLCVal++;
+                }
+            });
+
+            // Update monthly KPI elements
+            const kpiSupportingPercentEl = document.getElementById('kpi-supporting-percent');
+            const kpiTotalLcEl = document.getElementById('kpi-total-lc');
+            const kpiOnTimeLcEl = document.getElementById('kpi-ontime-lc');
+            const kpiDelayedLcEl = document.getElementById('kpi-delayed-lc');
+
+            const kpiSupportingPercentVal = kpiTotalLCVal > 0 
+                ? (kpiOnTimeLCVal / kpiTotalLCVal * 100).toFixed(1) + '%' 
+                : '0.0%';
+
+            if (kpiSupportingPercentEl) kpiSupportingPercentEl.textContent = kpiSupportingPercentVal;
+            if (kpiTotalLcEl) kpiTotalLcEl.textContent = kpiTotalLCVal.toLocaleString('id-ID') + ' LC';
+            if (kpiOnTimeLcEl) kpiOnTimeLcEl.textContent = kpiOnTimeLCVal.toLocaleString('id-ID') + ' LC';
+            if (kpiDelayedLcEl) kpiDelayedLcEl.textContent = kpiDelayedLCVal.toLocaleString('id-ID') + ' LC';
+
+            // Update disclaimer message text based on active tab
+            const disclaimerEl = document.getElementById('trend-disclaimer');
+            if (disclaimerEl) {
+                disclaimerEl.textContent = isVendor 
+                    ? `*Menampilkan seluruh tanggal pada kolom LOAD DATE (AU) bulan aktif (Abaikan filter Stuffing Date)`
+                    : `*Menampilkan seluruh tanggal pada kolom STUFFING DATE (AO) bulan aktif (Abaikan filter Stuffing Date)`;
+            }
+
+            const canvas = document.getElementById('dailyVendorPerfChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            if (dailyVendorPerfChart) {
+                dailyVendorPerfChart.destroy();
+            }
+
+            // If no data, display a clean clear empty chart
+            if (sortedDates.length === 0) {
+                const kpiSupportingPercentEl = document.getElementById('kpi-supporting-percent');
+                const kpiTotalLcEl = document.getElementById('kpi-total-lc');
+                const kpiOnTimeLcEl = document.getElementById('kpi-ontime-lc');
+                const kpiDelayedLcEl = document.getElementById('kpi-delayed-lc');
+
+                if (kpiSupportingPercentEl) kpiSupportingPercentEl.textContent = '0.0%';
+                if (kpiTotalLcEl) kpiTotalLcEl.textContent = '0 LC';
+                if (kpiOnTimeLcEl) kpiOnTimeLcEl.textContent = '0 LC';
+                if (kpiDelayedLcEl) kpiDelayedLcEl.textContent = '0 LC';
+
+                dailyVendorPerfChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: { labels: [], datasets: [] },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            title: { display: true, text: 'TIDAK ADA DATA UNTUK TREND', color: '#ffd700' }
+                        }
+                    }
+                });
+                return;
+            }
+
+            dailyVendorPerfChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sortedDates,
+                    datasets: [
+                        {
+                            type: 'line',
+                            label: 'ACHIEVEMENT %',
+                            data: achievementData,
+                            borderColor: '#ffd700', // Gold line
+                            backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            tension: 0.25,
+                            yAxisID: 'yPercent',
+                            datalabels: {
+                                display: true,
+                                align: 'top',
+                                anchor: 'end',
+                                color: '#ffd700',
+                                font: { size: 9, weight: 'bold' },
+                                formatter: (val) => val + '%'
+                            }
+                        },
+                        {
+                            type: 'bar',
+                            label: 'ON TIME (LC)',
+                            data: onTimeData,
+                            backgroundColor: '#3b82f6', // Bright Blue
+                            yAxisID: 'yCount',
+                            stack: 'count',
+                            borderRadius: 4,
+                            datalabels: { display: false }
+                        },
+                        {
+                            type: 'bar',
+                            label: 'DELAYED SUPPORT (LC)',
+                            data: delayedData,
+                            backgroundColor: '#d32f2f', // Match delayed/error color
+                            yAxisID: 'yCount',
+                            stack: 'count',
+                            borderRadius: 4,
+                            datalabels: { display: false }
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    devicePixelRatio: Math.max(window.devicePixelRatio || 1, 2), // Pastikan rendering resolusi tinggi agar tajam saat di-zoom out
+                    animation: { duration: 0 },
+                    layout: {
+                        padding: {
+                            top: 25 // Berikan padding di bagian atas agar menjauhkan legenda dari area visual data label
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#eee',
+                                font: { size: 10 },
+                                padding: 15 // Jarak legenda terhadap grafik
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: '#111',
+                            titleColor: '#ffd700',
+                            bodyColor: '#fff',
+                            borderColor: '#333',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        yCount: {
+                            type: 'linear',
+                            position: 'left',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Jumlah LC',
+                                color: '#aaa',
+                                font: { size: 11, weight: 'bold' }
+                            },
+                            grid: { color: '#2a2a2a' },
+                            ticks: { color: '#aaa', precision: 0 }
+                        },
+                        yPercent: {
+                            type: 'linear',
+                            position: 'right',
+                            beginAtZero: true,
+                            max: 120, // Dinaikan menjadi 120 agar data label % (seperti 100%) memiliki ruang kosong di atasnya dan tidak menutupi legenda
+                            title: {
+                                display: true,
+                                text: 'Achievement %',
+                                color: '#ffd700',
+                                font: { size: 11, weight: 'bold' }
+                            },
+                            grid: { drawOnChartArea: false }, // avoid overlapping horizontal grids
+                            ticks: { 
+                                color: '#ffd700', 
+                                callback: (value) => value <= 100 ? value + '%' : '', // Sembunyikan label di atas 100% agar tetap rapi
+                                font: { size: 9 }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { 
+                                color: '#aaa', 
+                                font: { size: 9 },
+                                maxRotation: 45,
+                                minRotation: 0
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         function renderCitySummaryTable(stats) {
@@ -8540,7 +9690,7 @@ function renderStoringPivotTable(filteredData) {
             const pageData = list.slice(start, end);
 
             let html = `
-                <table>\n                    <thead>\n                        <tr>\n                            <th>#</th>\n                            <th onclick="toggleSort('unsupported', 'A')" style="cursor:pointer">LC ${getSortIcon(unsupportedSort, 'A')}</th>\n                            <th onclick="toggleSort('unsupported', 'D')" style="cursor:pointer">CARRIER ${getSortIcon(unsupportedSort, 'D')}</th>\n                            <th onclick="toggleSort('unsupported', 'M')" style="cursor:pointer">JALUR ${getSortIcon(unsupportedSort, 'M')}</th>\n                            <th onclick="toggleSort('unsupported', 'AO')" style="cursor:pointer">LOAD DATE ${getSortIcon(unsupportedSort, 'AO')}</th>\n                            <th onclick="toggleSort('unsupported', 'Z')" style="cursor:pointer">CBM ${getSortIcon(unsupportedSort, 'Z')}</th>\n                            <th onclick="toggleSort('unsupported', 'AW')" style="cursor:pointer">AGING LC ${getSortIcon(unsupportedSort, 'AW')}</th>\n                        </tr>\n                    </thead>\n                    <tbody>
+                <table>\n                    <thead>\n                        <tr>\n                            <th>#</th>\n                            <th onclick="toggleSort('unsupported', 'A')" style="cursor:pointer">LC ${getSortIcon(unsupportedSort, 'A')}</th>\n                            <th onclick="toggleSort('unsupported', 'D')" style="cursor:pointer">CARRIER ${getSortIcon(unsupportedSort, 'D')}</th>\n                            <th onclick="toggleSort('unsupported', 'M')" style="cursor:pointer">JALUR ${getSortIcon(unsupportedSort, 'M')}</th>\n                            <th onclick="toggleSort('unsupported', 'AU')" style="cursor:pointer">LOAD DATE ${getSortIcon(unsupportedSort, 'AU')}</th>\n                            <th onclick="toggleSort('unsupported', 'Z')" style="cursor:pointer">CBM ${getSortIcon(unsupportedSort, 'Z')}</th>\n                            <th onclick="toggleSort('unsupported', 'AW')" style="cursor:pointer">AGING LC ${getSortIcon(unsupportedSort, 'AW')}</th>\n                        </tr>\n                    </thead>\n                    <tbody>
             `;
 
             pageData.forEach((row, i) => {
@@ -8551,7 +9701,7 @@ function renderStoringPivotTable(filteredData) {
                         <td>${row.A}</td>
                         <td>${row.D || '-'}</td>
                         <td>${row.M || '-'}</td>
-                        <td>${row.AO} ${row.AP}</td>
+                        <td>${row.AU} ${row.AP}</td>
                         <td>${parseNumberWithComma(row.Z).toFixed(2)}</td>
                         <td>${aging}</td>
                     </tr>
@@ -8579,20 +9729,20 @@ function renderStoringPivotTable(filteredData) {
             const pageData = list.slice(start, end);
 
             let html = `
-                <table>\n                    <thead>\n                        <tr>\n                            <th>#</th>\n                            <th onclick="toggleSort('delayed', 'A')" style="cursor:pointer">LC ${getSortIcon(delayedSort, 'A')}</th>\n                            <th onclick="toggleSort('delayed', 'D')" style="cursor:pointer">CARRIER ${getSortIcon(delayedSort, 'D')}</th>\n                            <th onclick="toggleSort('delayed', 'M')" style="cursor:pointer">JALUR ${getSortIcon(delayedSort, 'M')}</th>\n                            <th onclick="toggleSort('delayed', 'AO')" style="cursor:pointer">LOAD DATE ${getSortIcon(delayedSort, 'AO')}</th>\n                            <th onclick="toggleSort('delayed', 'Z')" style="cursor:pointer">CBM ${getSortIcon(delayedSort, 'Z')}</th>\n                            <th onclick="toggleSort('delayed', 'AW')" style="cursor:pointer">AGING LC ${getSortIcon(delayedSort, 'AW')}</th>\n                        </tr>\n                    </thead>\n                    <tbody>
+                <table>\n                    <thead>\n                        <tr>\n                            <th>#</th>\n                            <th onclick="toggleSort('delayed', 'A')" style="cursor:pointer">LC ${getSortIcon(delayedSort, 'A')}</th>\n                            <th onclick="toggleSort('delayed', 'D')" style="cursor:pointer">CARRIER ${getSortIcon(delayedSort, 'D')}</th>\n                            <th onclick="toggleSort('delayed', 'M')" style="cursor:pointer">JALUR ${getSortIcon(delayedSort, 'M')}</th>\n                            <th onclick="toggleSort('delayed', 'AU')" style="cursor:pointer">LOAD DATE ${getSortIcon(delayedSort, 'AU')}</th>\n                            <th onclick="toggleSort('delayed', 'Z')" style="cursor:pointer">CBM ${getSortIcon(delayedSort, 'Z')}</th>\n                            <th onclick="toggleSort('delayed', 'AW')" style="cursor:pointer">TERLAMBAT ${getSortIcon(delayedSort, 'AW')}</th>\n                        </tr>\n                    </thead>\n                    <tbody>
             `;
 
             pageData.forEach((row, i) => {
-                const aging = row.AW || '0';
+                const delayText = getDelayHoursText(row);
                 html += `
                     <tr>
                         <td>${start + i + 1}</td>
                         <td>${row.A}</td>
                         <td>${row.D || '-'}</td>
                         <td>${row.M || '-'}</td>
-                        <td>${row.AO} ${row.AP}</td>
+                        <td>${row.AU} ${row.AP}</td>
                         <td>${parseNumberWithComma(row.Z).toFixed(2)}</td>
-                        <td>${aging}</td>
+                        <td>${delayText}</td>
                     </tr>
                 `;
             });
@@ -8663,9 +9813,9 @@ function renderStoringPivotTable(filteredData) {
                 data: {
                     labels: agingLabels,
                     datasets: [{
-                        label: 'TERLAMBAT',
+                        label: 'BELUM SUPPORT',
                         data: agingData.map(v => totalAging ? (v / totalAging * 100).toFixed(0) : 0),
-                        backgroundColor: '#d32f2f',
+                        backgroundColor: '#555',
                         borderRadius: 5
                     }]
                 },

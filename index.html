@@ -2069,9 +2069,124 @@
 <div class="kpi-card gray" id="cbmPlanB4-card">
     <div class="kpi-label">CBM PLAN B4</div>
     <div class="kpi-value" id="cbmPlanB4">0</div>
-    </div>
+</div>
 </div>
             
+        <!-- KPI Section: Armada Planning Summary -->
+        <div id="armada-planning-summary" style="margin-top: 30px; margin-bottom: 25px; background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
+            <div style="font-size: 1.1em; font-weight: bold; color: #ffd700; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-truck-loading" style="color: #ffd700;"></i> SUMMARY PLAN BY ARMADA TYPE
+            </div>
+
+            <!-- Armada Breakdown Grid (Including Total Plan) -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px;">
+                <!-- Card Total Plan aligned with individual type cards -->
+                <div style="background: rgba(255, 215, 0, 0.04); border: 1px solid rgba(255, 215, 0, 0.25); border-radius: 6px; padding: 12px; border-left: 4px solid #ffd700; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.25);">
+                    <div style="font-size: 0.85em; font-weight: bold; color: #ffd700; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-calculator" style="font-size: 0.9em; color: #ffd700;"></i> TOTAL PLAN
+                        </span>
+                        <span id="armada-total-pct" style="font-size: 1.4em; color: #ffd700; background: rgba(255, 215, 0, 0.2); padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;">100%</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.9em;">
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Plans:</span><strong id="armada-total-plans" style="color: #fff; font-size: 1.15em;">0</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Tot CBM:</span><strong id="armada-total-cbm" style="color: #10b981; font-size: 1.15em;">0.00</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Avg CBM:</span><strong id="armada-average-cbm" style="color: #00a8e8; font-size: 1.15em;">0.00</strong></div>
+                    </div>
+                </div>
+
+                <!-- Card Cont 20 -->
+                <div style="background: #141414; border: 1px solid #2d2d2d; border-radius: 6px; padding: 12px; border-left: 3px solid #ff9f43; position: relative; overflow: hidden;">
+                    <div style="font-size: 0.85em; font-weight: bold; color: #ffd700; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-box" style="font-size: 0.9em; color: #ff9f43;"></i> Cont 20
+                        </span>
+                        <span id="kpi-cont20-pct" style="font-size: 1.4em; color: #ff9f43; background: rgba(255, 159, 67, 0.2); padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;">0%</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.9em;">
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Plans:</span><strong id="kpi-cont20-plans" style="color: #fff; font-size: 1.15em;">0</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Tot CBM:</span><strong id="kpi-cont20-totalcbm" style="color: #10b981; font-size: 1.15em;">0.00</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Avg CBM:</span><strong id="kpi-cont20-avgcbm" style="color: #00a8e8; font-size: 1.15em;">0.00</strong></div>
+                    </div>
+                </div>
+
+                <!-- Card Cont 40 -->
+                <div style="background: #141414; border: 1px solid #2d2d2d; border-radius: 6px; padding: 12px; border-left: 3px solid #10b981; position: relative; overflow: hidden;">
+                    <div style="font-size: 0.85em; font-weight: bold; color: #ffd700; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-boxes" style="font-size: 0.9em; color: #10b981;"></i> Cont 40
+                        </span>
+                        <span id="kpi-cont40-pct" style="font-size: 1.4em; color: #10b981; background: rgba(16, 185, 129, 0.2); padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;">0%</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.9em;">
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Plans:</span><strong id="kpi-cont40-plans" style="color: #fff; font-size: 1.15em;">0</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Tot CBM:</span><strong id="kpi-cont40-totalcbm" style="color: #10b981; font-size: 1.15em;">0.00</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Avg CBM:</span><strong id="kpi-cont40-avgcbm" style="color: #00a8e8; font-size: 1.15em;">0.00</strong></div>
+                    </div>
+                </div>
+
+                <!-- Card Wingbox -->
+                <div style="background: #141414; border: 1px solid #2d2d2d; border-radius: 6px; padding: 12px; border-left: 3px solid #00a8e8; position: relative; overflow: hidden;">
+                    <div style="font-size: 0.85em; font-weight: bold; color: #ffd700; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-truck-moving" style="font-size: 0.9em; color: #00a8e8;"></i> Wingbox
+                        </span>
+                        <span id="kpi-wingbox-pct" style="font-size: 1.4em; color: #00a8e8; background: rgba(0, 168, 232, 0.2); padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;">0%</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.9em;">
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Plans:</span><strong id="kpi-wingbox-plans" style="color: #fff; font-size: 1.15em;">0</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Tot CBM:</span><strong id="kpi-wingbox-totalcbm" style="color: #10b981; font-size: 1.15em;">0.00</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Avg CBM:</span><strong id="kpi-wingbox-avgcbm" style="color: #00a8e8; font-size: 1.15em;">0.00</strong></div>
+                    </div>
+                </div>
+
+                <!-- Card Fuso -->
+                <div style="background: #141414; border: 1px solid #2d2d2d; border-radius: 6px; padding: 12px; border-left: 3px solid #a855f7; position: relative; overflow: hidden;">
+                    <div style="font-size: 0.85em; font-weight: bold; color: #ffd700; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-truck" style="font-size: 0.9em; color: #a855f7;"></i> Fuso
+                        </span>
+                        <span id="kpi-fuso-pct" style="font-size: 1.4em; color: #a855f7; background: rgba(168, 85, 247, 0.2); padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;">0%</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.9em;">
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Plans:</span><strong id="kpi-fuso-plans" style="color: #fff; font-size: 1.15em;">0</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Tot CBM:</span><strong id="kpi-fuso-totalcbm" style="color: #10b981; font-size: 1.15em;">0.00</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Avg CBM:</span><strong id="kpi-fuso-avgcbm" style="color: #00a8e8; font-size: 1.15em;">0.00</strong></div>
+                    </div>
+                </div>
+
+                <!-- Card CDD Long -->
+                <div style="background: #141414; border: 1px solid #2d2d2d; border-radius: 6px; padding: 12px; border-left: 3px solid #3b82f6; position: relative; overflow: hidden;">
+                    <div style="font-size: 0.85em; font-weight: bold; color: #ffd700; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-truck-loading" style="font-size: 0.9em; color: #3b82f6;"></i> CDD Long
+                        </span>
+                        <span id="kpi-cdd-pct" style="font-size: 1.4em; color: #3b82f6; background: rgba(59, 130, 246, 0.2); padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;">0%</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.9em;">
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Plans:</span><strong id="kpi-cdd-plans" style="color: #fff; font-size: 1.15em;">0</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Tot CBM:</span><strong id="kpi-cdd-totalcbm" style="color: #10b981; font-size: 1.15em;">0.00</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Avg CBM:</span><strong id="kpi-cdd-avgcbm" style="color: #00a8e8; font-size: 1.15em;">0.00</strong></div>
+                    </div>
+                </div>
+
+                <!-- Card CDE Long -->
+                <div style="background: #141414; border: 1px solid #2d2d2d; border-radius: 6px; padding: 12px; border-left: 3px solid #ec4899; position: relative; overflow: hidden;">
+                    <div style="font-size: 0.85em; font-weight: bold; color: #ffd700; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-shuttle-van" style="font-size: 0.9em; color: #ec4899;"></i> CDE Long
+                        </span>
+                        <span id="kpi-cde-pct" style="font-size: 1.4em; color: #ec4899; background: rgba(236, 72, 153, 0.2); padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;">0%</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.9em;">
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Plans:</span><strong id="kpi-cde-plans" style="color: #fff; font-size: 1.15em;">0</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Tot CBM:</span><strong id="kpi-cde-totalcbm" style="color: #10b981; font-size: 1.15em;">0.00</strong></div>
+                        <div style="display: flex; justify-content: space-between; color: #aaa; align-items: center;"><span>Avg CBM:</span><strong id="kpi-cde-avgcbm" style="color: #00a8e8; font-size: 1.15em;">0.00</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="bottom-table">
             <div class="table-header">
                 <i class="fas fa-ship"></i> SHIPPING LINE DETAILS
@@ -2427,8 +2542,8 @@
                     <div class="cine-content">
                         <div class="cine-animate"><h1 class="cine-title" style="color: var(--accent);">Warehouse Intelligence Dashboard</h1><p class="cine-subtitle">Real-time operational summary • Auto-refreshed</p></div>
                         <div class="cine-grid cine-g-2x2">
-                            <div class="cine-card cine-animate cine-delay-1"><div class="cine-card-header"><i class="fas fa-calendar-alt"></i> Plan Today</div><div class="cine-value" id="c-data-plan-today">0</div><div class="cine-trend up"><i class="fas fa-arrow-up"></i> +12% vs yesterday</div></div>
-                            <div class="cine-card cine-animate cine-delay-2"><div class="cine-card-header"><i class="fas fa-barcode"></i> Total Case ID Today</div><div class="cine-value" id="c-data-case-today">0</div><div class="cine-trend up"><i class="fas fa-arrow-up"></i> +5% vs yesterday</div></div>
+                            <div class="cine-card cine-animate cine-delay-1"><div class="cine-card-header"><i class="fas fa-calendar-alt"></i> Plan Today</div><div class="cine-value" id="c-data-plan-today">0</div><div class="cine-trend" id="c-trend-plan-today"><i class="fas fa-arrow-up"></i> +0% vs yesterday</div></div>
+                            <div class="cine-card cine-animate cine-delay-2"><div class="cine-card-header"><i class="fas fa-barcode"></i> Total Case ID Today</div><div class="cine-value" id="c-data-case-today">0</div><div class="cine-trend" id="c-trend-case-today"><i class="fas fa-arrow-up"></i> +0% vs yesterday</div></div>
                             <div class="cine-card cine-animate cine-delay-3"><div class="cine-card-header"><i class="fas fa-shield-check"></i> SLA GRW This Month</div><div class="cine-value" id="c-data-sla-grw">0%</div><div class="cine-progress-bg"><div class="cine-progress-bar-fill" id="c-prog-sla-grw"></div></div></div>
                             <div class="cine-card cine-animate cine-delay-4"><div class="cine-card-header"><i class="fas fa-users"></i> SLA Customer This Month</div><div class="cine-value" id="c-data-sla-cust">0%</div><div class="cine-progress-bg"><div class="cine-progress-bar-fill" id="c-prog-sla-cust"></div></div></div>
                         </div>
@@ -2484,20 +2599,29 @@
 
                 <!-- E. KESIMPULAN -->
                 <div class="cine-section" id="cine-sec-e" style="--accent: var(--c-purple);">
-                    <div class="cine-content" style="text-align: center;">
-                        <div class="cine-animate"><h1 class="cine-title" style="color: var(--accent);">AI Agent Conclusion</h1><p class="cine-subtitle">Automated warehouse health assessment</p></div>
-                        <div class="cine-card cine-animate cine-delay-1" style="max-width: 800px; margin: 0 auto; padding: 50px;">
-                            <div class="cine-status-pulse" id="c-ai-pulse" style="--accent: var(--c-amber); color: var(--c-amber);"><i class="fas fa-exclamation-triangle"></i></div>
-                            <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 20px; color: var(--c-amber);" id="c-ai-status-text">Warehouse Moderately Healthy</h2>
-                            <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.8); margin-bottom: 40px;" id="c-ai-reasoning"></p>
-                            <div style="display: flex; justify-content: center; gap: 15px;">
-                                <button class="cine-btn" onclick="alert('Exporting PDF...')"><i class="fas fa-file-pdf"></i> Export Report PDF</button>
-                                <button class="cine-btn" onclick="alert('Pinging team...')"><i class="fas fa-bell"></i> Notify Team</button>
-                                <button class="cine-btn" style="background: var(--c-purple); color: #fff; border: none;" onclick="cineReinitParams()"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+                    <div class="cine-content" style="max-width: 900px; margin: 0 auto;">
+                        <div class="cine-animate"><h1 class="cine-title" style="color: var(--accent);">AI Supply Chain Conclusion</h1><p class="cine-subtitle">Automated planning recommendations & system health</p></div>
+                        <div class="cine-grid cine-g-2cine" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px; margin-top: 25px;">
+                            <div class="cine-card cine-animate cine-delay-1" style="border-left: 4px solid var(--c-purple); display: flex; flex-direction: column; gap: 15px;">
+                                <div class="cine-card-header" style="color: var(--c-purple);"><i class="fas fa-brain"></i> System Status Assessment</div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="cine-status-pulse" id="c-ai-pulse" style="--accent: var(--c-amber); color: var(--c-amber); width: 45px; height: 45px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,200,0,0.1);"><i class="fas fa-exclamation-triangle"></i></div>
+                                    <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--c-amber); margin: 0;" id="c-ai-status-text">Analyzing metrics...</h2>
+                                </div>
+                                <p style="font-size: 0.95rem; line-height: 1.6; color: rgba(255,255,255,0.8); margin: 0;" id="c-ai-reasoning"></p>
+                            </div>
+                            <div class="cine-card cine-animate cine-delay-2" style="border-left: 4px solid var(--c-emerald); display: flex; flex-direction: column; gap: 12px;">
+                                <div class="cine-card-header" style="color: var(--c-emerald);"><i class="fas fa-clipboard-list-check"></i> Strategic Recommendations (AI Supply Chain)</div>
+                                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: rgba(255,255,255,0.85);">
+                                    <li style="display: flex; gap: 10px; align-items: flex-start;"><i class="fas fa-check-circle" style="color: var(--c-emerald); margin-top: 3px; font-size: 0.95rem;"></i> <span><b>Prioritize ASTOR RTs:</b> Target pending AZKO & KWI orders within the 5-line limit to maintain high fulfillment SLAs.</span></li>
+                                    <li style="display: flex; gap: 10px; align-items: flex-start;"><i class="fas fa-check-circle" style="color: var(--c-emerald); margin-top: 3px; font-size: 0.95rem;"></i> <span><b>Vendor Coordination:</b> Promptly engage with unsupported fleet providers today to reduce transit backlog.</span></li>
+                                    <li style="display: flex; gap: 10px; align-items: flex-start;"><i class="fas fa-check-circle" style="color: var(--c-emerald); margin-top: 3px; font-size: 0.95rem;"></i> <span><b>HUB GRW Sync:</b> Keep incoming store routes organized to minimize cross-docking delays.</span></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <script>
@@ -2538,15 +2662,15 @@
                         let slaGrwSum = 0, slaGrwCount = 0;
                         let slaCustSum = 0, slaCustCount = 0;
                         
-                        let fleetOnTime = 0, fleetTerlambat = 0, fleetTotal = 0;
-                        let fleetUnsupported = 0;
-                        let unsupportedArmadas = new Set();
-                        const excludedCarriers = ['1D-INTERNAL (SDA)', 'AHI', 'DUMMY-LK-EKSP', 'DUMMY'];
-    
                         let outTotal = 0;
                         let outUnplan = 0;
                         let outPlan = 0;
-    
+                        
+                        let fleetUnsupported = 0;
+                        const unsupportedArmadas = new Set();
+                        const unsupportedList = [];
+                        const excludedCarriers = ['1D-INTERNAL (SDA)', 'AHI', 'DUMMY-LK-EKSP', 'DUMMY'];
+
                         if (typeof filteredData !== 'undefined') {
                             filteredData.forEach(row => {
                                 const z = parseNumberWithComma(row.Z || '0');
@@ -2554,37 +2678,11 @@
                                 caseIdPlan += parseNumberWithComma(row.BB || '0', true);
                                 cbmPlan += z;
                                 cbmShipped += parseNumberWithComma(row.AY || '0');
-        
-                                const sGrw = parseNumberWithComma(row.BD || '0');
-                                if (sGrw > 0) { slaGrwSum += (sGrw < 2 ? sGrw*100 : sGrw); slaGrwCount++; }
-                                
-                                const sCust = parseNumberWithComma(row.BC || '0');
-                                if (sCust > 0) { slaCustSum += (sCust < 2 ? sCust*100 : sCust); slaCustCount++; }
-        
-                                // Vendor Performance logic
+
                                 const carrier = (row.D || '').trim();
                                 const carrierUpper = carrier.toUpperCase();
-                                let bBelumSupport = false;
-                                if (!carrierUpper || carrierUpper.includes('BELUM') || carrierUpper.includes('TBA') || carrierUpper.includes('DUMMY') || carrier === '-' || carrier === '0') {
-                                    bBelumSupport = true;
-                                }
-        
-                                if (z > 0 && !bBelumSupport) {
-                                    if (!excludedCarriers.includes(carrierUpper)) {
-                                        const ketVendor = (row.AV || '').trim().toLowerCase();
-                                        if (ketVendor.includes('terlambat')) {
-                                            fleetTerlambat++;
-                                            unsupportedArmadas.add(carrier);
-                                        } else {
-                                            fleetOnTime++;
-                                        }
-                                        fleetTotal++;
-                                    }
-                                } else if (z > 0 && bBelumSupport) {
-                                    fleetUnsupported++;
-                                    unsupportedArmadas.add("UNSUPPORTED");
-                                }
-        
+                                const bBelumSupport = isBelumSupport(row);
+
                                 // Outstanding logic
                                 if (z > 0 && row.AY !== row.Z) {
                                     outTotal++;
@@ -2595,9 +2693,120 @@
                                         outPlan++;
                                     }
                                 }
+
+                                if (carrier && carrier !== '-' && carrier !== 'CARRIER') {
+                                    if (!excludedCarriers.includes(carrierUpper) && !carrierUpper.includes('DUMMY')) {
+                                        if (bBelumSupport) {
+                                            // Ensure same custom filter logic to match VENDOR SUPPORT NOT AVAILABLE
+                                            const typeArmada = (row.G || '').trim();
+                                            const aging = parseInt(row.AW) || 0;
+
+                                            // --- STUFFING DATE FILTER FOR VENDOR TAB ---
+                                            if (isVendorActive() && selectedFilters.stuffingDate.length > 0) {
+                                                const checkDate = (row.AU || '').trim();
+                                                if (!selectedFilters.stuffingDate.includes(checkDate)) return;
+                                            }
+
+                                            // --- APPLY EXTRA FILTERS ---
+                                            const matchType = selectedFilters.typeArmada.length === 0 || selectedFilters.typeArmada.includes(typeArmada);
+                                            
+                                            let matchKet = false;
+                                            if (selectedFilters.ketVendor.length === 0) {
+                                                matchKet = true;
+                                            } else {
+                                                const rowAVUpper = (row.AV || '').trim().toUpperCase();
+                                                if (selectedFilters.ketVendor.includes('TERLAMBAT') && isTerlambat(row)) {
+                                                    matchKet = true;
+                                                }
+                                                if (selectedFilters.ketVendor.includes(rowAVUpper)) {
+                                                    matchKet = true;
+                                                }
+                                            }
+                                            
+                                            let agingLabel = '';
+                                            if (aging === 1) agingLabel = '1 Hari';
+                                            else if (aging === 2) agingLabel = '2 Hari';
+                                            else if (aging === 3) agingLabel = '3 Hari';
+                                            else if (aging === 4) agingLabel = '4 Hari';
+                                            else if (aging === 5) agingLabel = '5 Hari';
+                                            else if (aging > 5) agingLabel = '> 5 Hari';
+                                            
+                                            const matchAging = selectedFilters.agingLc.length === 0 || (agingLabel && selectedFilters.agingLc.includes(agingLabel));
+                                            
+                                            if (!matchType || !matchKet || !matchAging) return;
+
+                                            unsupportedList.push(row);
+                                            unsupportedArmadas.add(row.D);
+                                        }
+                                    }
+                                }
                             });
                         }
-    
+                        fleetUnsupported = unsupportedList.length;
+
+                        // Calculate Vendor Supporting percentage (ignores Stuffing Date, but honors Month, City, Regional, Area filters)
+                        let kpiTotalLCVal = 0;
+                        let kpiOnTimeLCVal = 0;
+                        const today = new Date();
+                        today.setHours(23, 59, 59, 999);
+
+                        if (typeof allData !== 'undefined') {
+                            const dataForTrend = allData.filter(row => {
+                                const matchBulan = selectedFilters.bulan.length === 0 || selectedFilters.bulan.includes(row.AX);
+                                const matchKota = selectedFilters.kota.length === 0 || selectedFilters.kota.includes(row.AR);
+                                const matchRegional = selectedFilters.regional.length === 0 || selectedFilters.regional.includes(row.AT);
+                                const matchArea = selectedFilters.area.length === 0 || selectedFilters.area.includes(row.AS);
+                                return matchBulan && matchKota && matchRegional && matchArea;
+                            });
+
+                            const isVendor = isVendorActive();
+
+                            dataForTrend.forEach(row => {
+                                const carrier = (row.D || '').trim();
+                                if (!carrier || carrier === '-' || carrier === 'CARRIER') return;
+
+                                // Exclusion Filter
+                                const carrierUpper = carrier.toUpperCase();
+                                if (excludedCarriers.includes(carrierUpper) || carrierUpper.includes('DUMMY')) return;
+
+                                if (isBelumSupport(row)) {
+                                    kpiTotalLCVal++;
+                                } else if (isTerlambat(row)) {
+                                    kpiTotalLCVal++;
+                                } else {
+                                    // Always use raw row dates for future check
+                                    const dateVal = isVendor ? (row.AU || '').trim() : (row.AO || '').trim();
+                                    const dDate = parseDateCustom(dateVal) || parseDate(dateVal);
+                                    if (dDate && !isNaN(dDate.getTime()) && dDate > today) {
+                                        return; // Exclude H+1 on-time record
+                                    }
+                                    kpiOnTimeLCVal++;
+                                    kpiTotalLCVal++;
+                                }
+                            });
+                        }
+
+                        const fleetSupportPct = kpiTotalLCVal > 0 
+                            ? (kpiOnTimeLCVal / kpiTotalLCVal * 100).toFixed(1) 
+                            : '100.0';
+
+                        // Calculate SLA over allData matching month & region filters, bypassing date filter (locked to month-level)
+                        if (typeof allData !== 'undefined') {
+                            allData.forEach(row => {
+                                const matchBulan = selectedFilters.bulan.length === 0 || selectedFilters.bulan.includes(row.AX);
+                                const matchKota = selectedFilters.kota.length === 0 || selectedFilters.kota.includes(row.AR);
+                                const matchRegional = selectedFilters.regional.length === 0 || selectedFilters.regional.includes(row.AT);
+                                const matchArea = selectedFilters.area.length === 0 || selectedFilters.area.includes(row.AS);
+                                if (matchBulan && matchKota && matchRegional && matchArea) {
+                                    const sGrw = parseNumberWithComma(row.BD || '0');
+                                    if (sGrw > 0) { slaGrwSum += (sGrw < 2 ? sGrw*100 : sGrw); slaGrwCount++; }
+                                    
+                                    const sCust = parseNumberWithComma(row.BC || '0');
+                                    if (sCust > 0) { slaCustSum += (sCust < 2 ? sCust*100 : sCust); slaCustCount++; }
+                                }
+                            });
+                        }
+
                         // HUB ASTOR metrics
                         let hubPlan = 0, hubUnplan = 0, hubTotal = 0;
                         let hubSlaSum = 0, hubSlaCount = 0;
@@ -2638,16 +2847,86 @@
                             });
                         }
     
+                        // Check if we need to call renderHubTable and renderAstorSLA to compute latest values
+                        if (typeof renderHubTable === 'function' && typeof window.hubSlaRateLast === 'undefined' && typeof rawHubData !== 'undefined' && rawHubData.length > 0) {
+                            renderHubTable();
+                        }
+                        if (typeof renderAstorSLA === 'function' && typeof window.astorSlaRateLast === 'undefined' && typeof rawAstorData !== 'undefined' && rawAstorData.length > 0) {
+                            renderAstorSLA();
+                        }
+
                         const avgSlaGrw = slaGrwCount > 0 ? (slaGrwSum / slaGrwCount).toFixed(1) : '100.0';
                         const avgSlaCust = slaCustCount > 0 ? (slaCustSum / slaCustCount).toFixed(1) : '100.0';
-                        const fleetSupportPct = fleetTotal > 0 ? ((fleetOnTime / fleetTotal) * 100).toFixed(1) : '100.0';
                         
-                        const hubSlaVal = hubSlaCount > 0 ? (hubSlaSum / hubSlaCount).toFixed(1) : '100.0';
-                        const azkoSlaVal = azkoSlaCount > 0 ? (azkoSlaSum / azkoSlaCount).toFixed(1) : '100.0';
+                        let hubSlaVal = hubSlaCount > 0 ? (hubSlaSum / hubSlaCount).toFixed(1) : '100.0';
+                        if (window.hubSlaRateLast !== undefined) {
+                            hubSlaVal = window.hubSlaRateLast.toFixed(1);
+                        }
+
+                        let azkoSlaVal = azkoSlaCount > 0 ? (azkoSlaSum / azkoSlaCount).toFixed(1) : '100.0';
+                        if (window.astorSlaRateLast !== undefined) {
+                            azkoSlaVal = window.astorSlaRateLast.toFixed(1);
+                        }
     
                         unsupportedArmadas.delete("UNSUPPORTED");
                         let unsupportedArray = Array.from(unsupportedArmadas).slice(0, 5);
                         if (unsupportedArray.length === 0) unsupportedArray.push("ALL CLEAR");
+
+                        // Calculate real-time comparison for Trend: today vs yesterday
+                        let currentTasksVal = totalTasks;
+                        let currentCaseIdVal = caseIdPlan;
+                        let comparisonTasksVal = 0;
+                        let comparisonCaseIdVal = 0;
+
+                        if (typeof allData !== 'undefined' && Array.isArray(allData)) {
+                            const allDatesSorted = Array.from(new Set(allData.map(row => (row.AO || '').trim()).filter(d => d)))
+                                .sort((a, b) => parseDate(a) - parseDate(b));
+
+                            let targetDate = '';
+                            let prevDate = '';
+
+                            if (typeof selectedFilters !== 'undefined' && selectedFilters.stuffingDate && selectedFilters.stuffingDate.length === 1) {
+                                targetDate = selectedFilters.stuffingDate[0];
+                            } else if (allDatesSorted.length > 0) {
+                                targetDate = allDatesSorted[allDatesSorted.length - 1]; // latest date
+                            }
+
+                            if (targetDate && allDatesSorted.length > 0) {
+                                const idx = allDatesSorted.indexOf(targetDate);
+                                if (idx > 0) {
+                                    prevDate = allDatesSorted[idx - 1];
+                                }
+                            }
+
+                            const getMetricsForDate = (dateStr) => {
+                                let tasks = 0;
+                                let caseId = 0;
+                                allData.forEach(row => {
+                                    const matchBulan = selectedFilters.bulan.length === 0 || selectedFilters.bulan.includes(row.AX);
+                                    const matchDate = (row.AO || '').trim() === dateStr;
+                                    const matchKota = selectedFilters.kota.length === 0 || selectedFilters.kota.includes(row.AR);
+                                    const matchRegional = selectedFilters.regional.length === 0 || selectedFilters.regional.includes(row.AT);
+                                    const matchArea = selectedFilters.area.length === 0 || selectedFilters.area.includes(row.AS);
+                                    if (matchBulan && matchDate && matchKota && matchRegional && matchArea) {
+                                        tasks++;
+                                        caseId += parseNumberWithComma(row.BB || '0', true);
+                                    }
+                                });
+                                return { tasks, caseId };
+                            };
+
+                            if (targetDate) {
+                                const currentMetrics = getMetricsForDate(targetDate);
+                                currentTasksVal = currentMetrics.tasks;
+                                currentCaseIdVal = currentMetrics.caseId;
+                                
+                                if (prevDate) {
+                                    const prevMetrics = getMetricsForDate(prevDate);
+                                    comparisonTasksVal = prevMetrics.tasks;
+                                    comparisonCaseIdVal = prevMetrics.caseId;
+                                }
+                            }
+                        }
     
                         // -- INJECT INTO DOM --
                         const setTxt = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
@@ -2657,6 +2936,37 @@
     
                         setTxt('c-data-plan-today', totalTasks + ' Armada');
                         setTxt('c-data-case-today', typeof formatIndo === 'function' ? formatIndo(caseIdPlan) + ' Case ID' : caseIdPlan + ' Case ID');
+
+                        // Dynamic Trend UI updating
+                        const pTrendEl = document.getElementById('c-trend-plan-today');
+                        if (pTrendEl) {
+                            let pctChange = 0;
+                            if (comparisonTasksVal > 0) {
+                                pctChange = ((currentTasksVal - comparisonTasksVal) / comparisonTasksVal) * 100;
+                            } else if (currentTasksVal > 0 && comparisonTasksVal === 0) {
+                                pctChange = 100;
+                            }
+                            const isUp = pctChange >= 0;
+                            const sign = isUp ? '+' : '';
+                            const formattedPct = sign + pctChange.toFixed(0) + '%';
+                            pTrendEl.className = 'cine-trend ' + (isUp ? 'up' : 'down');
+                            pTrendEl.innerHTML = `<i class="fas ${isUp ? 'fa-arrow-up' : 'fa-arrow-down'}"></i> ${formattedPct} vs yesterday`;
+                        }
+
+                        const cTrendEl = document.getElementById('c-trend-case-today');
+                        if (cTrendEl) {
+                            let pctChange = 0;
+                            if (comparisonCaseIdVal > 0) {
+                                pctChange = ((currentCaseIdVal - comparisonCaseIdVal) / comparisonCaseIdVal) * 100;
+                            } else if (currentCaseIdVal > 0 && comparisonCaseIdVal === 0) {
+                                pctChange = 100;
+                            }
+                            const isUp = pctChange >= 0;
+                            const sign = isUp ? '+' : '';
+                            const formattedPct = sign + pctChange.toFixed(0) + '%';
+                            cTrendEl.className = 'cine-trend ' + (isUp ? 'up' : 'down');
+                            cTrendEl.innerHTML = `<i class="fas ${isUp ? 'fa-arrow-up' : 'fa-arrow-down'}"></i> ${formattedPct} vs yesterday`;
+                        }
                         
                         setTxt('c-data-sla-grw', avgSlaGrw + '%');
                         setWidth('c-prog-sla-grw', avgSlaGrw + '%');
@@ -2672,33 +2982,68 @@
                         setTxt('c-data-fleet-unsupported', fleetUnsupported + ' Armada');
                         setHTML('c-data-fleet-list', unsupportedArray.map(a => '<span style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">' + a + '</span>').join(''));
                         
-                        setTxt('c-data-out-tot', outTotal + ' Items');
-                        setTxt('c-data-out-unplan', outUnplan + ' Items');
-                        setTxt('c-data-out-plan', outPlan + ' Items');
+                        // Fetch of Outstanding KPIs from rawPivotData filter (exactly matching Outstanding Menu)
+                        let pBacklogOut = 0;
+                        let pBacklogSudah = 0;
+                        let pBacklogBelum = 0;
+
+                        if (typeof rawPivotData !== 'undefined' && Array.isArray(rawPivotData)) {
+                            const areaFilter = document.getElementById('pivot-area-filter') ? document.getElementById('pivot-area-filter').value : 'ALL';
+                            const filteredPivot = areaFilter === 'ALL' 
+                                ? rawPivotData 
+                                : rawPivotData.filter(d => d.area === areaFilter);
+                            
+                            filteredPivot.forEach(row => {
+                                pBacklogOut += row.cbm;
+                                if (row.status === 'Sudah Plan') pBacklogSudah += row.cbm;
+                                if (row.status === 'Belum Plan') pBacklogBelum += row.cbm;
+                            });
+                        }
+
+                        setTxt('c-data-out-tot', (typeof formatIndo === 'function' ? formatIndo(pBacklogOut) : pBacklogOut) + ' CBM');
+                        setTxt('c-data-out-unplan', (typeof formatIndo === 'function' ? formatIndo(pBacklogBelum) : pBacklogBelum) + ' CBM');
+                        setTxt('c-data-out-plan', (typeof formatIndo === 'function' ? formatIndo(pBacklogSudah) : pBacklogSudah) + ' CBM');
                         
-                        const rtPlan = outTotal > 0 ? (outPlan / outTotal) * 100 : 0;
-                        const rtUnplan = outTotal > 0 ? (outUnplan / outTotal) * 100 : 0;
+                        const rtPlan = pBacklogOut > 0 ? (pBacklogSudah / pBacklogOut) * 100 : 0;
+                        const rtUnplan = pBacklogOut > 0 ? (pBacklogBelum / pBacklogOut) * 100 : 0;
                         setWidth('c-prog-ratio-plan', rtPlan + '%');
                         setWidth('c-prog-ratio-unplan', rtUnplan + '%');
     
+                        let finalHubPlan = hubPlan;
+                        let finalHubUnplan = hubUnplan;
+                        if (window.hubStatsLast !== undefined) {
+                            finalHubPlan = window.hubStatsLast.sudahDatang.sudahPlan + window.hubStatsLast.belumDatang.sudahPlan;
+                            finalHubUnplan = window.hubStatsLast.sudahDatang.belumPlan + window.hubStatsLast.belumDatang.belumPlan;
+                        }
+
                         setTxt('c-data-hub-sla', hubSlaVal + '%');
                         setWidth('c-prog-hub-sla', hubSlaVal + '%');
-                        setTxt('c-data-hub-plan', typeof formatIndo === 'function' ? formatIndo(hubPlan) : hubPlan);
-                        setTxt('c-data-hub-unplan', typeof formatIndo === 'function' ? formatIndo(hubUnplan) : hubUnplan);
+                        setTxt('c-data-hub-plan', (typeof formatIndo === 'function' ? formatIndo(finalHubPlan) : finalHubPlan) + ' STORE');
+                        setTxt('c-data-hub-unplan', (typeof formatIndo === 'function' ? formatIndo(finalHubUnplan) : finalHubUnplan) + ' STORE');
     
+                        let finalAzkoPlan = typeof formatIndo === 'function' ? formatIndo(azkoPlan) : azkoPlan;
+                        let finalAzkoUnplan = typeof formatIndo === 'function' ? formatIndo(azkoUnplan) : azkoUnplan;
+                        if (window.astorRtSudahLast !== undefined) {
+                            finalAzkoPlan = window.astorRtSudahLast + ' RT';
+                        }
+                        if (window.astorRtBelumLast !== undefined) {
+                            finalAzkoUnplan = window.astorRtBelumLast + ' RT';
+                        }
+
                         setTxt('c-data-azko-sla', azkoSlaVal + '%');
                         setWidth('c-prog-azko-sla', azkoSlaVal + '%');
-                        setTxt('c-data-azko-plan', typeof formatIndo === 'function' ? formatIndo(azkoPlan) : azkoPlan);
-                        setTxt('c-data-azko-unplan', typeof formatIndo === 'function' ? formatIndo(azkoUnplan) : azkoUnplan);
+                        setTxt('c-data-azko-plan', finalAzkoPlan);
+                        setTxt('c-data-azko-unplan', finalAzkoUnplan);
     
                         // AI Reasoning
                         let state = 'warning';
-                        if (parseFloat(avgSlaGrw) >= 90 && outUnplan < 10) state = 'success';
-                        else if (parseFloat(avgSlaGrw) < 80 || outUnplan > 50) state = 'critical';
+                        const roundedUnplannedCbm = Math.round(pBacklogBelum);
+                        if (parseFloat(avgSlaGrw) >= 90 && roundedUnplannedCbm < 10) state = 'success';
+                        else if (parseFloat(avgSlaGrw) < 80 || roundedUnplannedCbm > 50) state = 'critical';
                         
-                        let aiMsg = `Warehouse operates at SLA GRW ${avgSlaGrw}% (Customer ${avgSlaCust}%). Outstanding: ${outTotal} items (${outUnplan} unassigned). Fleet support stands at ${fleetSupportPct}%. Action recommended: address ${fleetUnsupported} unsupported lanes.`;
-                        if (state === 'success') aiMsg = `All operational metrics look highly optimal. SLA GRW is performing well at ${avgSlaGrw}%. Outstanding items are well-managed with only ${outUnplan} unassigned.`;
-                        if (state === 'critical') aiMsg = `CRITICAL ALERT: Operational metrics have degraded. Ensure all ${outUnplan} unplanned items and ${fleetUnsupported} unsupported fleets are addressed immediately.`;
+                        let aiMsg = `Warehouse operates at SLA GRW ${avgSlaGrw}% (Customer ${avgSlaCust}%). Outstanding: ${formatIndo(pBacklogOut)} CBM (${formatIndo(pBacklogBelum)} CBM unassigned). Fleet support stands at ${fleetSupportPct}%. Action recommended: address ${fleetUnsupported} unsupported lanes.`;
+                        if (state === 'success') aiMsg = `All operational metrics look highly optimal. SLA GRW is performing well at ${avgSlaGrw}%. Outstanding items are well-managed with only ${formatIndo(pBacklogBelum)} CBM unassigned.`;
+                        if (state === 'critical') aiMsg = `CRITICAL ALERT: Operational metrics have degraded. Ensure all ${formatIndo(pBacklogBelum)} CBM unplanned items and ${fleetUnsupported} unsupported fleets are addressed immediately.`;
 
                         const ptColor = state === 'success' ? 'var(--c-emerald)' : (state === 'critical' ? 'var(--c-red)' : 'var(--c-amber)');
                         const stIcon = state === 'success' ? 'fa-shield-check' : (state === 'critical' ? 'fa-times-circle' : 'fa-exclamation-triangle');
@@ -3001,35 +3346,41 @@
                                 </thead>
                                 <tbody>
                                     <tr style="border-bottom: 1px solid #1f1f1f;">
-                                        <td style="padding: 8px 4px; display: flex; align-items: center; gap: 8px; font-weight: 600; color: #ddd;">
-                                            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.5);"></span>
-                                            On Time
+                                        <td style="padding: 8px 4px; font-weight: 600; color: #ddd;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.5);"></span>
+                                                On Time
+                                            </div>
                                         </td>
-                                        <td id="breakdown-ontime-count" style="padding: 8px 4px; text-align: right; color: #10b981; font-weight: bold; font-family: monospace; font-size: 1.1em;">0</td>
+                                        <td id="breakdown-ontime-count" style="padding: 8px 4px; text-align: right; color: #10b981; font-weight: bold; font-size: 1.1em;">0</td>
                                         <td id="breakdown-ontime-pct" style="padding: 8px 4px; text-align: right; color: #fff; font-weight: bold; font-size: 1.1em;">0%</td>
                                     </tr>
                                     <tr style="border-bottom: 1px solid #1f1f1f;">
-                                        <td style="padding: 8px 4px; display: flex; align-items: center; gap: 8px; font-weight: 600; color: #ddd;">
-                                            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 8px rgba(239,68,68,0.5);"></span>
-                                            Terlambat
+                                        <td style="padding: 8px 4px; font-weight: 600; color: #ddd;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 8px rgba(239,68,68,0.5);"></span>
+                                                Terlambat
+                                            </div>
                                         </td>
-                                        <td id="breakdown-terlambat-count" style="padding: 8px 4px; text-align: right; color: #ef4444; font-weight: bold; font-family: monospace; font-size: 1.1em;">0</td>
+                                        <td id="breakdown-terlambat-count" style="padding: 8px 4px; text-align: right; color: #ef4444; font-weight: bold; font-size: 1.1em;">0</td>
                                         <td id="breakdown-terlambat-pct" style="padding: 8px 4px; text-align: right; color: #fff; font-weight: bold; font-size: 1.1em;">0%</td>
                                     </tr>
                                     <tr style="border-bottom: 1px solid #1f1f1f;">
-                                        <td style="padding: 8px 4px; display: flex; align-items: center; gap: 8px; font-weight: 600; color: #ddd;">
-                                            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff9f43; box-shadow: 0 0 8px rgba(255,159,67,0.5);"></span>
-                                            Delay Support
+                                        <td style="padding: 8px 4px; font-weight: 600; color: #ddd;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff9f43; box-shadow: 0 0 8px rgba(255,159,67,0.5);"></span>
+                                                Delay Support
+                                            </div>
                                         </td>
-                                        <td id="breakdown-support-count" style="padding: 8px 4px; text-align: right; color: #ff9f43; font-weight: bold; font-family: monospace; font-size: 1.1em;">0</td>
+                                        <td id="breakdown-support-count" style="padding: 8px 4px; text-align: right; color: #ff9f43; font-weight: bold; font-size: 1.1em;">0</td>
                                         <td id="breakdown-support-pct" style="padding: 8px 4px; text-align: right; color: #fff; font-weight: bold; font-size: 1.1em;">0%</td>
                                     </tr>
                                     <tr style="font-weight: bold; background: rgba(255,215,0,0.04);">
                                         <td style="padding: 10px 4px; color: #ffd700;">
                                             TOTAL LC
                                         </td>
-                                        <td id="breakdown-total-count" style="padding: 10px 4px; text-align: right; color: #ffd700; font-family: monospace; font-size: 1.15em;">0</td>
-                                        <td style="padding: 10px 4px; text-align: right; color: #ffd700; font-size: 1.15em;">100%</td>
+                                        <td id="breakdown-total-count" style="padding: 10px 4px; text-align: right; color: #ffd700; font-size: 1.1em;">0</td>
+                                        <td style="padding: 10px 4px; text-align: right; color: #ffd700; font-size: 1.1em;">100%</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -3083,11 +3434,11 @@
                                 <th rowspan="2" style="width: 120px; background: #8b0000; color: #fff; font-weight: bold; text-align: center; font-size: 1.15em; padding: 12px 10px;">TOTAL DELAY <i class="fas fa-sort-down"></i></th>
                             </tr>
                             <tr class="sub-header">
-                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center; font-size: 1.05em; padding: 8px 10px;">1th</th>
-                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center; font-size: 1.05em; padding: 8px 10px;">2nd</th>
-                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center; font-size: 1.05em; padding: 8px 10px;">3rd</th>
-                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center; font-size: 1.05em; padding: 8px 10px;">4th</th>
-                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center; font-size: 1.05em; padding: 8px 10px;">5th</th>
+                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center; font-size: 1.05em; padding: 8px 10px;">1</th>
+                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center; font-size: 1.05em; padding: 8px 10px;">2</th>
+                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center; font-size: 1.05em; padding: 8px 10px;">3</th>
+                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center; font-size: 1.05em; padding: 8px 10px;">4</th>
+                                <th style="background: #111; color: #00a8e8; width: 60px; text-align: center; font-size: 1.05em; padding: 8px 10px;">5</th>
                                 <th style="background: #111; color: #00a8e8; width: 80px; border-right: 1px solid #333; text-align: center; font-size: 1.05em; padding: 8px 10px;">5 UP</th>
                             </tr>
                         </thead>
@@ -3140,6 +3491,221 @@
                     </table>
                 </div>
             </div>
+            <!-- ============================================================
+     REKAP KONFIRMASI VM
+     Letakkan SETELAH: </div> (End vendor-performance-container)
+     Masih di dalam: <div id="supply-partner-section" ...>
+     ============================================================ -->
+<div id="konfirmasi-vm-container" style="margin-top: 40px; margin-bottom: 30px;">
+
+    <!-- HEADER BANNER -->
+    <div style="background: linear-gradient(90deg, #1a1a1a 0%, #333 100%);
+                border-left: 4px solid #ffd700;
+                color: #ffd700;
+                padding: 15px 20px;
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 1.1em;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;">
+        <span>
+            <i class="fas fa-clock" style="margin-right: 10px; color: #ffd700;"></i>
+            REKAP KONFIRMASI VM — PEMENUHAN VENDOR
+        </span>
+        <span style="font-size: 0.75em; color: #aaa; font-weight: normal; font-style: italic;">
+            HIT = konfirmasi sebelum 13:00 &nbsp;|&nbsp; MISS = konfirmasi ≥ 13:00
+        </span>
+    </div>
+
+    <!-- FILTER LOAD DATE -->
+    <div style="background: #1e1e1e;
+                border: 1px solid #333;
+                border-top: 0;
+                padding: 12px 18px;
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                flex-wrap: wrap;">
+        <label style="font-size: 11px; color: #aaa; font-weight: 700; text-transform: uppercase;">
+            Load Date:
+        </label>
+        <select id="vm-ld-filter"
+                onchange="renderKonfirmasiVM()"
+                style="background: #2a2a2a;
+                       color: #ffd700;
+                       border: 1px solid #ffd700;
+                       padding: 5px 12px;
+                       border-radius: 4px;
+                       font-size: 12px;
+                       font-weight: 600;
+                       outline: none;
+                       cursor: pointer;">
+            <option value="ALL">Semua Tanggal</option>
+        </select>
+        <div style="margin-left: auto; display: flex; gap: 8px; align-items: center;">
+            <div style="display: flex; gap: 6px;">
+                <button id="vm-btn-carrier"
+                        onclick="setVMView('carrier')"
+                        style="background: #b71c1c;
+                               color: #fff;
+                               border: 1px solid #d32f2f;
+                               padding: 4px 12px;
+                               border-radius: 4px;
+                               font-size: 11px;
+                               font-weight: 700;
+                               cursor: pointer;">
+                    By Carrier
+                </button>
+                <button id="vm-btn-detail"
+                        onclick="setVMView('detail')"
+                        style="background: #333;
+                               color: #aaa;
+                               border: 1px solid #444;
+                               padding: 4px 12px;
+                               border-radius: 4px;
+                               font-size: 11px;
+                               font-weight: 700;
+                               cursor: pointer;">
+                    Detail
+                </button>
+            </div>
+            <button onclick="loadKonfirmasiVM()"
+                    style="background: #d32f2f;
+                           color: #fff;
+                           border: none;
+                           padding: 5px 14px;
+                           border-radius: 4px;
+                           font-size: 11px;
+                           font-weight: 700;
+                           cursor: pointer;">
+                <i class="fas fa-sync" style="margin-right: 5px;"></i>Refresh
+            </button>
+        </div>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div style="display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                padding: 14px 18px;
+                background: #1a1a1a;
+                border: 1px solid #333;
+                border-top: 0;">
+
+        <div style="background: #242424;
+                    border-radius: 6px;
+                    padding: 14px;
+                    text-align: center;
+                    border-bottom: 3px solid #60a5fa;">
+            <div style="font-size: 10px; color: #aaa; text-transform: uppercase;
+                        letter-spacing: 1px; font-weight: 700; margin-bottom: 6px;">
+                Total Vendor
+            </div>
+            <div id="vm-kpi-total"
+                 style="font-size: 1.8em; font-weight: 800; color: #60a5fa;">—</div>
+            <div style="font-size: 10px; color: #555; margin-top: 4px; font-style: italic;">
+                konfirmasi masuk
+            </div>
+        </div>
+
+        <div style="background: #242424;
+                    border-radius: 6px;
+                    padding: 14px;
+                    text-align: center;
+                    border-bottom: 3px solid #2dd4bf;">
+            <div style="font-size: 10px; color: #aaa; text-transform: uppercase;
+                        letter-spacing: 1px; font-weight: 700; margin-bottom: 6px;">
+                HIT
+            </div>
+            <div id="vm-kpi-hit"
+                 style="font-size: 1.8em; font-weight: 800; color: #2dd4bf;">—</div>
+            <div style="font-size: 10px; color: #555; margin-top: 4px; font-style: italic;">
+                konfirmasi &lt; 13:00
+            </div>
+        </div>
+
+        <div style="background: #242424;
+                    border-radius: 6px;
+                    padding: 14px;
+                    text-align: center;
+                    border-bottom: 3px solid #f87171;">
+            <div style="font-size: 10px; color: #aaa; text-transform: uppercase;
+                        letter-spacing: 1px; font-weight: 700; margin-bottom: 6px;">
+                MISS
+            </div>
+            <div id="vm-kpi-miss"
+                 style="font-size: 1.8em; font-weight: 800; color: #f87171;">—</div>
+            <div style="font-size: 10px; color: #555; margin-top: 4px; font-style: italic;">
+                konfirmasi ≥ 13:00
+            </div>
+        </div>
+
+        <div style="background: #242424;
+                    border-radius: 6px;
+                    padding: 14px;
+                    text-align: center;
+                    border-bottom: 3px solid #ffd700;">
+            <div style="font-size: 10px; color: #aaa; text-transform: uppercase;
+                        letter-spacing: 1px; font-weight: 700; margin-bottom: 6px;">
+                Achievement
+            </div>
+            <div id="vm-kpi-pct"
+                 style="font-size: 1.8em; font-weight: 800; color: #ffd700;">—</div>
+            <div style="font-size: 10px; color: #555; margin-top: 4px; font-style: italic;">
+                HIT rate
+            </div>
+        </div>
+    </div>
+
+    <!-- CHART -->
+    <div style="background: #1a1a1a;
+                border: 1px solid #333;
+                border-top: 0;
+                padding: 14px 18px;">
+        <div style="font-size: 11px; color: #aaa; font-weight: 700;
+                    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+            Tren HIT vs MISS per Load Date
+        </div>
+        <div style="position: relative; width: 100%; height: 180px;">
+            <canvas id="vm-trend-chart"
+                    role="img"
+                    aria-label="Chart tren HIT vs MISS konfirmasi VM per load date">
+                Tren HIT dan MISS konfirmasi vendor per tanggal loading.
+            </canvas>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div style="background: #1a1a1a;
+                border: 1px solid #333;
+                border-top: 0;
+                overflow-x: auto;
+                max-height: 420px;
+                overflow-y: auto;">
+        <table id="vm-main-table"
+               style="width: 100%;
+                      border-collapse: collapse;
+                      font-size: 12px;
+                      min-width: 650px;">
+            <thead id="vm-thead-el"></thead>
+            <tbody id="vm-tbody-el">
+                <tr>
+                    <td colspan="6"
+                        style="text-align: center;
+                               padding: 30px;
+                               color: #ffd700;">
+                        <i class="fas fa-spinner fa-spin" style="margin-right: 6px;"></i>
+                        Memuat data...
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot id="vm-tfoot-el"></tfoot>
+        </table>
+    </div>
+
+</div>
+<!-- ============================================================ END REKAP KONFIRMASI VM ============================================================ -->
         </div> <!-- End supply-partner-section -->
 
         <div id="outstanding-section" class="dash-section" style="display: none;">
@@ -4005,7 +4571,7 @@
 
   /* ── Init + Auto-refresh ── */
   fetchTransitData();
-  setInterval(fetchTransitData, 300000);
+  setInterval(fetchTransitData, 60000);
 
 })();
 </script>
@@ -6936,6 +7502,14 @@ filteredHubData.forEach(row => {
 
     const slaTotal = slaHit + slaMiss;
     const slaRate = slaTotal > 0 ? (slaHit / slaTotal * 100) : 0;
+    
+    // Expose to window for Cinematic Dashboard
+    window.hubSlaRateLast = slaRate;
+    window.hubStatsLast = {
+        sudahDatang: { sudahPlan: stats.sudahDatang.sudahPlan, belumPlan: stats.sudahDatang.belumPlan },
+        belumDatang: { sudahPlan: stats.belumDatang.sudahPlan, belumPlan: stats.belumDatang.belumPlan }
+    };
+
     const circumference = 2 * Math.PI * 30;
     const slaOffset = circumference - (slaRate / 100) * circumference;
 
@@ -7876,13 +8450,8 @@ function renderStoringPivotTable(filteredData) {
             
             const stores = {};
             data.forEach(row => {
-                // Filter by Area BB (Exclude AREA ASTOR unless specifically selected - which is impossible now as it's removed from list)
-                const isAstor = row.areaBB === 'AREA ASTOR';
-                if (selectedBB === 'ALL') {
-                    if (isAstor) return;
-                } else {
-                    if (row.areaBB !== selectedBB) return;
-                }
+                // Filter by Area BB
+                if (selectedBB !== 'ALL' && row.areaBB !== selectedBB) return;
 
                 // Filter by Status Plan
                 if (selectedStatus !== 'ALL' && row.status !== selectedStatus) return;
@@ -7895,11 +8464,11 @@ function renderStoringPivotTable(filteredData) {
                 else if (status === targetKeywords.notStarted) type = 'notStarted';
 
                 if (type) {
-                    const key = row.storeBooking;
+                    const key = row.storeBooking || 'UNKNOWN';
                     if (!stores[key]) {
                         stores[key] = {
-                            storeBooking: row.storeBooking,
-                            storeBookingName: row.storeBookingName,
+                            storeBooking: row.storeBooking || '-',
+                            storeBookingName: row.storeBookingName || 'Unspecified Store',
                             didNot: 0,
                             preAlloc: 0,
                             partPre: 0,
@@ -9394,8 +9963,9 @@ function updateDashboard() {
                 const ketVendor = (row.AV || '').trim();
                 const aging = parseInt(row.AW) || 0;
                 
-                // Pengecualian: Jangan tampilkan jika carrier adalah 1D-INTERNAL (SDA) atau AHI
-                if (carrier === '1D-INTERNAL (SDA)' || carrier === 'AHI') return;
+                // Exclusion Filter
+                const excludedCarriers = ['1D-INTERNAL (SDA)', 'AHI', 'DUMMY-LK-EKSP', 'DUMMY'];
+                if (excludedCarriers.includes(carrier) || carrier.includes('DUMMY')) return;
 
                 const isBelumSpt = isBelumSupport(row);
 
@@ -9528,8 +10098,10 @@ function updateDashboard() {
 
         function updateDailyVendorTrendChart() {
             const isVendor = isVendorActive();
+            const today = new Date();
+            const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             
-            // Filter allData honoring other parameters except stuffingDate
+            // Filter allData honoring other parameters, but IGNORE stuffingDate to lock full month view (tgl 1 s/d H-1)
             const dataForTrend = allData.filter(row => {
                 const matchBulan = selectedFilters.bulan.length === 0 || selectedFilters.bulan.includes(row.AX);
                 const matchKota = selectedFilters.kota.length === 0 || selectedFilters.kota.includes(row.AR);
@@ -9549,14 +10121,23 @@ function updateDashboard() {
                 const carrierUpper = carrier.toUpperCase();
                 if (excludedCarriers.includes(carrierUpper) || carrierUpper.includes('DUMMY')) return;
 
-                const dateVal = isVendor ? (row.AU || '').trim() : (row.AO || '').trim();
+                const isBelumSpt = isBelumSupport(row);
+                const dateVal = isVendor 
+                    ? (isBelumSpt ? (row.AU || '').trim() : (row.AO || '').trim())
+                    : (row.AO || '').trim();
+                
                 if (!dateVal || dateVal === '-' || dateVal === '0') return;
+
+                const dDate = parseDateCustom(dateVal) || parseDate(dateVal);
+                if (dDate && !isNaN(dDate.getTime()) && dDate >= todayStart) {
+                    return; // Exclude today (H-0) and future records from daily trend
+                }
 
                 if (!dailyAgg[dateVal]) {
                     dailyAgg[dateVal] = { date: dateVal, onTime: 0, terlambat: 0, belumSupport: 0, total: 0 };
                 }
 
-                if (isBelumSupport(row)) {
+                if (isBelumSpt) {
                     dailyAgg[dateVal].belumSupport++;
                 } else if (isTerlambat(row)) {
                     dailyAgg[dateVal].terlambat++;
@@ -9566,15 +10147,12 @@ function updateDashboard() {
                 dailyAgg[dateVal].total++;
             });
 
-            // Filter out empty states or no dates in agg, and ensure it does not exceed today's date (H-day)
-            const today = new Date();
-            today.setHours(23, 59, 59, 999);
-
+            // Filter out empty states or no dates in agg, and ensure it does not exceed yesterday (H-1)
             const sortedDates = Object.keys(dailyAgg).filter(d => {
                 if (!d) return false;
                 const dDate = parseDateCustom(d) || parseDate(d);
                 if (!dDate || isNaN(dDate.getTime())) return true;
-                if (dDate > today) return false;
+                if (dDate >= todayStart) return false;
 
                 // Ensure the date belongs to the currently active/selected month (if any month is selected)
                 if (selectedFilters.bulan.length > 0) {
@@ -9624,18 +10202,20 @@ function updateDashboard() {
                 const carrierUpper = carrier.toUpperCase();
                 if (excludedCarriers.includes(carrierUpper) || carrierUpper.includes('DUMMY')) return;
 
-                if (isBelumSupport(row)) {
+                const isBelumSpt = isBelumSupport(row);
+                const dateVal = isVendor ? (isBelumSpt ? (row.AU || '').trim() : (row.AO || '').trim()) : (row.AO || '').trim();
+                const dDate = parseDateCustom(dateVal) || parseDate(dateVal);
+                if (dDate && !isNaN(dDate.getTime()) && dDate >= todayStart) {
+                    return; // Exclude today and future records from the Trend tab KPIs
+                }
+
+                if (isBelumSpt) {
                     kpiDelayedLCVal++;
                     kpiTotalLCVal++;
                 } else if (isTerlambat(row)) {
                     kpiTerlambatLCVal++;
                     kpiTotalLCVal++;
                 } else {
-                    const dateVal = isVendor ? (row.AU || '').trim() : (row.AO || '').trim();
-                    const dDate = parseDateCustom(dateVal) || parseDate(dateVal);
-                    if (dDate && !isNaN(dDate.getTime()) && dDate > today) {
-                        return; // Exclude H+1 on-time record
-                    }
                     kpiOnTimeLCVal++;
                     kpiTotalLCVal++;
                 }
@@ -10380,6 +10960,94 @@ function updateDashboard() {
             document.getElementById('cbmPlanB2').textContent = formatIndo(cbmB2);
             document.getElementById('cbmPlanB3').textContent = formatIndo(cbmB3);
             document.getElementById('cbmPlanB4').textContent = formatIndo(cbmB4);
+
+            // Update Armada summary planning KPI values dynamically
+            updateArmadaPlanningKPIs();
+        }
+
+        // Update Armada Summary Plan KPIs values dynamically
+        function updateArmadaPlanningKPIs() {
+            // Calculate Armada KPIs
+            let plans20 = 0, totalCbm20 = 0;
+            let plans40 = 0, totalCbm40 = 0;
+            let plansWb = 0, totalCbmWb = 0;
+            let plansFuso = 0, totalCbmFuso = 0;
+            let plansCdd = 0, totalCbmCdd = 0;
+            let plansCde = 0, totalCbmCde = 0;
+            let plansOther = 0, totalCbmOther = 0;
+
+            let totalPlans = 0;
+            let totalCbmAll = 0;
+
+            filteredData.forEach(row => {
+                const gVal = (row.G || '').trim().toUpperCase();
+                const cbmVal = parseNumberWithComma(row.Z);
+                
+                totalPlans++;
+                totalCbmAll += cbmVal;
+
+                if (gVal.includes('20') || (gVal.includes('CONT') && gVal.includes('20'))) {
+                    plans20++;
+                    totalCbm20 += cbmVal;
+                } else if (gVal.includes('40') || (gVal.includes('CONT') && gVal.includes('40'))) {
+                    plans40++;
+                    totalCbm40 += cbmVal;
+                } else if (gVal.includes('WINGBOX') || gVal.includes('WBOX') || gVal === 'WING') {
+                    plansWb++;
+                    totalCbmWb += cbmVal;
+                } else if (gVal.includes('FUSO')) {
+                    plansFuso++;
+                    totalCbmFuso += cbmVal;
+                } else if (gVal.includes('CDD')) {
+                    plansCdd++;
+                    totalCbmCdd += cbmVal;
+                } else if (gVal.includes('CDE')) {
+                    plansCde++;
+                    totalCbmCde += cbmVal;
+                } else {
+                    plansOther++;
+                    totalCbmOther += cbmVal;
+                }
+            });
+
+            const avgCbmAll = totalPlans > 0 ? (totalCbmAll / totalPlans) : 0;
+            
+            // Format numbers helper
+            const fCbm = (val) => val.toLocaleString('id-ID', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            // Set main summary text Content
+            const armadaTotalPlansEl = document.getElementById('armada-total-plans');
+            const armadaTotalCbmEl = document.getElementById('armada-total-cbm');
+            const armadaAvgCbmEl = document.getElementById('armada-average-cbm');
+
+            if (armadaTotalPlansEl) armadaTotalPlansEl.textContent = totalPlans.toLocaleString('id-ID');
+            if (armadaTotalCbmEl) armadaTotalCbmEl.textContent = fCbm(totalCbmAll);
+            if (armadaAvgCbmEl) armadaAvgCbmEl.textContent = fCbm(avgCbmAll);
+
+            // Set each card text content
+            const setArmadaCard = (pId, cId, aId, plans, total) => {
+                const pEl = document.getElementById(pId);
+                const cEl = document.getElementById(cId);
+                const aEl = document.getElementById(aId);
+                if (pEl) pEl.textContent = plans.toLocaleString('id-ID');
+                if (cEl) cEl.textContent = fCbm(total);
+                if (aEl) aEl.textContent = fCbm(plans > 0 ? total / plans : 0);
+
+                // Update percentage share of total plans
+                const pctId = pId.replace('-plans', '-pct');
+                const pctEl = document.getElementById(pctId);
+                if (pctEl) {
+                    const computedPct = totalPlans > 0 ? (plans / totalPlans * 100) : 0;
+                    pctEl.textContent = computedPct.toLocaleString('id-ID', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
+                }
+            };
+
+            setArmadaCard('kpi-cont20-plans', 'kpi-cont20-totalcbm', 'kpi-cont20-avgcbm', plans20, totalCbm20);
+            setArmadaCard('kpi-cont40-plans', 'kpi-cont40-totalcbm', 'kpi-cont40-avgcbm', plans40, totalCbm40);
+            setArmadaCard('kpi-wingbox-plans', 'kpi-wingbox-totalcbm', 'kpi-wingbox-avgcbm', plansWb, totalCbmWb);
+            setArmadaCard('kpi-fuso-plans', 'kpi-fuso-totalcbm', 'kpi-fuso-avgcbm', plansFuso, totalCbmFuso);
+            setArmadaCard('kpi-cdd-plans', 'kpi-cdd-totalcbm', 'kpi-cdd-avgcbm', plansCdd, totalCbmCdd);
+            setArmadaCard('kpi-cde-plans', 'kpi-cde-totalcbm', 'kpi-cde-avgcbm', plansCde, totalCbmCde);
         }
 
         // Update Map - More accurate city locations
@@ -10459,13 +11127,13 @@ function updateDashboard() {
 
         // Event Listeners (Removed old listeners, logic handled in checkboxes)
         
-        // Auto-refresh every 30 seconds
-        setInterval(fetchData, 30000);
-        setInterval(fetchPlannerData, 30000);
-        setInterval(fetchOrderDistData, 30000);
+        // Auto-refresh every 1 minute
+        setInterval(fetchData, 60000);
+        setInterval(fetchPlannerData, 60000);
+        setInterval(fetchOrderDistData, 60000);
         setInterval(() => {
             if (document.body.classList.contains('theme-purple')) fetchSlaFbiData();
-        }, 30000);
+        }, 60000);
 
         // Initialize
         initMap();
@@ -10811,6 +11479,16 @@ const data = rawAstorData.filter(r => {
     const occupancyPct = Math.min((lineOsTot / MAX_LINES) * 100, 100);
     const freeLines = Math.max(MAX_LINES - lineOsTot, 0);
 
+    // Expose to window for Cinematic Dashboard
+    window.astorSlaRateLast = pct;
+    window.astorOsLast = os;
+    window.astorOsCbmLast = osCbm;
+    window.astorLineOsLast = lineOsTot;
+    window.astorLineSudahLast = lineSudahTot;
+    window.astorLineBelumLast = lineBelumTot;
+    window.astorRtSudahLast = lineSudahCount;
+    window.astorRtBelumLast = lineBelumCount;
+
     document.getElementById('astor-total').textContent           = total + os;
     document.getElementById('astor-hit').textContent             = hit;
     document.getElementById('astor-miss').textContent            = miss;
@@ -11154,6 +11832,528 @@ function applyBatchColors() {
         }
     });
 }
+   // ===== REKAP KONFIRMASI VM =====
+let rawKonfirmasiVM = [];
+let vmCurrentView   = 'carrier';
+let vmTrendChart    = null;
+
+function setVMView(v) {
+    vmCurrentView = v;
+    const btnCarrier = document.getElementById('vm-btn-carrier');
+    const btnDetail  = document.getElementById('vm-btn-detail');
+    if (btnCarrier && btnDetail) {
+        if (v === 'carrier') {
+            btnCarrier.style.background  = '#b71c1c';
+            btnCarrier.style.color       = '#fff';
+            btnCarrier.style.borderColor = '#d32f2f';
+            btnDetail.style.background   = '#333';
+            btnDetail.style.color        = '#aaa';
+            btnDetail.style.borderColor  = '#444';
+        } else {
+            btnDetail.style.background   = '#b71c1c';
+            btnDetail.style.color        = '#fff';
+            btnDetail.style.borderColor  = '#d32f2f';
+            btnCarrier.style.background  = '#333';
+            btnCarrier.style.color       = '#aaa';
+            btnCarrier.style.borderColor = '#444';
+        }
+    }
+    renderKonfirmasiVM();
+}
+
+function parseVMAddDate(s) {
+    if (!s) return null;
+    s = String(s).trim().replace(/^'/, '');
+    // Coba parse langsung (ISO format: 2026-06-10 21:41:40)
+    const direct = new Date(s);
+    if (!isNaN(direct.getTime())) return direct;
+    // Fallback manual split
+    const parts = s.split(/[\s\/\-:T]+/);
+    if (parts.length >= 5) {
+        return new Date(
+            parseInt(parts[0]),
+            parseInt(parts[1]) - 1,
+            parseInt(parts[2]),
+            parseInt(parts[3]),
+            parseInt(parts[4]),
+            parseInt(parts[5] || 0)
+        );
+    }
+    return null;
+}
+
+function formatVMTime(addDateStr) {
+    const d = parseVMAddDate(addDateStr);
+    if (!d || isNaN(d.getTime())) return '-';
+    return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+}
+
+async function loadKonfirmasiVM(retries = 2) {
+    const tbody = document.getElementById('vm-tbody-el');
+    if (tbody) {
+        tbody.innerHTML = `<tr><td colspan="7"
+            style="text-align:center;padding:30px;color:#ffd700;">
+            <i class="fas fa-spinner fa-spin" style="margin-right:6px;"></i>
+            Memuat data konfirmasi VM...
+        </td></tr>`;
+    }
+
+    try {
+        // Gunakan CSV_URL yang sudah ada di dashboard (sheet AHI)
+        const KONFIRMASI_VM_GID = '1583314709'; // gid tab "DUMMY"
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID_AHI}/export?format=csv&gid=${KONFIRMASI_VM_GID}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const csv = await response.text();
+        if (csv.trim().startsWith('<!DOCTYPE')) {
+            throw new Error('Sheet belum di-share publik (received HTML).');
+        }
+
+        // Gunakan robustCSVParser yang sudah ada di dashboard
+        const allRows = robustCSVParser(csv);
+        rawKonfirmasiVM = [];
+
+        // Skip header (baris 0), mulai dari baris 1
+        for (let i = 1; i < allRows.length; i++) {
+            const r = allRows[i];
+            if (r.length < 9) continue;
+// Mapping kolom sesuai sheet DUMMY (gid=1583314709):
+    // A(0)=LC, B(1)=CARRIER, C(2)=SHIP TO, D(3)=SHIPINGLINE,
+    // E(4)=TUJUAN, F(5)=ADD DATE, G(6)=LOAD DATE, H(7)=CBM, I(8)=KONFIRMASI VM (status final, dari sheet)
+            
+            const lc        = (r[0]  || '').trim();
+const carrier   = (r[1]  || '').trim();
+const shipTo    = (r[2]  || '').trim();
+const shipLine  = (r[3]  || '').trim();
+const tujuan    = (r[4]  || '').trim();
+const addDate   = (r[5]  || '').trim();
+const loadDate  = (r[6]  || '').trim();
+const cbm       = parseNumberWithComma(r[7] || '0');
+const statusRaw = (r[8]  || '').trim().toUpperCase(); // kolom I = KONFIRMASI VM, ambil apa adanya
+
+if (!lc && !carrier && !addDate) continue;
+if (lc.toLowerCase() === 'lc' || lc.toLowerCase() === 'lc/id') continue;
+
+// status TIDAK dihitung, hanya dibaca persis dari sheet
+let status = null;
+if (statusRaw === 'HIT') status = 'HIT';
+else if (statusRaw === 'MISS') status = 'MISS';
+
+if (!status) continue; // baris yang kolom I-nya kosong/bukan HIT/MISS dilewati
+
+            rawKonfirmasiVM.push({
+                lc, carrier, shipTo, shipLine,
+                tujuan, addDate, loadDate, cbm, status
+            });
+        }
+
+        populateVMLoadDateFilter();
+        renderKonfirmasiVM();
+
+    } catch (error) {
+        console.error('Error loading Konfirmasi VM:', error);
+        if (retries > 0) {
+            setTimeout(() => loadKonfirmasiVM(retries - 1), 2000);
+            return;
+        }
+        if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="7"
+                style="text-align:center;padding:30px;color:#f87171;">
+                <i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i>
+                Gagal memuat: ${error ? error.message : 'Unknown error'}<br>
+                <button onclick="loadKonfirmasiVM()"
+                    style="margin-top:10px;padding:6px 14px;background:#d32f2f;
+                           color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:bold;">
+                    <i class="fas fa-sync"></i> Coba Lagi
+                </button>
+            </td></tr>`;
+        }
+    }
+}
+
+function populateVMLoadDateFilter() {
+    const dates = [...new Set(rawKonfirmasiVM.map(r => r.loadDate).filter(Boolean))]
+        .sort((a, b) => new Date(b) - new Date(a));
+
+    const sel  = document.getElementById('vm-ld-filter');
+    if (!sel) return;
+    const prev = sel.value;
+
+    sel.innerHTML = '<option value="ALL">Semua Tanggal</option>';
+    dates.forEach(d => {
+        const o   = document.createElement('option');
+        o.value   = d;
+        o.textContent = d;
+        sel.appendChild(o);
+    });
+
+    // Pertahankan pilihan sebelumnya jika masih ada
+    if (dates.includes(prev)) sel.value = prev;
+}
+
+function getVMFiltered() {
+    const ld = (document.getElementById('vm-ld-filter') || {}).value || 'ALL';
+    return rawKonfirmasiVM.filter(r => ld === 'ALL' || r.loadDate === ld);
+}
+
+function renderKonfirmasiVM() {
+    const data = getVMFiltered();
+
+    // Hitung KPI
+    let totalHit = 0, totalMiss = 0;
+    data.forEach(r => {
+        if (r.status === 'HIT')  totalHit++;
+        if (r.status === 'MISS') totalMiss++;
+    });
+    const totalValid = totalHit + totalMiss;
+    const pct = totalValid > 0 ? (totalHit / totalValid * 100).toFixed(1) : '0.0';
+
+    // Update KPI cards
+    const setKPI = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    };
+    setKPI('vm-kpi-total', totalValid);
+    setKPI('vm-kpi-hit',   totalHit);
+    setKPI('vm-kpi-miss',  totalMiss);
+    setKPI('vm-kpi-pct',   pct + '%');
+
+    // Render chart & tabel
+    renderVMChart(data);
+    if (vmCurrentView === 'carrier') renderVMByCarrier(data);
+    else renderVMDetail(data);
+}
+
+function vmPctBadge(p) {
+    let bg, color;
+    if (p >= 80) { bg = 'rgba(45,212,175,0.15)'; color = '#2dd4bf'; }
+    else if (p >= 50) { bg = 'rgba(255,215,0,0.12)'; color = '#ffd700'; }
+    else { bg = 'rgba(248,113,113,0.12)'; color = '#f87171'; }
+    return `<span style="background:${bg};color:${color};border-radius:4px;
+                         padding:2px 8px;font-weight:800;font-size:11px;">
+                ${p.toFixed(1)}%
+            </span>`;
+}
+
+function renderVMByCarrier(data) {
+    // Agregasi per carrier
+    const agg = {};
+    data.forEach(r => {
+        const key = r.carrier || '(Tidak ada)';
+        if (!agg[key]) agg[key] = { hit: 0, miss: 0, times: [] };
+        if (r.status === 'HIT')  agg[key].hit++;
+        if (r.status === 'MISS') agg[key].miss++;
+        agg[key].times.push({ t: formatVMTime(r.addDate), s: r.status });
+    });
+
+    // Sort by total terbanyak
+    const sorted = Object.entries(agg).sort((a, b) =>
+        (b[1].hit + b[1].miss) - (a[1].hit + a[1].miss)
+    );
+
+    // Header
+    const thead = document.getElementById('vm-thead-el');
+    if (thead) {
+        thead.innerHTML = `<tr style="background:#111;">
+            <th style="padding:10px;border:1px solid #333;color:#ffd700;width:40px;text-align:center;">#</th>
+            <th style="padding:10px;border:1px solid #333;color:#ffd700;text-align:left;min-width:130px;">Carrier</th>
+            <th style="padding:10px;border:1px solid #333;color:#2dd4bf;width:70px;">HIT</th>
+            <th style="padding:10px;border:1px solid #333;color:#f87171;width:70px;">MISS</th>
+            <th style="padding:10px;border:1px solid #333;color:#aaa;width:65px;">Total</th>
+            <th style="padding:10px;border:1px solid #333;color:#ffd700;width:140px;">Achievement</th>
+            <th style="padding:10px;border:1px solid #333;color:#ffd700;text-align:left;">Jam Konfirmasi</th>
+        </tr>`;
+    }
+
+    // Body
+    let html = '';
+    let totH = 0, totM = 0;
+
+    sorted.forEach(([carrier, s], i) => {
+        const tot = s.hit + s.miss;
+        const p   = tot > 0 ? (s.hit / tot * 100) : 0;
+        const barColor = p >= 80 ? '#2dd4bf' : p >= 50 ? '#ffd700' : '#f87171';
+        totH += s.hit;
+        totM += s.miss;
+
+        // Chip waktu (max 12, sisanya tampilkan "+N lainnya")
+        const chips = s.times.slice(0, 12).map(x => {
+            const chipColor = x.s === 'HIT'
+                ? 'background:rgba(45,212,175,0.15);color:#2dd4bf;border:1px solid rgba(45,212,175,0.3);'
+                : 'background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3);';
+            return `<span style="${chipColor}border-radius:3px;padding:1px 6px;
+                                  font-size:10px;font-weight:700;">${x.t}</span>`;
+        }).join(' ');
+        const more = s.times.length > 12
+            ? `<span style="color:#666;font-size:10px;"> +${s.times.length - 12} lainnya</span>`
+            : '';
+
+        html += `<tr style="border-bottom:1px solid #1e1e1e;">
+            <td style="padding:8px;text-align:center;color:#555;border:1px solid #1e1e1e;">${i + 1}</td>
+            <td style="padding:8px;text-align:left;font-weight:600;color:#eee;border:1px solid #1e1e1e;">${carrier}</td>
+            <td style="padding:8px;text-align:center;border:1px solid #1e1e1e;">
+                <span style="background:rgba(45,212,175,0.15);color:#2dd4bf;
+                             border:1px solid rgba(45,212,175,0.4);border-radius:4px;
+                             padding:2px 9px;font-weight:700;font-size:11px;">${s.hit}</span>
+            </td>
+            <td style="padding:8px;text-align:center;border:1px solid #1e1e1e;">
+                <span style="background:rgba(248,113,113,0.15);color:#f87171;
+                             border:1px solid rgba(248,113,113,0.4);border-radius:4px;
+                             padding:2px 9px;font-weight:700;font-size:11px;">${s.miss}</span>
+            </td>
+            <td style="padding:8px;text-align:center;color:#aaa;font-weight:700;border:1px solid #1e1e1e;">${tot}</td>
+            <td style="padding:8px;text-align:center;border:1px solid #1e1e1e;">
+                ${vmPctBadge(p)}
+                <span style="width:60px;height:7px;background:#333;border-radius:4px;
+                             display:inline-block;vertical-align:middle;margin-left:6px;overflow:hidden;">
+                    <span style="display:block;height:100%;width:${p}%;
+                                 background:${barColor};border-radius:4px;"></span>
+                </span>
+            </td>
+            <td style="padding:8px;text-align:left;border:1px solid #1e1e1e;">${chips}${more}</td>
+        </tr>`;
+    });
+
+    const tbody = document.getElementById('vm-tbody-el');
+    if (tbody) {
+        tbody.innerHTML = html ||
+            `<tr><td colspan="7"
+                style="text-align:center;padding:30px;color:#666;">
+                Tidak ada data untuk filter ini.
+            </td></tr>`;
+    }
+
+    // Footer grand total
+    const totAll = totH + totM;
+    const totP   = totAll > 0 ? (totH / totAll * 100).toFixed(1) : '0.0';
+    const tfoot  = document.getElementById('vm-tfoot-el');
+    if (tfoot) {
+        tfoot.innerHTML = `<tr style="background:#0f0f0f;">
+            <td colspan="2"
+                style="padding:12px 10px;text-align:left;
+                       color:#ffd700;font-weight:800;font-size:12px;
+                       border-top:2px solid #333;">
+                GRAND TOTAL
+            </td>
+            <td style="padding:12px 10px;text-align:center;color:#2dd4bf;
+                       font-weight:800;border-top:2px solid #333;">${totH}</td>
+            <td style="padding:12px 10px;text-align:center;color:#f87171;
+                       font-weight:800;border-top:2px solid #333;">${totM}</td>
+            <td style="padding:12px 10px;text-align:center;color:#aaa;
+                       font-weight:800;border-top:2px solid #333;">${totAll}</td>
+            <td colspan="2"
+                style="padding:12px 10px;text-align:center;
+                       color:#ffd700;font-weight:800;border-top:2px solid #333;">
+                ${totP}%
+            </td>
+        </tr>`;
+    }
+}
+
+function renderVMDetail(data) {
+    // Sort by addDate ascending
+    const sorted = [...data].sort((a, b) => {
+        const da = parseVMAddDate(a.addDate);
+        const db = parseVMAddDate(b.addDate);
+        if (!da && !db) return 0;
+        if (!da) return 1;
+        if (!db) return -1;
+        return da - db;
+    });
+
+    // Header
+    const thead = document.getElementById('vm-thead-el');
+    if (thead) {
+        thead.innerHTML = `<tr style="background:#111;">
+            <th style="padding:10px;border:1px solid #333;color:#ffd700;width:40px;text-align:center;">#</th>
+            <th style="padding:10px;border:1px solid #333;color:#ffd700;text-align:left;min-width:110px;">LC / ID</th>
+            <th style="padding:10px;border:1px solid #333;color:#ffd700;text-align:left;min-width:110px;">Carrier</th>
+            <th style="padding:10px;border:1px solid #333;color:#ffd700;text-align:left;min-width:120px;">Ship To</th>
+            <th style="padding:10px;border:1px solid #333;color:#ffd700;width:110px;">Load Date</th>
+            <th style="padding:10px;border:1px solid #333;color:#ffd700;width:80px;">Status</th>
+        </tr>`;
+    }
+
+    // Body
+    let html  = '';
+    let hit   = 0, miss = 0;
+
+    sorted.forEach((r, i) => {
+        const isHit = r.status === 'HIT';
+        hit  += isHit ? 1 : 0;
+        miss += isHit ? 0 : 1;
+
+        const badgeStyle = isHit
+            ? 'background:rgba(45,212,175,0.15);color:#2dd4bf;border:1px solid rgba(45,212,175,0.4);'
+            : 'background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.4);';
+        const rowBg = i % 2 === 0 ? '#1a1a1a' : '#151515';
+
+        html += `<tr style="background:${rowBg};border-bottom:1px solid #1e1e1e;">
+            <td style="padding:8px;text-align:center;color:#555;border:1px solid #1e1e1e;">${i + 1}</td>
+            <td style="padding:8px;text-align:left;font-family:monospace;font-size:11px;
+                       color:#ccc;border:1px solid #1e1e1e;">${r.lc || '-'}</td>
+            <td style="padding:8px;text-align:left;font-weight:600;color:#eee;border:1px solid #1e1e1e;">${r.carrier || '-'}</td>
+            <td style="padding:8px;text-align:left;font-size:11px;color:#aaa;border:1px solid #1e1e1e;">${r.shipTo || '-'}</td>
+            <td style="padding:8px;text-align:center;color:#ccc;border:1px solid #1e1e1e;">${r.loadDate || '-'}</td>
+            <td style="padding:8px;text-align:center;border:1px solid #1e1e1e;">
+                <span style="${badgeStyle}border-radius:4px;padding:2px 9px;
+                             font-size:11px;font-weight:700;">${r.status}</span>
+            </td>
+        </tr>`;
+    });
+
+    const tbody = document.getElementById('vm-tbody-el');
+    if (tbody) {
+        tbody.innerHTML = html ||
+            `<tr><td colspan="6"
+                style="text-align:center;padding:30px;color:#666;">
+                Tidak ada data.
+            </td></tr>`;
+    }
+
+    // Footer
+    const tot  = hit + miss;
+    const p    = tot > 0 ? (hit / tot * 100).toFixed(1) : '0.0';
+    const tfoot = document.getElementById('vm-tfoot-el');
+    if (tfoot) {
+        tfoot.innerHTML = `<tr style="background:#0f0f0f;">
+            <td colspan="3"
+                style="padding:12px 10px;text-align:left;color:#ffd700;
+                       font-weight:800;font-size:12px;border-top:2px solid #333;">
+                GRAND TOTAL — ${tot} konfirmasi
+            </td>
+            <td style="padding:12px 10px;text-align:center;color:#2dd4bf;
+                       font-weight:800;border-top:2px solid #333;">${hit} HIT</td>
+            <td style="padding:12px 10px;text-align:center;color:#f87171;
+                       font-weight:800;border-top:2px solid #333;">${miss} MISS</td>
+            <td style="padding:12px 10px;text-align:center;color:#ffd700;
+                       font-weight:800;border-top:2px solid #333;">${p}%</td>
+        </tr>`;
+    }
+}
+
+function renderVMChart(data) {
+    // Agregasi per load date
+    const agg = {};
+    data.forEach(r => {
+        const key = r.loadDate || '-';
+        if (!agg[key]) agg[key] = { hit: 0, miss: 0 };
+        if (r.status === 'HIT')  agg[key].hit++;
+        if (r.status === 'MISS') agg[key].miss++;
+    });
+
+    const sorted = Object.entries(agg)
+        .sort((a, b) => new Date(a[0]) - new Date(b[0]))
+        .slice(-14); // Tampilkan max 14 tanggal terakhir
+
+    const labels = sorted.map(([d]) => d);
+    const hits   = sorted.map(([, s]) => s.hit);
+    const misses = sorted.map(([, s]) => s.miss);
+    const pcts   = sorted.map(([, s]) => {
+        const t = s.hit + s.miss;
+        return t > 0 ? parseFloat((s.hit / t * 100).toFixed(1)) : 0;
+    });
+
+    const canvas = document.getElementById('vm-trend-chart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    if (vmTrendChart) vmTrendChart.destroy();
+
+    vmTrendChart = new Chart(ctx, {
+        data: {
+            labels,
+            datasets: [
+                {
+                    type: 'bar',
+                    label: 'HIT',
+                    data: hits,
+                    backgroundColor: 'rgba(45,212,175,0.7)',
+                    borderRadius: 3,
+                    stack: 'vm',
+                    order: 2
+                },
+                {
+                    type: 'bar',
+                    label: 'MISS',
+                    data: misses,
+                    backgroundColor: 'rgba(248,113,113,0.7)',
+                    borderRadius: 3,
+                    stack: 'vm',
+                    order: 2
+                },
+                {
+                    type: 'line',
+                    label: 'Achievement %',
+                    data: pcts,
+                    borderColor: '#ffd700',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#ffd700',
+                    tension: 0.3,
+                    yAxisID: 'yPct',
+                    order: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'end',
+                    labels: {
+                        color: '#aaa',
+                        font: { size: 11, weight: 'bold' },
+                        boxWidth: 10,
+                        padding: 14
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#111',
+                    titleColor: '#ffd700',
+                    bodyColor: '#fff',
+                    borderColor: '#333',
+                    borderWidth: 1
+                },
+                datalabels: { display: false }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: { color: '#888', font: { size: 10 }, maxRotation: 45 },
+                    grid: { display: false }
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    ticks: { color: '#888', font: { size: 11 }, precision: 0 },
+                    grid: { color: '#2a2a2a' }
+                },
+                yPct: {
+                    position: 'right',
+                    min: 0,
+                    max: 110,
+                    ticks: {
+                        color: '#ffd700',
+                        font: { size: 10 },
+                        callback: v => v <= 100 ? v + '%' : ''
+                    },
+                    grid: { drawOnChartArea: false }
+                }
+            }
+        }
+    });
+}
+
+// Auto-load saat section Vendor dibuka
+// Panggil manual pertama kali, auto-refresh setiap 60 detik
+loadKonfirmasiVM();
+setInterval(loadKonfirmasiVM, 600000);
+// ===== END REKAP KONFIRMASI VM =====
     </script>
 </body>
 </html>
